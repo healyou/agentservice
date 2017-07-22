@@ -20,7 +20,7 @@ class AuthorizingInterceptor : AbstractPhaseInterceptor<Message>(Phase.PRE_INVOK
 
         if (isNeedAuth) {
             val request = message[AbstractHTTPDestination.HTTP_REQUEST] as HttpServletRequest
-            val session = request.getSession(true)
+            val session = request.session
             session.getAttribute(BaseServer.USER_LOGIN) ?: throw AccessDeniedException("Unauthorized")
         }
     }
