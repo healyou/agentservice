@@ -62,6 +62,9 @@
                         <!-- Создание БД  -->
                         <script>file:///${db.source.basedir}/src/groovy/create_database.groovy</script>
 
+                        <!-- Создание тригеров -->
+                        <script>file:///${db.source.basedir}/src/groovy/create_triggers.groovy</script>
+
                     </scripts>
                 </configuration>
                 <dependencies>
