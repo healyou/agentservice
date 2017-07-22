@@ -3,6 +3,8 @@ import groovy.sql.Sql
 // --------------- Подключение к БД ---------------
 def sql = Sql.newInstance("jdbc:sqlite:" + parentDir + addrDB + nameDB, "org.sqlite.JDBC")
 
+// todo как называть правильно таблицы и поля(мелкие или большие буквы и _ ?)
+
 def sqlScript = ""
 [
         "/src/sql/delete_tables.sql",
@@ -15,7 +17,7 @@ def sqlScript = ""
 }
 
 for (script in sqlScript.split(';'))
-    if (!script.toString().equals("\n") && !script.isEmpty())
+    if (script.toString() != "\n" && !script.isEmpty())
         sql.execute(script)
 
 sql.close()
