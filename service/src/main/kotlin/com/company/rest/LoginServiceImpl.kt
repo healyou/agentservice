@@ -8,6 +8,8 @@ import javax.ws.rs.core.Response
  */
 class LoginServiceImpl: BaseServer(), LoginService {
 
+    // todo - структура базы данных сервиса
+
     private inner class Test {
         var gg1 = "asd"
         var test: Test? = null
