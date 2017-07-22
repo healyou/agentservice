@@ -26,4 +26,30 @@ BEGIN
 END;
 
 -------------- MESSAGE_V TRIGGERS --------------
--- todo message_v тригеры написать
+--- добавление записи в message_v ---
+CREATE TRIGGER IF NOT EXISTS message_v_insert_t
+  INSTEAD OF INSERT ON message_v
+BEGIN
+  INSERT INTO message (sender_id, communication_goal_id, message_type_id, viewed_date, body_type_id, body) VALUES
+    (new.sender_id, new.communication_goal_id, new.message_type_id, new.viewed_date, new.body_type_id, new.body);
+END;
+
+--- изменение записи в message_v ---
+CREATE TRIGGER IF NOT EXISTS message_v_update_t
+  INSTEAD OF UPDATE ON message_v
+BEGIN
+  UPDATE message SET sender_id=new.sender_id,
+    communication_goal_id=new.communication_goal_id,
+    message_type_id=new.message_type_id,
+    viewed_date=new.viewed_date,
+    body_type_id=new.body_type_id,
+    body=new.body
+  WHERE id=NEW.id;
+END;
+
+--- удаление записи из message_v ---
+CREATE TRIGGER IF NOT EXISTS message_v_delete_t
+  INSTEAD OF DELETE ON message_v
+BEGIN
+  DELETE FROM message WHERE id=old.id;
+END;

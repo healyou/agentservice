@@ -13,7 +13,7 @@ CREATE VIEW agent_v
       agent.is_deleted
     FROM
       agent
-  INNER JOIN agentType as at ON agent.type_id = at.id;
+  INNER JOIN agent_type as at ON agent.type_id = at.id;
 
 ----------- message view -----------
 CREATE VIEW message_v
@@ -42,6 +42,7 @@ CREATE VIEW message_v
     mt.com_goal_id as message_type_com_goal_id,
     mt.is_deleted as message_type_is_deleted,
     message.create_date,
+    message.viewed_date,
     message.is_viewed,
     message.body_type_id,
     mbt.code as message_body_type_code,
@@ -51,6 +52,6 @@ CREATE VIEW message_v
   FROM
     message
   INNER JOIN agent_v AS sender ON message.sender_id = sender.id
-  INNER JOIN communicationGoal as cg ON message.communication_goal_id = cg.id
-  INNER JOIN messageType as mt ON message.message_type_id = mt.id
-  INNER JOIN messageBodyType as mbt ON message.body_type_id = mbt.id;
+  INNER JOIN communication_goal as cg ON message.communication_goal_id = cg.id
+  INNER JOIN message_type as mt ON message.message_type_id = mt.id
+  INNER JOIN message_body_type as mbt ON message.body_type_id = mbt.id;

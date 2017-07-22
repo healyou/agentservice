@@ -5,6 +5,7 @@ def sql = Sql.newInstance("jdbc:sqlite:" + parentDir + addrDB + nameDB, "org.sql
 
 // todo тригеры для view-> нужно ли их делать?
 // todo как называть правильно таблицы и поля(мелкие или большие буквы и _ ?)
+// todo отдельные файлы под связанные вещи(агент отдельно, сообщения отдельно и другое)
 
 def sqlScript = ""
 [

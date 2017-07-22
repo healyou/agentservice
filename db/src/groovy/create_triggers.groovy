@@ -28,5 +28,29 @@ sql.execute("CREATE TRIGGER IF NOT EXISTS agent_v_delete_t\n" +
         "END;")
 
 // todo message_v triggers
+sql.execute("--- добавление записи в message_v ---\n" +
+        "CREATE TRIGGER IF NOT EXISTS message_v_insert_t\n" +
+        "  INSTEAD OF INSERT ON message_v\n" +
+        "BEGIN\n" +
+        "  INSERT INTO message (sender_id, communication_goal_id, message_type_id, body_type_id, body) VALUES\n" +
+        "    (new.sender_id, new.communication_goal_id, new.message_type_id, new.body_type_id, new.body);\n" +
+        "END;")
+sql.execute("--- изменение записи в message_v ---\n" +
+        "CREATE TRIGGER IF NOT EXISTS message_v_update_t\n" +
+        "  INSTEAD OF UPDATE ON message_v\n" +
+        "BEGIN\n" +
+        "  UPDATE message SET sender_id=new.sender_id,\n" +
+        "    communication_goal_id=new.communication_goal_id,\n" +
+        "    message_type_id=new.message_type_id,\n" +
+        "    body_type_id=new.body_type_id,\n" +
+        "    body=new.body\n" +
+        "  WHERE id=NEW.id;\n" +
+        "END;")
+sql.execute("--- удаление записи из message_v ---\n" +
+        "CREATE TRIGGER IF NOT EXISTS message_v_delete_t\n" +
+        "  INSTEAD OF DELETE ON message_v\n" +
+        "BEGIN\n" +
+        "  DELETE FROM message WHERE id=old.id;\n" +
+        "END;")
 
 sql.close()

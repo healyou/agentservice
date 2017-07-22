@@ -1,5 +1,5 @@
 ----------------------- agent type -----------------------
-CREATE TABLE if not exists agentType
+CREATE TABLE if not exists agent_type
 -- Типы агентов в многоагентной системе
 (
         id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, -- Идентификатор
@@ -19,11 +19,11 @@ CREATE TABLE if not exists agent
         type_id        INTEGER            NOT NULL, -- Тип агента
         create_date    TEXT               NOT NULL DEFAULT (datetime('now')), -- Дата создания(регистрации агента)
         is_deleted     TEXT               NOT NULL DEFAULT ('N') CHECK(is_deleted='N' OR is_deleted='Y'), -- Удалено ли значение
-        FOREIGN KEY(type_id) REFERENCES agentType(id)
+        FOREIGN KEY(type_id) REFERENCES agent_type(id)
 );
 
 ----------------------- communication goal -----------------------
-CREATE TABLE if not exists communicationGoal
+CREATE TABLE if not exists communication_goal
 -- Цель общения агентов
 (
         id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, -- Идентификатор
@@ -33,7 +33,7 @@ CREATE TABLE if not exists communicationGoal
 );
 
 ----------------------- communication goal -----------------------
-CREATE TABLE if not exists messageType
+CREATE TABLE if not exists message_type
 -- Тип сообщения
 (
         id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, -- Идентификатор
@@ -42,12 +42,12 @@ CREATE TABLE if not exists messageType
         message_order   INTEGER                   NOT NULL, -- Порядок следования сообщений
         com_goal_id INTEGER                       NOT NULL, -- Цель общения
         is_deleted TEXT                           NOT NULL DEFAULT ('N') CHECK(is_deleted='N' OR is_deleted='Y'), -- Удалено ли значение
-        FOREIGN KEY(com_goal_id) REFERENCES communicationGoal(id)
+        FOREIGN KEY(com_goal_id) REFERENCES communication_goal(id)
 );
 
 
 ----------------------- message body type -----------------------
-CREATE TABLE if not exists messageBodyType
+CREATE TABLE if not exists message_body_type
 -- Тип тела сообщения
 (
         id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, -- Идентификатор
@@ -65,17 +65,18 @@ CREATE TABLE if not exists message
         communication_goal_id INTEGER             NOT NULL, -- Цель общения
         message_type_id INTEGER                   NOT NULL, -- Тип сообщения
         create_date    TEXT                       NOT NULL DEFAULT (datetime('now')), -- Дата создания
+        viewed_date    TEXT                               , -- Дата просмотра
         is_viewed      TEXT                       NOT NULL DEFAULT ('N') CHECK(is_viewed='N' OR is_viewed='Y'), -- Просмотрено ли сообщение агентом
         body_type_id   INTEGER                    NOT NULL, -- Тип тела сообщения
         body           TEXT                               , -- Тело сообщения
         FOREIGN KEY(sender_id) REFERENCES agent(id),
-        FOREIGN KEY(communication_goal_id) REFERENCES communicationGoal(id),
-        FOREIGN KEY(message_type_id) REFERENCES messageType(id),
-        FOREIGN KEY(body_type_id) REFERENCES messageBodyType(id)
+        FOREIGN KEY(communication_goal_id) REFERENCES communication_goal(id),
+        FOREIGN KEY(message_type_id) REFERENCES message_type(id),
+        FOREIGN KEY(body_type_id) REFERENCES message_body_type(id)
 );
 
 ----------------------- message recipient -----------------------
-CREATE TABLE if not exists messageRecipient
+CREATE TABLE if not exists message_recipient
         -- Получатель сообщения
 (
         id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, -- Идентификатор

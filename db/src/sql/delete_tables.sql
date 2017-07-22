@@ -4,6 +4,9 @@ DROP VIEW IF EXISTS message_v;
 DROP TRIGGER IF EXISTS agent_v_insert_t;
 DROP TRIGGER IF EXISTS agent_v_update_t;
 DROP TRIGGER IF EXISTS agent_v_delete_t;
+DROP TRIGGER IF EXISTS message_v_insert_t;
+DROP TRIGGER IF EXISTS message_v_update_t;
+DROP TRIGGER IF EXISTS message_v_delete_t;
 
 drop table if exists agent;
 drop table if exists agentType;
