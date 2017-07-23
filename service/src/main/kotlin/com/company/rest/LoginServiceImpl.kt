@@ -1,5 +1,6 @@
 package com.company.rest
 
+import com.company.db.core.agent.AgentService
 import com.company.db.core.agent.AgentType
 import com.company.db.core.agent.AgentTypeService
 import com.company.rest.response.ResponseCreator
@@ -10,6 +11,9 @@ import javax.ws.rs.core.Response
  * @author Nikita Gorodilov
  */
 class LoginServiceImpl: BaseServer(), LoginService {
+
+    @Autowired
+    lateinit var service: AgentService
 
     private inner class Test {
         var gg1 = "asd"
@@ -22,6 +26,9 @@ class LoginServiceImpl: BaseServer(), LoginService {
         session.invalidate()
         session = httpSession
         session.setAttribute(USER_LOGIN, login)
+
+        val agents = service.get()
+        val agent = service.get(1)
 
         val test = Test()
         test.test = Test()

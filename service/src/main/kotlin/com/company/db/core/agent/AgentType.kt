@@ -4,6 +4,8 @@ import com.company.db.base.Codable
 import com.company.db.base.Entity
 
 /**
+ * Тип агента
+ *
  * @author Nikita Gorodilov
  */
 class AgentType(
@@ -13,6 +15,7 @@ class AgentType(
         var isDeleted: Boolean
 ): Entity {
 
+    /* Типы агентов */
     enum class Code(override val code: String): Codable<String> {
         WORKER("worker"),
         SERVER("server");
