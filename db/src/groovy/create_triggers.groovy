@@ -27,7 +27,6 @@ sql.execute("CREATE TRIGGER IF NOT EXISTS agent_v_delete_t\n" +
         "  DELETE FROM agent WHERE id=old.id;\n" +
         "END;")
 
-// todo message_v triggers
 sql.execute("--- добавление записи в message_v ---\n" +
         "CREATE TRIGGER IF NOT EXISTS message_v_insert_t\n" +
         "  INSTEAD OF INSERT ON message_v\n" +

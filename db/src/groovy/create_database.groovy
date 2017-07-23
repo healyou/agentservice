@@ -3,8 +3,6 @@ import groovy.sql.Sql
 // --------------- Подключение к БД ---------------
 def sql = Sql.newInstance("jdbc:sqlite:" + parentDir + addrDB + nameDB, "org.sqlite.JDBC")
 
-// todo тригеры для view-> нужно ли их делать?
-// todo как называть правильно таблицы и поля(мелкие или большие буквы и _ ?)
 // todo отдельные файлы под связанные вещи(агент отдельно, сообщения отдельно и другое)
 
 def sqlScript = ""

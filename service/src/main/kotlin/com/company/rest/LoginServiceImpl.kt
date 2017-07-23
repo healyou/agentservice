@@ -1,14 +1,15 @@
 package com.company.rest
 
+import com.company.db.core.agent.AgentType
+import com.company.db.core.agent.AgentTypeService
 import com.company.rest.response.ResponseCreator
+import org.springframework.beans.factory.annotation.Autowired
 import javax.ws.rs.core.Response
 
 /**
  * @author Nikita Gorodilov
  */
 class LoginServiceImpl: BaseServer(), LoginService {
-
-    // todo - структура базы данных сервиса
 
     private inner class Test {
         var gg1 = "asd"
