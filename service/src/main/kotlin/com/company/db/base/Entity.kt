@@ -5,6 +5,5 @@ package com.company.db.base
  */
 interface Entity {
 
-    val id: Long
-        get
+    var id: Long
 }

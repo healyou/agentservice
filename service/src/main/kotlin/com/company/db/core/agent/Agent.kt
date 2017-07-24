@@ -9,10 +9,10 @@ import java.util.*
  * @author Nikita Gorodilov
  */
 class Agent(
-        override val id: Long,
-        val masId: String,
-        val name: String,
-        val type: AgentType,
-        val createDate: Date,
-        val isDeleted: Boolean
+        override var id: Long,
+        var masId: String,
+        var name: String,
+        var type: AgentType,
+        var createDate: Date,
+        var isDeleted: Boolean
 ): Entity
