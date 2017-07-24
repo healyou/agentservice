@@ -2,6 +2,7 @@ package com.company.db.jdbc.agent.jdbc
 
 import com.company.db.base.AbstractRowMapper
 import com.company.db.base.Codable
+import com.company.db.base.toIsDeleted
 import com.company.db.core.agent.AgentType;
 import com.company.db.core.agent.AgentType.Code;
 import java.sql.ResultSet
@@ -18,7 +19,7 @@ class AgentTypeRowMapper: AbstractRowMapper<AgentType>() {
                 getLong(rs,"id"),
                 Codable.find(Code::class.java, rs.getString("code")),
                 getString(rs,"name"),
-                rs.getString("is_deleted") != "N"
+                rs.getString("is_deleted").toIsDeleted()
         )
     }
 }

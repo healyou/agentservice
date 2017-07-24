@@ -9,7 +9,7 @@ import java.util.*
  * @author Nikita Gorodilov
  */
 class Agent(
-        override var id: Long,
+        override var id: Long?,
         var masId: String,
         var name: String,
         var type: AgentType,

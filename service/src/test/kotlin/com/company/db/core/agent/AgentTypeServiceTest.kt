@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import kotlin.test.assertEquals
 
 /**
+ * Тестирование функциональности сервиса работы с AgentType
+ *
  * @author Nikita Gorodilov
  */
 open class AgentTypeServiceTest: AbstractServiceTest() {

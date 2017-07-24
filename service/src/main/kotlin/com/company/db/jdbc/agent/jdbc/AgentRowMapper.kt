@@ -2,6 +2,7 @@ package com.company.db.jdbc.agent.jdbc
 
 import com.company.db.base.AbstractRowMapper
 import com.company.db.base.Codable
+import com.company.db.base.toIsDeleted
 import com.company.db.core.agent.Agent
 import com.company.db.core.agent.AgentType
 import com.company.db.core.agent.AgentType.Code
@@ -21,7 +22,7 @@ class AgentRowMapper: AbstractRowMapper<Agent>() {
                 getString(rs, "name"),
                 mapAgentType(rs),
                 getDate(rs,"create_date"),
-                getString(rs,"is_deleted") != "N"
+                getString(rs,"is_deleted").toIsDeleted()
         )
     }
 
@@ -30,7 +31,7 @@ class AgentRowMapper: AbstractRowMapper<Agent>() {
                 getLong(rs, "type_id"),
                 Codable.find(Code::class.java,getString(rs, "type_code")),
                 getString(rs, "type_name"),
-                getString(rs,"is_deleted") != "N"
+                getString(rs,"is_deleted").toIsDeleted()
         )
     }
 }

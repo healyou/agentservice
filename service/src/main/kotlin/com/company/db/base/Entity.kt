@@ -5,5 +5,5 @@ package com.company.db.base
  */
 interface Entity {
 
-    var id: Long
+    var id: Long?
 }

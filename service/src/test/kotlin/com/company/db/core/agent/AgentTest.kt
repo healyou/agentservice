@@ -15,12 +15,12 @@ class AgentTest: Assert() {
     private lateinit var agent: Agent
 
     /* параметры агента */
-    private val ID = 1L
-    private val MAS_ID = "masId"
-    private val NAME = "name"
+    private val id = 1L
+    private val masId = "masId"
+    private val name = "name"
     private lateinit var type: AgentType
-    private val CREATE_DATE = Date(System.currentTimeMillis())
-    private val IS_DELETED = false
+    private val createDate = Date(System.currentTimeMillis())
+    private val isDeleted = false
 
     @Before
     fun setup() {
@@ -31,23 +31,23 @@ class AgentTest: Assert() {
                 false
         )
         agent = Agent(
-                ID,
-                MAS_ID,
-                NAME,
+                id,
+                masId,
+                name,
                 type,
-                CREATE_DATE,
-                IS_DELETED
+                createDate,
+                isDeleted
         )
     }
 
     @Test
     fun testAgentGetData() {
-        assertEquals(ID, agent.id)
-        assertEquals(MAS_ID, agent.masId)
-        assertEquals(NAME, agent.name)
+        assertEquals(id, agent.id)
+        assertEquals(masId, agent.masId)
+        assertEquals(name, agent.name)
         assertEquals(type, agent.type)
-        assertEquals(CREATE_DATE, agent.createDate)
-        assertEquals(IS_DELETED, agent.isDeleted)
+        assertEquals(createDate, agent.createDate)
+        assertEquals(isDeleted, agent.isDeleted)
     }
 
     @Test
@@ -72,7 +72,7 @@ class AgentTest: Assert() {
         agent.createDate = newCreateDate
         agent.isDeleted = newIsDeleted
 
-        assertEquals(newId, agent.id)
+        assertEquals(newId, agent.id!!)
         assertEquals(newMasId, agent.masId)
         assertEquals(newName, agent.name)
         assertEquals(newType, agent.type)

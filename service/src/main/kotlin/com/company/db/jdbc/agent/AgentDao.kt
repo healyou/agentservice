@@ -7,8 +7,8 @@ import com.company.db.core.agent.Agent
  */
 interface AgentDao {
 
-    fun create(agent: Agent)
-    fun update(agent: Agent)
+    fun create(agent: Agent): Long
+    fun update(agent: Agent): Long
     fun delete(id: Long)
     fun get(): List<Agent>
     fun get(id: Long): Agent

@@ -15,6 +15,4 @@ import org.springframework.transaction.annotation.Transactional
 @RunWith(SpringJUnit4ClassRunner::class)
 @ContextConfiguration("classpath:beans.xml")
 @Transactional("transactionManager")
-abstract class AbstractServiceTest:  AbstractTransactionalJUnit4SpringContextTests() {
-
-}
+abstract class AbstractServiceTest:  AbstractTransactionalJUnit4SpringContextTests()

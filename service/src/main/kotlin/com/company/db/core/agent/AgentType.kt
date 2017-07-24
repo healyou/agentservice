@@ -9,7 +9,7 @@ import com.company.db.base.Entity
  * @author Nikita Gorodilov
  */
 class AgentType(
-        override var id: Long,
+        override var id: Long?,
         var code: Code,
         var name: String,
         var isDeleted: Boolean

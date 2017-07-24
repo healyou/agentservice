@@ -4,32 +4,104 @@ import com.company.AbstractServiceTest
 import org.junit.Before
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.EmptyResultDataAccessException
+import java.util.*
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 /**
+ * Тестирование функциональности сервиса работы с Agent
+ *
  * @author Nikita Gorodilov
  */
 class AgentServiceTest: AbstractServiceTest() {
 
     @Autowired
     private lateinit var service: AgentService
+    @Autowired
+    private lateinit var typeService: AgentTypeService
+
+    private var id: Long? = null
+    private val masId = "masId"
+    private val name = "name"
+    private lateinit var type: AgentType
+    private val createDate = Date(System.currentTimeMillis())
+    private val isDeleted = false
 
     @Before
     fun setup() {
-        // todo ещё 3 метода дотестить
+        type = typeService.get(AgentType.Code.WORKER)
+        id = service.create(Agent(
+                null,
+                masId,
+                name,
+                type,
+                createDate,
+                isDeleted
+        ))
     }
 
     @Test
-    fun testGetAll() {
-        val agents = service.get()
+    fun testGetCreateAgent() {
+        val agent = service.get(id!!)
 
-        assertEquals(3, agents.size)
+        assertEquals(id, agent.id!!)
+        assertEquals(masId, agent.masId)
+        assertEquals(name, agent.name)
+        assertEquals(type.code, agent.type.code)
+
+        /* удаляем миллисекунды */
+        val time = createDate.time // todo работы с датой
+        createDate.time = time / 1000 * 1000
+        assertEquals(createDate.time, agent.createDate.time)
+        assertEquals(isDeleted, agent.isDeleted)
     }
 
     @Test
-    fun getOne() {
-        val agent = service.get(1L)
+    fun testUpdateAgent() {
+        var agent = service.get(id!!)
 
-        assertEquals(1L, agent.id)
+        /* новые значения */
+        val newMasId = "newMasId"
+        val newName = "newName"
+        val newType = typeService.get(AgentType.Code.SERVER)
+        val newCreateDate = Date(System.currentTimeMillis())
+        val newIsDeleted = false
+
+        agent.masId = newMasId
+        agent.type = newType
+        agent.name = newName
+        agent.createDate = newCreateDate
+        agent.isDeleted = newIsDeleted
+
+        /* обновление записи в бд */
+        val updateId = service.update(agent)
+        agent = service.get(id!!)
+
+        /* проверка результатов */
+        assertEquals(updateId, id)
+        assertEquals(id, agent.id!!)
+        assertEquals(newMasId, agent.masId)
+        assertEquals(newName, agent.name)
+        assertEquals(newType.code, agent.type.code)
+
+        /* удаляем миллисекунды */
+        val time = newCreateDate.time // todo работы с датой
+        newCreateDate.time = time / 1000 * 1000
+        assertEquals(newCreateDate.time, agent.createDate.time)
+        assertEquals(newIsDeleted, agent.isDeleted)
+    }
+
+    @Test(expected = EmptyResultDataAccessException::class)
+    fun testDeleteAgent() {
+        /* проверяем что в бд есть агент */
+        val agent = service.get(id!!)
+        assertNotNull(agent)
+
+        /* удаляем агента */
+        service.delete(id!!)
+
+        /* проверяем, что в бд нет агента -> SQLException*/
+        service.get(id!!)
     }
 }

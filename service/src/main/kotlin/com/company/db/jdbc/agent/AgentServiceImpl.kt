@@ -14,16 +14,16 @@ open class AgentServiceImpl: AgentService {
     @Autowired
     private lateinit var dao: AgentDao
 
-    override fun create(agent: Agent) {
-        // todo
+    override fun create(agent: Agent): Long {
+        return dao.create(agent)
     }
 
-    override fun update(agent: Agent) {
-        // todo
+    override fun update(agent: Agent): Long {
+        return dao.update(agent)
     }
 
     override fun delete(id: Long) {
-        // todo
+        dao.delete(id)
     }
 
     override fun get(): List<Agent> {

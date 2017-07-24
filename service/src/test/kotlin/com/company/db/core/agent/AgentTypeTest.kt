@@ -14,27 +14,27 @@ class AgentTypeTest: Assert() {
     private lateinit var agentType: AgentType
 
     /* параметры */
-    private val ID = 1L
-    private val CODE: AgentType.Code = AgentType.Code.SERVER
-    private val TYPE_NAME = "typeName"
-    private val IS_DELETED = false
+    private val id = 1L
+    private val code: AgentType.Code = AgentType.Code.SERVER
+    private val typeName = "typeName"
+    private val isDeleted = false
 
     @Before
     fun setup() {
         agentType = AgentType(
-                ID,
-                CODE,
-                TYPE_NAME,
-                IS_DELETED
+                id,
+                code,
+                typeName,
+                isDeleted
         )
     }
 
     @Test
     fun testAgentTypeGetData() {
-        assertEquals(ID, agentType.id)
-        assertEquals(CODE, agentType.code)
-        assertEquals(TYPE_NAME, agentType.name)
-        assertEquals(IS_DELETED, agentType.isDeleted)
+        assertEquals(id, agentType.id)
+        assertEquals(code, agentType.code)
+        assertEquals(typeName, agentType.name)
+        assertEquals(isDeleted, agentType.isDeleted)
     }
 
     @Test
@@ -50,7 +50,7 @@ class AgentTypeTest: Assert() {
         agentType.name = newName
         agentType.isDeleted = newIsDeleted
 
-        assertEquals(newId, agentType.id)
+        assertEquals(newId, agentType.id!!)
         assertEquals(newCode, agentType.code)
         assertEquals(newName, agentType.name)
         assertEquals(newIsDeleted, agentType.isDeleted)
