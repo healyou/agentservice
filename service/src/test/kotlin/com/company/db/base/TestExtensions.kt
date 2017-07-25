@@ -6,12 +6,14 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 
 /**
+ * Тесты функций расширения
+ *
  * @author Nikita Gorodilov
  */
 class TestExtensions: Assert() {
 
     /* дата */
-    private val dateStr = "2017-07-24 16:15:29"
+    private val dateStr = "2017-07-24 16:15:29.000"
     private val date = SimpleDateFormat(SQLITE_DATE_FORMAT).parse(dateStr)
 
     /* isDeleted */

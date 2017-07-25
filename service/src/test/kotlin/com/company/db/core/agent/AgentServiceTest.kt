@@ -49,10 +49,6 @@ class AgentServiceTest: AbstractServiceTest() {
         assertEquals(masId, agent.masId)
         assertEquals(name, agent.name)
         assertEquals(type.code, agent.type.code)
-
-        /* удаляем миллисекунды */
-        val time = createDate.time // todo работы с датой
-        createDate.time = time / 1000 * 1000
         assertEquals(createDate.time, agent.createDate.time)
         assertEquals(isDeleted, agent.isDeleted)
     }
@@ -84,10 +80,6 @@ class AgentServiceTest: AbstractServiceTest() {
         assertEquals(newMasId, agent.masId)
         assertEquals(newName, agent.name)
         assertEquals(newType.code, agent.type.code)
-
-        /* удаляем миллисекунды */
-        val time = newCreateDate.time // todo работы с датой
-        newCreateDate.time = time / 1000 * 1000
         assertEquals(newCreateDate.time, agent.createDate.time)
         assertEquals(newIsDeleted, agent.isDeleted)
     }

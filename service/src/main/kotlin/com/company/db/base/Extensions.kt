@@ -8,9 +8,10 @@ import java.util.*
  *
  * @author Nikita Gorodilov
  */
-val SQLITE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
+val SQLITE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS"
 
 /********* дата *********/
+// todo запись ms времени -> так-то не так и надо
 /* дату в строку sqlite */
 fun Date.toSqlite(): String {
     return SimpleDateFormat(SQLITE_DATE_FORMAT).format(this)
