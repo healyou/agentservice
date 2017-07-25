@@ -22,6 +22,7 @@ CREATE TABLE if not exists agent
         FOREIGN KEY(type_id) REFERENCES agent_type(id)
 );
 
+-- todo переименовать в message_goal_type -> когда силы будут
 ----------------------- communication goal -----------------------
 CREATE TABLE if not exists communication_goal
 -- Цель общения агентов
