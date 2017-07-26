@@ -11,3 +11,5 @@ interface MessageBodyTypeDao {
 
     fun get(code: MessageBodyType.Code): MessageBodyType
 }
+
+// todo базовый класс для всех dictionary

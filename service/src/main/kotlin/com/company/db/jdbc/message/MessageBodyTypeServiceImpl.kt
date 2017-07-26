@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
  * @author Nikita Gorodilov
  */
 @Component
-class MessageBodyTypeServiceImpl : MessageBodyTypeService {
+open class MessageBodyTypeServiceImpl: MessageBodyTypeService {
 
     @Autowired
     private lateinit var dao: MessageBodyTypeDao

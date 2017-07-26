@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import kotlin.test.assertEquals
 
 /**
+ * Тестирование функциональности сервиса работы с MessageBodyType
+ *
  * @author Nikita Gorodilov
  */
 class MessageBodyTypeServiceTest: AbstractServiceTest() {

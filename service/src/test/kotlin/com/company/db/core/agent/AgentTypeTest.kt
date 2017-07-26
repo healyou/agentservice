@@ -5,7 +5,7 @@ import org.junit.Before
 import org.junit.Test
 
 /**
- * Тестирование фукнциональности класса объекта AgentType
+ * Тестирование функциональности класса объекта AgentType
  *
  * @author Nikita Gorodilov
  */
