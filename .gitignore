@@ -1,4 +1,4 @@
 **/.idea/
 **/*.iml
 
-**/db.s3db
+**/agent_service_db.s3db

@@ -22,9 +22,8 @@ CREATE TABLE if not exists agent
         FOREIGN KEY(type_id) REFERENCES agent_type(id)
 );
 
--- todo переименовать в message_goal_type -> когда силы будут
 ----------------------- communication goal -----------------------
-CREATE TABLE if not exists communication_goal
+CREATE TABLE if not exists message_goal_type
 -- Цель общения агентов
 (
         id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, -- Идентификатор
@@ -41,9 +40,9 @@ CREATE TABLE if not exists message_type
         code    TEXT                              NOT NULL, -- Системное имя
         name    TEXT                              NOT NULL, -- Читаемое имя
         message_order   INTEGER                   NOT NULL, -- Порядок следования сообщений
-        com_goal_id INTEGER                       NOT NULL, -- Цель общения
+        message_goal_type_id INTEGER                       NOT NULL, -- Цель общения
         is_deleted TEXT                           NOT NULL DEFAULT ('N') CHECK(is_deleted='N' OR is_deleted='Y'), -- Удалено ли значение
-        FOREIGN KEY(com_goal_id) REFERENCES communication_goal(id)
+        FOREIGN KEY(message_goal_type_id) REFERENCES message_goal_type(id)
 );
 
 
@@ -63,7 +62,7 @@ CREATE TABLE if not exists message
 (
         id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, -- Идентификатор
         sender_id     INTEGER                     NOT NULL, -- Отправитель
-        communication_goal_id INTEGER             NOT NULL, -- Цель общения
+        message_goal_type_id INTEGER             NOT NULL, -- Цель общения
         message_type_id INTEGER                   NOT NULL, -- Тип сообщения
         create_date    TEXT                       NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f')), -- Дата создания
         viewed_date    TEXT                               , -- Дата просмотра
@@ -71,7 +70,7 @@ CREATE TABLE if not exists message
         body_type_id   INTEGER                    NOT NULL, -- Тип тела сообщения
         body           TEXT                               , -- Тело сообщения
         FOREIGN KEY(sender_id) REFERENCES agent(id),
-        FOREIGN KEY(communication_goal_id) REFERENCES communication_goal(id),
+        FOREIGN KEY(message_goal_type_id) REFERENCES message_goal_type(id),
         FOREIGN KEY(message_type_id) REFERENCES message_type(id),
         FOREIGN KEY(body_type_id) REFERENCES message_body_type(id)
 );

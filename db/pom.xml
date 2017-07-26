@@ -18,6 +18,7 @@
         <!-- первая папка прокта -->
         <parent.project.basedir>${pom.parent.basedir}</parent.project.basedir>
         <db.source.basedir>${project.basedir}</db.source.basedir>
+        <db.source.name>agent_service_db.s3db</db.source.name>
     </properties>
 
     <build>
@@ -44,7 +45,7 @@
 
                         <property>
                             <name>nameDB</name>
-                            <value>db.s3db</value>
+                            <value>${db.source.name}</value>
                         </property>
 
                         <property>

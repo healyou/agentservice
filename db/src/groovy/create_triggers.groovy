@@ -31,15 +31,15 @@ sql.execute("--- добавление записи в message_v ---\n" +
         "CREATE TRIGGER IF NOT EXISTS message_v_insert_t\n" +
         "  INSTEAD OF INSERT ON message_v\n" +
         "BEGIN\n" +
-        "  INSERT INTO message (sender_id, communication_goal_id, message_type_id, body_type_id, body) VALUES\n" +
-        "    (new.sender_id, new.communication_goal_id, new.message_type_id, new.body_type_id, new.body);\n" +
+        "  INSERT INTO message (sender_id, message_goal_type_id, message_type_id, body_type_id, body) VALUES\n" +
+        "    (new.sender_id, new.message_goal_type_id, new.message_type_id, new.body_type_id, new.body);\n" +
         "END;")
 sql.execute("--- изменение записи в message_v ---\n" +
         "CREATE TRIGGER IF NOT EXISTS message_v_update_t\n" +
         "  INSTEAD OF UPDATE ON message_v\n" +
         "BEGIN\n" +
         "  UPDATE message SET sender_id=new.sender_id,\n" +
-        "    communication_goal_id=new.communication_goal_id,\n" +
+        "    message_goal_type_id=new.message_goal_type_id,\n" +
         "    message_type_id=new.message_type_id,\n" +
         "    body_type_id=new.body_type_id,\n" +
         "    body=new.body\n" +

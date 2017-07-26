@@ -21,8 +21,6 @@ CREATE VIEW message_v
   SELECT
     message.id,
     message.sender_id,
-    sender.create_date as sender_create_date,
-    sender.is_deleted as sender_is_deleted,
     sender.mas_id as sender_mas_id,
     sender.name as sender_name,
     sender.type_id as sender_type_id,
@@ -31,15 +29,15 @@ CREATE VIEW message_v
     sender.type_is_deleted as sender_type_is_deleted,
     sender.create_date as sender_create_date,
     sender.is_deleted as sender_is_deleted,
-    message.communication_goal_id,
-    cg.code as communication_goal_code,
-    cg.name as communication_goal_name,
-    cg.is_deleted as communication_goal_is_deleted,
+    message.message_goal_type_id,
+    mgt.code as message_goal_type_code,
+    mgt.name as message_goal_type_name,
+    mgt.is_deleted as message_goal_type_is_deleted,
     message.message_type_id,
     mt.code as message_type_code,
     mt.name as message_type_name,
     mt.message_order as message_type_message_order,
-    mt.com_goal_id as message_type_com_goal_id,
+    mt.message_goal_type_id as message_type_message_goal_type_id,
     mt.is_deleted as message_type_is_deleted,
     message.create_date,
     message.viewed_date,
@@ -52,6 +50,6 @@ CREATE VIEW message_v
   FROM
     message
   INNER JOIN agent_v AS sender ON message.sender_id = sender.id
-  INNER JOIN communication_goal as cg ON message.communication_goal_id = cg.id
+  INNER JOIN message_goal_type as mgt ON message.message_goal_type_id = mgt.id
   INNER JOIN message_type as mt ON message.message_type_id = mt.id
   INNER JOIN message_body_type as mbt ON message.body_type_id = mbt.id;
