@@ -56,8 +56,6 @@ class MessageServiceTest : AbstractServiceTest() {
     private lateinit var messageType: MessageType
     private lateinit var bodyType: MessageBodyType
     private val createDate = Date(System.currentTimeMillis())
-    private val viewedDate: Date? = null
-    private val isViewed = false
     private val body = "{}"
 
     @Before
@@ -75,6 +73,7 @@ class MessageServiceTest : AbstractServiceTest() {
     fun testGetCreateMessage() {
         val message = messageService.get(id!!)
 
+        /* проверка всех значений создания сообщения */
         assertEquals(id, message.id!!)
         assertEquals(sender.id!!, message.sender.id!!)
         assertEquals(recipients.size, message.recipients.size)
@@ -83,11 +82,9 @@ class MessageServiceTest : AbstractServiceTest() {
         }
         assertEquals(goalType.code, message.goalType.code)
         assertEquals(messageType.code, message.type.code)
-        assertNotNull(message.createDate)
-        assertEquals(viewedDate, message.viewedDate)
-        assertEquals(isViewed, message.isViewed)
         assertEquals(bodyType.code, message.bodyType.code)
         assertEquals(body, message.body)
+        assertNotNull(message.createDate)
     }
 
     /* Тест обновления сообщения в бд */
@@ -112,8 +109,6 @@ class MessageServiceTest : AbstractServiceTest() {
         message.goalType = newGoalType
         message.type = newMessageType
         message.createDate = newCreateDate
-        message.viewedDate = newViewedDate
-        message.isViewed = newIsViewed
         message.bodyType = newBodyType
         message.body = newBody
 
@@ -124,6 +119,7 @@ class MessageServiceTest : AbstractServiceTest() {
         /* проверка результатов */
         assertEquals(updateId, id)
 
+        /* проверка обновляемых параметров */
         assertEquals(id, message.id!!)
         assertEquals(newSender.id!!, message.sender.id!!)
         assertEquals(newRecipients.size, message.recipients.size)
@@ -131,22 +127,13 @@ class MessageServiceTest : AbstractServiceTest() {
             assertEquals(agent.id, message.recipients[index].id)
         }
         assertEquals(newGoalType.code, message.goalType.code)
-        assertNotNull(message.type)
-        assertNotNull(message.createDate)
-        assertEquals(newViewedDate, message.viewedDate)
-        assertEquals(newIsViewed, message.isViewed)
         assertEquals(newBodyType.code, message.bodyType.code)
         assertEquals(newBody, message.body)
-    }
 
-    /* Тест получение всех сообщений из бд */
-//    @Test
-//    fun testGetAllMessages() {
-//        createMessage()
-//
-//        /* 1 сообщение создано в before и одно создаём тут - и того 2 сообщения */
-//        assertTrue { messageService.get().size >= 2 }
-//    }
+        /* проверка не обновляемых параметров */
+        assertNotNull(message.type)
+        assertNotNull(message.createDate)
+    }
 
     /* Тест удаления сообщения */
     @Test(expected = EmptyResultDataAccessException::class)
@@ -164,11 +151,6 @@ class MessageServiceTest : AbstractServiceTest() {
 
     /* СОЗДАНИЕ ОБЪЕКТОВ */
 
-    /* id для следующего агента */
-    private var _id = 1L
-    private var nextId: Long = _id
-        get() = _id++
-
     /* Создание сообщения */
     private fun createMessage(): Message {
         val goalType = goalTypeService.get(MessageGoalType.Code.TASK_DECISION)
@@ -184,8 +166,6 @@ class MessageServiceTest : AbstractServiceTest() {
                 goalType,
                 messageType,
                 createDate,
-                viewedDate,
-                isViewed,
                 bodyType,
                 body
         ))

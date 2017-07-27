@@ -42,8 +42,6 @@ class MessageTest : Assert() {
                 goalType,
                 type,
                 createDate,
-                viewedDate,
-                isViewed,
                 bodyType,
                 body
         )
@@ -57,8 +55,6 @@ class MessageTest : Assert() {
         assertEquals(goalType, message.goalType)
         assertEquals(type, message.type)
         assertEquals(createDate, message.createDate)
-        assertEquals(viewedDate, message.viewedDate)
-        assertEquals(isViewed, message.isViewed)
         assertEquals(bodyType, message.bodyType)
         assertEquals(body, message.body)
     }
@@ -72,8 +68,6 @@ class MessageTest : Assert() {
         val newGoalType = createMessageGoalType()
         val newType = createMessageType()
         val newCreateDate = Date(System.currentTimeMillis())
-        val newViewedDate = Date(System.currentTimeMillis())
-        val newIsViewed = true
         val newBodyType = createJsonMessageBodyType()
         val newBody = "{gg: 1}"
 
@@ -83,8 +77,6 @@ class MessageTest : Assert() {
         message.goalType = newGoalType
         message.type = newType
         message.createDate = newCreateDate
-        message.viewedDate = newViewedDate
-        message.isViewed = newIsViewed
         message.bodyType = newBodyType
         message.body = newBody
 
@@ -94,8 +86,6 @@ class MessageTest : Assert() {
         assertEquals(newGoalType, message.goalType)
         assertEquals(newType, message.type)
         assertEquals(newCreateDate, message.createDate)
-        assertEquals(newViewedDate, message.viewedDate)
-        assertEquals(newIsViewed, message.isViewed)
         assertEquals(newBodyType, message.bodyType)
         assertEquals(newBody, message.body)
     }

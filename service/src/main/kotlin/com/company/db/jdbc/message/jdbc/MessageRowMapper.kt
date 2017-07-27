@@ -28,8 +28,6 @@ class MessageRowMapper : AbstractRowMapper<Message>() {
                 mapGoalType(rs),
                 mapMessageType(rs),
                 getDate(rs, "create_date"),
-                getNullDate(rs, "viewed_date"),
-                getString(rs, "is_viewed") != "N", // сделать toIsViewed
                 mapBodyType(rs),
                 getString(rs, "body")
         )

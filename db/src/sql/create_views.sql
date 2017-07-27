@@ -43,8 +43,6 @@ CREATE VIEW message_v
     mtmgt.is_deleted as message_type_message_goal_type_is_deleted,
     mt.is_deleted as message_type_is_deleted,
     message.create_date,
-    message.viewed_date,
-    message.is_viewed,
     message.body_type_id,
     mbt.code as message_body_type_code,
     mbt.name as message_body_type_name,

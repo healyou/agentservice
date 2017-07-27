@@ -20,10 +20,6 @@ class Message (
         var type: MessageType,
         /* Дата создания */
         var createDate: Date,
-        /* Цель сообщения */
-        var viewedDate: Date?, // todo вынести в таблицу message_recipient
-        /* Просмотрено ли данное сообщение */
-        var isViewed: Boolean, // todo вынести в таблицу message_recipient
         /* Тип тела сообщения */
         var bodyType: MessageBodyType,
         /* Тело сообщения */

@@ -41,8 +41,6 @@ sql.execute("--- изменение записи в message_v ---\n" +
         "  UPDATE message SET sender_id=new.sender_id,\n" +
         "    message_goal_type_id=new.message_goal_type_id,\n" +
         "    message_type_id=new.message_type_id,\n" +
-        "    viewed_date=new.viewed_date,\n" +
-        "    is_viewed=new.is_viewed,\n" +
         "    body_type_id=new.body_type_id,\n" +
         "    body=new.body\n" +
         "  WHERE id=NEW.id;\n" +

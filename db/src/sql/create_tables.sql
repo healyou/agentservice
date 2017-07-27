@@ -65,8 +65,6 @@ CREATE TABLE if not exists message
         message_goal_type_id INTEGER             NOT NULL, -- Цель общения
         message_type_id INTEGER                   NOT NULL, -- Тип сообщения
         create_date    TEXT                       NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f')), -- Дата создания
-        viewed_date    TEXT                               , -- Дата просмотра
-        is_viewed      TEXT                       NOT NULL DEFAULT ('N') CHECK(is_viewed='N' OR is_viewed='Y'), -- Просмотрено ли сообщение агентом
         body_type_id   INTEGER                    NOT NULL, -- Тип тела сообщения
         body           TEXT                               , -- Тело сообщения
         FOREIGN KEY(sender_id) REFERENCES agent(id),

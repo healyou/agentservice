@@ -35,12 +35,10 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
     }
 
     override fun update(message: Message): Long {
-        jdbcTemplate.update("update message_v SET sender_id=?,message_goal_type_id=?,message_type_id=?,viewed_date=?,is_viewed=?,body_type_id=?,body=? where id = ?",
+        jdbcTemplate.update("update message_v SET sender_id=?,message_goal_type_id=?,message_type_id=?,body_type_id=?,body=? where id = ?",
                 message.sender.id!!,
                 message.goalType.id!!,
                 message.type.id!!,
-                message.viewedDate?.toSqlite(),
-                if (message.isViewed) "Y" else "N",
                 message.bodyType.id!!,
                 message.body,
                 message.id
@@ -62,9 +60,8 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         val messages = query("select * from message_v", MessageRowMapper())
 
         // получаем получателей сообщения
-        messages.forEach {
-            it.recipients = getRecipitients(it.id!!)
-        }
+        messages.forEach { it.recipients = getRecipitients(it.id!!) }
+
         return messages
     }
 
@@ -81,10 +78,20 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         return message
     }
 
+    /*
+     * Работа с recipients
+     */
+
+    /**
+     * Удаление всех получателей сообщения
+     */
     private fun deleteRecipients(messageId: Long) {
         jdbcTemplate.update("delete from message_recipient where message_id = ?", messageId)
     }
 
+    /**
+     * Сохранение всех получателей сообщения
+     */
     private fun createRecipients(messageId: Long, recipients: List<Agent>) {
         recipients.forEach {
             jdbcTemplate.update(
@@ -95,19 +102,12 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         }
     }
 
-    // todo закоментить
+    /**
+     * Получение всех получателей сообщения
+     */
     private fun getRecipitients(messageId: Long): List<Agent> {
-        /**
-        SELECT * from agent_v a
-        LEFT JOIN message_recipient mr on a.id = mr.recipient_id
-        --LEFT JOIN message_v m on m.id = mr.message_id
-        where mr.message_id = 1;
-
-        запрос выберет всех агентов для сообщения -> его отдельно запарсить
-         */
         return jdbcTemplate.query("SELECT * from agent_v a\n" +
                 "  LEFT JOIN message_recipient mr on a.id = mr.recipient_id\n" +
-                "  --LEFT JOIN message_v m on m.id = mr.message_id\n" +
                 "  where mr.message_id = ?",
                 AgentRowMapper(),
                 messageId
