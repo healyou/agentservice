@@ -2,10 +2,7 @@ package com.company.db.message
 
 import com.company.db.core.agent.Agent
 import com.company.db.core.agent.AgentType
-import com.company.db.core.message.Message
-import com.company.db.core.message.MessageBodyType
-import com.company.db.core.message.MessageGoalType
-import com.company.db.core.message.MessageType
+import com.company.db.core.message.*
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -146,10 +143,18 @@ class MessageTest : Assert() {
         }
 
         /* Создание множества агентов, которым адресовано сообщение */
-        private fun createRecipients(): List<Agent> {
-            return arrayListOf<Agent>(
-                    createNextTestAgent(),
-                    createNextTestAgent(),
+        private fun createRecipients(): List<MessageRecipient> {
+            return arrayListOf<MessageRecipient>(
+                    createMessageRecipient(),
+                    createMessageRecipient(),
+                    createMessageRecipient()
+            )
+        }
+
+        /* Создание получателя сообщения */
+        private fun createMessageRecipient(): MessageRecipient {
+            return MessageRecipient(
+                    null,
                     createNextTestAgent()
             )
         }

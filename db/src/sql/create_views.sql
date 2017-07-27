@@ -72,3 +72,23 @@ AS
   FROM
     message_type
     INNER JOIN message_goal_type as mgt ON message_type.message_goal_type_id = mgt.id;
+
+----------- message recipient view -----------
+CREATE VIEW message_recipient_v
+  AS
+    SELECT
+      message_recipient.id,
+      message_recipient.message_id,
+      message_recipient.recipient_id,
+      recipient.name as recipient_name,
+      recipient.mas_id as recipient_mas_id,
+      recipient.create_date as recipient_create_date,
+      recipient.is_deleted as recipient_is_deleted,
+      recipient.type_id as recipient_type_id,
+      rt.code as recipient_type_code,
+      rt.name as recipient_type_name,
+      rt.is_deleted as recipient_type_is_deleted
+    FROM
+      message_recipient
+      INNER JOIN agent as recipient ON message_recipient.recipient_id = recipient.id
+      INNER JOIN agent_type as rt ON recipient.type_id = rt.id;

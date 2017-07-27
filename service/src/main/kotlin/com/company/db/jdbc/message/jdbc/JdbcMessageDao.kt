@@ -4,8 +4,11 @@ import com.company.db.base.AbstractDao
 import com.company.db.base.toSqlite
 import com.company.db.core.agent.Agent
 import com.company.db.core.message.Message
+import com.company.db.core.message.MessageRecipient
+import com.company.db.core.message.MessageRecipientService
 import com.company.db.jdbc.agent.jdbc.AgentRowMapper
 import com.company.db.jdbc.message.MessageDao
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 /**
@@ -15,6 +18,9 @@ import org.springframework.stereotype.Component
  */
 @Component
 open class JdbcMessageDao: AbstractDao(), MessageDao {
+
+    @Autowired
+    private lateinit var recipientService: MessageRecipientService
 
     override fun create(message: Message): Long {
         jdbcTemplate.update("insert into message_v (sender_id, message_goal_type_id, message_type_id, body_type_id, body) values (?, ?, ?, ?, ?)",
@@ -29,7 +35,14 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         val messageId = jdbcTemplate.queryForObject("select seq from sqlite_sequence where name='message';", Long::class.java)
 
         // сохранение получателей
-        createRecipients(messageId, message.recipients)
+        message.recipients.forEach {
+            recipientService.create(
+                    messageId,
+                    MessageRecipient(null, it.recipient)
+            )
+        }
+
+        //createRecipients(messageId, message.recipients)
 
         return messageId
     }
@@ -45,8 +58,15 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         )
 
         // пересохранение получателей
-        deleteRecipients(message.id!!)
-        createRecipients(message.id!!, message.recipients)
+        recipientService.delete(message)
+        message.recipients.forEach {
+            recipientService.create(
+                    message.id!!,
+                    MessageRecipient(null, it.recipient)
+            )
+        }
+        //deleteRecipients(message.id!!)
+        //createRecipients(message.id!!, message.recipients)
 
         return message.id!!
     }
@@ -60,7 +80,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         val messages = query("select * from message_v", MessageRowMapper())
 
         // получаем получателей сообщения
-        messages.forEach { it.recipients = getRecipitients(it.id!!) }
+        messages.forEach { it.recipients = recipientService.get(it) }
 
         return messages
     }
@@ -73,7 +93,8 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         )
 
         // получаем получателей сообщения
-        message.recipients = getRecipitients(message.id!!)
+        message.recipients = recipientService.get(message)
+        //message.recipients = getRecipitients(message.id!!)
 
         return message
     }

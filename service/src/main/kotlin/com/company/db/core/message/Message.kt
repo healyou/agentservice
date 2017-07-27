@@ -13,7 +13,7 @@ class Message (
         /* Отправитель сообщения */
         var sender: Agent,
         /* Получатели сообщения */
-        var recipients: List<Agent>,
+        var recipients: List<MessageRecipient>,
         /* Цель сообщения */
         var goalType: MessageGoalType,
         /* Цель сообщения */

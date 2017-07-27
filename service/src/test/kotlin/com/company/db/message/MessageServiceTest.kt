@@ -48,10 +48,14 @@ class MessageServiceTest : AbstractServiceTest() {
     @Autowired
     private lateinit var messageBodyTypeService: MessageBodyTypeService
 
+    /* сервис работы с получателями сообщения */
+    @Autowired
+    private lateinit var messageRecipientService: MessageRecipientService
+
     /* идентификатор создаваемого сообщения */
     private var id: Long? = null
     private lateinit var sender: Agent
-    private lateinit var recipients: List<Agent>
+    private lateinit var recipients: List<MessageRecipient>
     private lateinit var goalType: MessageGoalType
     private lateinit var messageType: MessageType
     private lateinit var bodyType: MessageBodyType
@@ -61,6 +65,12 @@ class MessageServiceTest : AbstractServiceTest() {
     @Before
     fun setup() {
         val message = createMessage()
+
+        /* сохранение получателей - отдельно, тк нужен id сообщения при сохранении*/
+        recipients = createRecipients(message)
+        message.recipients = recipients
+        /* при сохранениии получатели пересоздаются */
+        messageService.update(message)
 
         goalType = message.goalType
         messageType = message.type
@@ -77,8 +87,8 @@ class MessageServiceTest : AbstractServiceTest() {
         assertEquals(id, message.id!!)
         assertEquals(sender.id!!, message.sender.id!!)
         assertEquals(recipients.size, message.recipients.size)
-        recipients.forEachIndexed { index, agent ->
-            assertEquals(agent.id, message.recipients[index].id)
+        recipients.forEachIndexed { index, recipient ->
+            assertEquals(recipient.recipient.id, message.recipients[index].recipient.id)
         }
         assertEquals(goalType.code, message.goalType.code)
         assertEquals(messageType.code, message.type.code)
@@ -94,12 +104,10 @@ class MessageServiceTest : AbstractServiceTest() {
 
         /* новые значения */
         val newSender = createSender()
-        val newRecipients = createRecipients()
+        val newRecipients = createRecipients(message)
         val newGoalType = goalTypeService.get(MessageGoalType.Code.TASK_DECISION)
         val newMessageType = messageTypeService.get(MessageType.Code.TASK_SOLUTION_ANSWER)
         val newCreateDate = Date(System.currentTimeMillis())
-        val newViewedDate = Date(System.currentTimeMillis())
-        val newIsViewed = true
         val newBodyType = messageBodyTypeService.get(MessageBodyType.Code.JSON)
         val newBody = "{ 'a': 1}"
 
@@ -124,7 +132,7 @@ class MessageServiceTest : AbstractServiceTest() {
         assertEquals(newSender.id!!, message.sender.id!!)
         assertEquals(newRecipients.size, message.recipients.size)
         newRecipients.forEachIndexed { index, agent ->
-            assertEquals(agent.id, message.recipients[index].id)
+            assertEquals(agent.recipient.id, message.recipients[index].recipient.id)
         }
         assertEquals(newGoalType.code, message.goalType.code)
         assertEquals(newBodyType.code, message.bodyType.code)
@@ -157,18 +165,18 @@ class MessageServiceTest : AbstractServiceTest() {
         val messageType = messageTypeService.get(MessageType.Code.SEARCH_SOLUTION)
         val bodyType = messageBodyTypeService.get(MessageBodyType.Code.JSON)
         sender = createSender()
-        recipients = createRecipients()
 
         val id = messageService.create(Message(
                 null,
                 sender,
-                recipients,
+                arrayListOf(),
                 goalType,
                 messageType,
                 createDate,
                 bodyType,
                 body
         ))
+
         return messageService.get(id)
     }
 
@@ -179,15 +187,26 @@ class MessageServiceTest : AbstractServiceTest() {
     }
 
     /* создание получателей сообщения */
-    private fun createRecipients(): List<Agent> {
+    private fun createRecipients(message: Message): List<MessageRecipient> {
         val agentType = agentTypeService.get(AgentType.Code.WORKER)
-        return arrayListOf<Agent>(
-                createAgent(agentType),
-                createAgent(agentType),
-                createAgent(agentType),
-                createAgent(agentType),
-                createAgent(agentType)
+        return arrayListOf<MessageRecipient>(
+                createMessageRecipient(message, agentType),
+                createMessageRecipient(message, agentType),
+                createMessageRecipient(message, agentType),
+                createMessageRecipient(message, agentType),
+                createMessageRecipient(message, agentType)
         )
+    }
+
+    private fun createMessageRecipient(message: Message, agentType: AgentType): MessageRecipient {
+        val id = messageRecipientService.create(
+                message.id!!,
+                MessageRecipient(
+                        null,
+                        createAgent(agentType)
+                )
+        )
+        return messageRecipientService.get(id)
     }
 
     /* создание агента */

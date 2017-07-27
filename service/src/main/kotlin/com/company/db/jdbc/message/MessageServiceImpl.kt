@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component
 
 /**
  * Сервис работы с сообщениями
+ *      Грузит всё, что связано с сообщениями
+ *      Все типы данных + таблицу получателей
  *
  * @author Nikita Gorodilov
  */
