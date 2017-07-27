@@ -1,5 +1,6 @@
 DROP VIEW IF EXISTS agent_v;
 DROP VIEW IF EXISTS message_v;
+DROP VIEW IF EXISTS message_type_v;
 
 DROP TRIGGER IF EXISTS agent_v_insert_t;
 DROP TRIGGER IF EXISTS agent_v_update_t;

@@ -15,11 +15,14 @@ open class AgentTypeServiceTest: AbstractServiceTest() {
     @Autowired
     private lateinit var service: AgentTypeService
 
+    /* количество значений в базе данных */
+    private val AGENT_TYPES_SIZE = AgentType.Code.values().size
+
     @Test
     fun testGetAllTypes() {
         val types = service.get()
 
-        assertEquals(2, types.size)
+        assertEquals(AGENT_TYPES_SIZE, types.size)
     }
 
     @Test

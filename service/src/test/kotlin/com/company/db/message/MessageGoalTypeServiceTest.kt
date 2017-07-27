@@ -17,11 +17,14 @@ class MessageGoalTypeServiceTest : AbstractServiceTest() {
     @Autowired
     private lateinit var service: MessageGoalTypeService
 
+    /* количество значений в базе данных */
+    private val MESSAGE_GOAL_TYPES_SIZE = MessageGoalType.Code.values().size
+
     @Test
     fun testGetAllTypes() {
         val types = service.get()
 
-        assertEquals(1, types.size)
+        assertEquals(MESSAGE_GOAL_TYPES_SIZE, types.size)
     }
 
     @Test

@@ -93,7 +93,7 @@ class AgentServiceTest: AbstractServiceTest() {
         /* удаляем агента */
         service.delete(id!!)
 
-        /* проверяем, что в бд нет агента -> SQLException*/
+        /* проверяем, что в бд нет агента -> EmptyResultDataAccessException*/
         service.get(id!!)
     }
 }

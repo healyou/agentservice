@@ -53,3 +53,20 @@ CREATE VIEW message_v
   INNER JOIN message_goal_type as mgt ON message.message_goal_type_id = mgt.id
   INNER JOIN message_type as mt ON message.message_type_id = mt.id
   INNER JOIN message_body_type as mbt ON message.body_type_id = mbt.id;
+
+----------- message type view -----------
+CREATE VIEW message_type_v
+AS
+  SELECT
+    message_type.id,
+    message_type.code,
+    message_type.name,
+    message_type.message_order,
+    message_type.message_goal_type_id,
+    mgt.code as message_goal_type_code,
+    mgt.name as message_goal_type_name,
+    mgt.is_deleted as message_goal_type_is_deleted,
+    message_type.is_deleted
+  FROM
+    message_type
+    INNER JOIN message_goal_type as mgt ON message_type.message_goal_type_id = mgt.id;
