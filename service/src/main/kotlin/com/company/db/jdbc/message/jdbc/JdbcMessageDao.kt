@@ -26,7 +26,12 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         )
 
         /* id последней введённой записи */
-        return jdbcTemplate.queryForObject("select seq from sqlite_sequence where name='message';", Long::class.java)
+        val messageId = jdbcTemplate.queryForObject("select seq from sqlite_sequence where name='message';", Long::class.java)
+
+        // сохранение получателей
+        createRecipients(messageId, message.recipients)
+
+        return messageId
     }
 
     override fun update(message: Message): Long {
@@ -41,6 +46,10 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
                 message.id
         )
 
+        // пересохранение получателей
+        deleteRecipients(message.id!!)
+        createRecipients(message.id!!, message.recipients)
+
         return message.id!!
     }
 
@@ -52,6 +61,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
     override fun get(): List<Message> {
         val messages = query("select * from message_v", MessageRowMapper())
 
+        // получаем получателей сообщения
         messages.forEach {
             it.recipients = getRecipitients(it.id!!)
         }
@@ -59,11 +69,30 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
     }
 
     override fun get(id: Long): Message {
-        return jdbcTemplate.queryForObject(
+        val message = jdbcTemplate.queryForObject(
                 "select * from message_v where id = ?",
                 MessageRowMapper(),
                 id
         )
+
+        // получаем получателей сообщения
+        message.recipients = getRecipitients(message.id!!)
+
+        return message
+    }
+
+    private fun deleteRecipients(messageId: Long) {
+        jdbcTemplate.update("delete from message_recipient where message_id = ?", messageId)
+    }
+
+    private fun createRecipients(messageId: Long, recipients: List<Agent>) {
+        recipients.forEach {
+            jdbcTemplate.update(
+                    "insert into message_recipient (message_id, recipient_id) values (?, ?)",
+                    messageId,
+                    it.id!!
+            )
+        }
     }
 
     // todo закоментить
