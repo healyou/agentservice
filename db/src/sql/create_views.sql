@@ -80,6 +80,7 @@ CREATE VIEW message_recipient_v
       message_recipient.id,
       message_recipient.message_id,
       message_recipient.recipient_id,
+      message_recipient.viewed_date,
       recipient.name as recipient_name,
       recipient.mas_id as recipient_mas_id,
       recipient.create_date as recipient_create_date,

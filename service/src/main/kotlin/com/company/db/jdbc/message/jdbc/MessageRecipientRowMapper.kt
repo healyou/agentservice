@@ -16,7 +16,8 @@ class MessageRecipientRowMapper : AbstractRowMapper<MessageRecipient>() {
     override fun mapRow(rs: ResultSet, index: Int): MessageRecipient {
         return MessageRecipient(
                 getLong(rs, "id"),
-                mapRecipient(rs)
+                mapRecipient(rs),
+                getDate(rs, "viewed_date")
         )
     }
 

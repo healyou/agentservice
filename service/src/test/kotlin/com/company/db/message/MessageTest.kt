@@ -155,7 +155,8 @@ class MessageTest : Assert() {
         private fun createMessageRecipient(): MessageRecipient {
             return MessageRecipient(
                     null,
-                    createNextTestAgent()
+                    createNextTestAgent(),
+                    null
             )
         }
     }

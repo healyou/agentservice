@@ -19,6 +19,7 @@ import kotlin.test.assertTrue
  * Тестирование функциональности сервиса работы с Message
  *      Включает множество других классов для работы
  *      Поэтому при ошибке лучше вначале искать её в других сервисах
+ *      +тестирование сервиса MessageRecipient класса
  *
  * @author Nikita Gorodilov
  */
@@ -157,6 +158,51 @@ class MessageServiceTest : AbstractServiceTest() {
         messageService.get(id!!)
     }
 
+    /* Проверка создания MessageRecipient */
+    @Test
+    fun testMessageRecipientGetData() {
+        val message = messageService.get(id!!)
+
+        message.recipients.forEach {
+            assertNotNull(it.id)
+            assertNotNull(it.recipient)
+            assertNotNull(it.viewedDate)
+        }
+    }
+
+    /* Проверка обновления MessageRecipient */
+    @Test(expected = EmptyResultDataAccessException::class)
+    fun testMessageRecipientDeleteById() {
+        val recipient = messageService.get(id!!).recipients[0]
+
+        messageRecipientService.delete(recipient)
+        messageRecipientService.get(recipient.id!!)
+    }
+
+    @Test
+    fun testMessageRecipientDeleteByMessage() {
+        val message = messageService.get(id!!)
+
+        messageRecipientService.delete(message)
+        assertEquals(0, messageRecipientService.get(message).size)
+    }
+
+    @Test
+    fun testGetMessageRecipientById() {
+        val recipient = messageService.get(id!!).recipients[0]
+
+        assertNotNull(messageRecipientService.get(recipient.id!!))
+        assertEquals(recipient.recipient.id, messageRecipientService.get(recipient.id!!).recipient.id)
+    }
+
+    @Test
+    fun testGetMessageRecipientByMessage() {
+        val message = messageService.get(id!!)
+
+        assertNotNull(messageRecipientService.get(message))
+        assertEquals(message.recipients.size, messageRecipientService.get(message).size)
+    }
+
     /* СОЗДАНИЕ ОБЪЕКТОВ */
 
     /* Создание сообщения */
@@ -203,7 +249,8 @@ class MessageServiceTest : AbstractServiceTest() {
                 message.id!!,
                 MessageRecipient(
                         null,
-                        createAgent(agentType)
+                        createAgent(agentType),
+                        null
                 )
         )
         return messageRecipientService.get(id)

@@ -38,7 +38,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         message.recipients.forEach {
             recipientService.create(
                     messageId,
-                    MessageRecipient(null, it.recipient)
+                    MessageRecipient(null, it.recipient, null)
             )
         }
 
@@ -62,7 +62,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         message.recipients.forEach {
             recipientService.create(
                     message.id!!,
-                    MessageRecipient(null, it.recipient)
+                    MessageRecipient(null, it.recipient, null)
             )
         }
         //deleteRecipients(message.id!!)
