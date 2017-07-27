@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
  * @author Nikita Gorodilov
  */
 @Component
-class JdbcMessageBodyTypeDao: AbstractDao(), MessageBodyTypeDao {
+open class JdbcMessageBodyTypeDao: AbstractDao(), MessageBodyTypeDao {
 
     override fun get(): List<MessageBodyType> {
         return query("select * from message_body_type", MessageBodyTypeRowMapper())

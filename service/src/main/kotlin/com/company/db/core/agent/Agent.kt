@@ -16,3 +16,4 @@ class Agent(
         var createDate: Date,
         var isDeleted: Boolean
 ): Entity
+// todo проставить комментарии над переменными - чтобы потом всё было также понятно

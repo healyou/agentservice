@@ -8,7 +8,8 @@ import org.junit.Test
 
 /**
  * Тестирование функциональности класса MessageType
- *
+ *      Здесь нет привязки классов к базе данных
+ *      Проверяется только работа самого класса
  * @author Nikita Gorodilov
  */
 class MessageTypeTest : Assert() {
