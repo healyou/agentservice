@@ -101,7 +101,7 @@ class MessageTest : Assert() {
     }
 
     companion object {
-        /* id для следующего агента */
+        /* id для создаваемого объекта */
         private var _id = 1L
         private var nextId: Long = _id
             get() = _id++

@@ -2,6 +2,7 @@ package com.company.db.jdbc.message
 
 import com.company.db.core.message.Message
 import com.company.db.core.message.MessageService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 /**
@@ -12,28 +13,31 @@ import org.springframework.stereotype.Component
 @Component
 open class MessageServiceImpl : MessageService{
 
+    @Autowired
+    private lateinit var dao: MessageDao
+
     /* Создание сообщения */
     override fun create(message: Message): Long {
-        TODO("not implemented")
+        return dao.create(message)
     }
 
     /* Обновление сообщения */
     override fun update(message: Message): Long {
-        TODO("not implemented")
+        return dao.update(message)
     }
 
     /* Удаление сообщения */
     override fun delete(id: Long) {
-        TODO("not implemented")
+        dao.delete(id)
     }
 
     /* Получить все сообщения */
     override fun get(): List<Message> {
-        TODO("not implemented")
+        return dao.get()
     }
 
     /* Получить сообщение */
     override fun get(id: Long): Message {
-        TODO("not implemented")
+        return dao.get(id)
     }
 }

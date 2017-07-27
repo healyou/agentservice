@@ -52,6 +52,7 @@ class AgentServiceTest: AbstractServiceTest() {
         assertEquals(createDate.time, agent.createDate.time)
         assertEquals(isDeleted, agent.isDeleted)
     }
+    // todo тест получения всех агентов из бд
 
     @Test
     fun testUpdateAgent() {

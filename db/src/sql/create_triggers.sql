@@ -42,6 +42,7 @@ BEGIN
     message_goal_type_id=new.message_goal_type_id,
     message_type_id=new.message_type_id,
     viewed_date=new.viewed_date,
+    is_viewed=new.is_viewed,
     body_type_id=new.body_type_id,
     body=new.body
   WHERE id=NEW.id;
