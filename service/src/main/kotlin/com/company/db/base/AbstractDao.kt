@@ -19,12 +19,12 @@ abstract class AbstractDao {
     }
 
     // todo почему вызов через эту функцию даёт null, а вызов прямой вызов jdbcTemplate.queryForObject норм работает
-    protected fun <T: Entity> queryForObject(query: String, rowMapper: RowMapper<T>, vararg args: Any): T {
-        return jdbcTemplate.queryForObject(query, rowMapper, args)
-    }
-
-    // todo почему вызов через эту функцию даёт null, а вызов прямой вызов jdbcTemplate.update норм работает
-    protected fun update(query: String, vararg args: Any) {
-        jdbcTemplate.update(query, args)
-    }
+//    protected fun <T: Entity> queryForObject(query: String, rowMapper: RowMapper<T>, vararg args: Any): T {
+//        return jdbcTemplate.queryForObject(query, rowMapper, args)
+//    }
+//
+//    // todo почему вызов через эту функцию даёт null, а вызов прямой вызов jdbcTemplate.update норм работает
+//    protected fun update(query: String, vararg args: Any) {
+//        jdbcTemplate.update(query, args)
+//    }
 }

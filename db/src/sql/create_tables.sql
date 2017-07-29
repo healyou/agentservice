@@ -14,7 +14,7 @@ CREATE TABLE if not exists agent
 -- Таблицы агентов в системе
 (
         id             INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, -- Идентификатор
-        mas_id         TEXT               NOT NULL, -- Уникальный идентификатор агента в многоагентной системе
+        mas_id         TEXT               NOT NULL UNIQUE, -- Уникальный идентификатор агента в многоагентной системе
         name           TEXT               NOT NULL, -- Имя агента
         type_id        INTEGER            NOT NULL, -- Тип агента
         create_date    TEXT               NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f')), -- Дата создания(регистрации агента)

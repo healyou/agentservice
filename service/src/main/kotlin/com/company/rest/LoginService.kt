@@ -14,15 +14,28 @@ import javax.ws.rs.core.Response
 @Produces(MediaType.APPLICATION_JSON)
 interface LoginService {
 
+    // todo разобраться с tydy
+    // todo проверка уникальности mas_id в бд
+
+    @POST
+    @Path("/registration")
+    @Description(value = "Регистрация агента", target = DocTarget.METHOD)
+    @Throws(Exception::class)
+    fun registration(@FormParam("masId") masId: String?,
+                     @FormParam("name") name: String?,
+                     @FormParam("type") type: String?,
+                     @FormParam("password") password: String?): Response
+
     @POST
     @Path("/login")
-    @Description(value = "Авторизация пользователя", target = DocTarget.METHOD)
+    @Description(value = "Авторизация агента", target = DocTarget.METHOD)
     @Throws(Exception::class)
-    fun login(@FormParam("login") login: String, @FormParam("password") password: String): Response
+    fun login(@FormParam("masId") masId: String?,
+              @FormParam("password") password: String?): Response
 
     @GET
     @Path("/logout")
-    @Description(value = "Выход пользователя", target = DocTarget.METHOD)
+    @Description(value = "Выход агента", target = DocTarget.METHOD)
     @Throws(Exception::class)
     fun logout(): Response
 }

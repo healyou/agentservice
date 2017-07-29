@@ -5,6 +5,7 @@ import org.junit.Before
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.jdbc.UncategorizedSQLException
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -22,7 +23,7 @@ class AgentServiceTest: AbstractServiceTest() {
     private lateinit var typeService: AgentTypeService
 
     private var id: Long? = null
-    private val masId = "masId"
+    private val masId = UUID.randomUUID().toString()
     private val name = "name"
     private lateinit var type: AgentType
     private val createDate = Date(System.currentTimeMillis())
@@ -42,7 +43,7 @@ class AgentServiceTest: AbstractServiceTest() {
     }
 
     @Test
-    fun testGetCreateAgent() {
+    fun testGetCreateAgentById() {
         val agent = service.get(id!!)
 
         assertEquals(id, agent.id!!)
@@ -52,7 +53,46 @@ class AgentServiceTest: AbstractServiceTest() {
         assertEquals(createDate.time, agent.createDate.time)
         assertEquals(isDeleted, agent.isDeleted)
     }
-    // todo тест получения всех агентов из бд
+
+    @Test
+    fun testGetCreateAgentByMasId() {
+        val agent = service.getByMasId(masId)
+
+        assertEquals(id, agent.id!!)
+        assertEquals(masId, agent.masId)
+        assertEquals(name, agent.name)
+        assertEquals(type.code, agent.type.code)
+        assertEquals(createDate.time, agent.createDate.time)
+        assertEquals(isDeleted, agent.isDeleted)
+    }
+
+    @Test(expected = EmptyResultDataAccessException::class)
+    fun testErrorGetAgentByMasId() {
+        service.getByMasId(UUID.randomUUID().toString())
+    }
+
+    /* нельзя создать агента с одинаковым masId */
+    @Test(expected = UncategorizedSQLException::class)
+    fun testErrorCreateTwoAgentWithoutUniqueMasId() {
+        val uniqueMasId = "uniqueMasId"
+        service.create(Agent(
+                null,
+                uniqueMasId,
+                name,
+                type,
+                createDate,
+                isDeleted
+        ))
+        /* второго агента создать не должно */
+        service.create(Agent(
+                null,
+                uniqueMasId,
+                name,
+                type,
+                createDate,
+                isDeleted
+        ))
+    }
 
     @Test
     fun testUpdateAgent() {

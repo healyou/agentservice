@@ -58,7 +58,7 @@ class MessageRecipientTest : Assert() {
     private fun createTestAgent(): Agent {
         return Agent(
                 1L,
-                "masId",
+                UUID.randomUUID().toString(),
                 "name",
                 AgentType(
                         1L,

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession
 abstract class BaseServer {
 
     companion object {
-        val USER_LOGIN = "user_login"
+        val MAS_ID = "user_login"
     }
 
     protected val headerVersion: String
@@ -27,10 +27,13 @@ abstract class BaseServer {
             return request.getSession(true)
         }
 
-    protected val userLogin: String?
+    /**
+     * Уникальный идентификатор агента в сесии
+     */
+    protected val masId: String?
         get() {
             val session = httpSession
-            return session.getAttribute(USER_LOGIN) as String?
+            return session.getAttribute(MAS_ID) as String?
         }
 
     @Throws(NoSuchAlgorithmException::class)

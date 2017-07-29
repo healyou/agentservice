@@ -33,4 +33,8 @@ open class AgentServiceImpl: AgentService {
     override fun get(id: Long): Agent {
         return dao.get(id)
     }
+
+    override fun getByMasId(masId: String): Agent {
+        return dao.getByMasId(masId)
+    }
 }

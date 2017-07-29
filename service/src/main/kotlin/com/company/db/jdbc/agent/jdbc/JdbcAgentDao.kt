@@ -55,4 +55,9 @@ open class JdbcAgentDao: AbstractDao(), AgentDao {
         // todo исправить вызов на AbstractDao.queryForObject -> почему то не работал
         return jdbcTemplate.queryForObject("select * from agent_v where id = ?", AgentRowMapper(), id)
     }
+
+    override fun getByMasId(masId: String): Agent {
+        // todo исправить вызов на AbstractDao.queryForObject -> почему то не работал
+        return jdbcTemplate.queryForObject("select * from agent_v where mas_id = ?", AgentRowMapper(), masId)
+    }
 }

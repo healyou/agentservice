@@ -10,4 +10,5 @@ interface AgentService {
     fun delete(id: Long)
     fun get(): List<Agent>
     fun get(id: Long): Agent
+    fun getByMasId(masId: String): Agent
 }

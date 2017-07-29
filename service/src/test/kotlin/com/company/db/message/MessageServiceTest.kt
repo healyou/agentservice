@@ -260,7 +260,7 @@ class MessageServiceTest : AbstractServiceTest() {
     private fun createAgent(agentType: AgentType): Agent {
         val id = agentService.create(Agent(
                 null,
-                "masId",
+                UUID.randomUUID().toString(),
                 "name",
                 agentType,
                 Date(System.currentTimeMillis()),

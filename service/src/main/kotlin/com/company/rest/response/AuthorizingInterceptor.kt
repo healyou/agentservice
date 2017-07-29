@@ -16,12 +16,12 @@ class AuthorizingInterceptor : AbstractPhaseInterceptor<Message>(Phase.PRE_INVOK
     override fun handleMessage(message: Message) {
         val urlAsked = message["path_to_match_slash"] as String
         val isNeedAuth = !"/login".equals(urlAsked, ignoreCase = true) &&
-                !"/updateAPK".equals(urlAsked, ignoreCase = true)
+                !"/registration".equals(urlAsked, ignoreCase = true)
 
         if (isNeedAuth) {
             val request = message[AbstractHTTPDestination.HTTP_REQUEST] as HttpServletRequest
             val session = request.session
-            session.getAttribute(BaseServer.USER_LOGIN) ?: throw AccessDeniedException("Unauthorized")
+            session.getAttribute(BaseServer.MAS_ID) ?: throw AccessDeniedException("Unauthorized")
         }
     }
 }
