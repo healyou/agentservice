@@ -176,9 +176,10 @@ class MessageServiceTest : AbstractServiceTest() {
         val recipient = messageService.get(id!!).recipients[0]
 
         messageRecipientService.delete(recipient)
-        messageRecipientService.get(recipient.id!!)
+        messageRecipientService.getById(recipient.id!!)
     }
 
+    /* Тест удаления всех получателей сообщения*/
     @Test
     fun testMessageRecipientDeleteByMessage() {
         val message = messageService.get(id!!)
@@ -187,12 +188,25 @@ class MessageServiceTest : AbstractServiceTest() {
         assertEquals(0, messageRecipientService.get(message).size)
     }
 
+    /* Тест поиска получателей сообщения по id */
     @Test
     fun testGetMessageRecipientById() {
         val recipient = messageService.get(id!!).recipients[0]
 
-        assertNotNull(messageRecipientService.get(recipient.id!!))
-        assertEquals(recipient.recipient.id, messageRecipientService.get(recipient.id!!).recipient.id)
+        val searchRecipient = messageRecipientService.getById(recipient.id!!)
+        assertNotNull(searchRecipient)
+        assertEquals(recipient.id, searchRecipient.id)
+        assertEquals(recipient.recipient.id, searchRecipient.recipient.id)
+    }
+
+    /* Тест поиска получателя сообщения по id получателя*/
+    @Test
+    fun testGetMessageRecipientByRecipientId() {
+        val recipient = messageService.get(id!!).recipients[0]
+
+        val searchRecipients = messageRecipientService.getByRecipientId(recipient.recipient.id!!)
+        assertNotNull(searchRecipients)
+        assertTrue { searchRecipients.isNotEmpty() }
     }
 
     @Test
@@ -253,7 +267,7 @@ class MessageServiceTest : AbstractServiceTest() {
                         null
                 )
         )
-        return messageRecipientService.get(id)
+        return messageRecipientService.getById(id)
     }
 
     /* создание агента */

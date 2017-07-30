@@ -59,7 +59,7 @@ class LoginServiceImpl: BaseServer(), LoginService {
 
             return ResponseCreator.success(headerVersion, agentService.get(id))
         } catch (e: Exception) {
-            return error("Ошибка " + e)
+            return error("Ошибка регистрации агента")
         }
     }
 
@@ -73,7 +73,7 @@ class LoginServiceImpl: BaseServer(), LoginService {
     override fun login(masId: String?, password: String?): Response {
         /* Проверка параметров*/
         if (Utils.isNull(masId, password)) {
-            return error("параметр имеет значение null")
+            return error("Параметр имеет значение null")
         }
 
         /* Авторизация агента */
@@ -104,7 +104,10 @@ class LoginServiceImpl: BaseServer(), LoginService {
     @Throws(Exception::class)
     override fun logout(): Response {
         httpSession.invalidate()
-        return ResponseCreator.success(headerVersion)
+
+        val test = arrayListOf<Long>(1, 2, 3 , 4, 5)
+
+        return ResponseCreator.success(headerVersion, test)
     }
 
     private fun error(message: String): Response {

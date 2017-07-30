@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
  * @author Nikita Gorodilov
  */
 @Component
-private open class MessageRecipientServiceImpl :MessageRecipientService  {
+private open class MessageRecipientServiceImpl : MessageRecipientService  {
 
     @Autowired
     private lateinit var dao: MessageRecipientDao
@@ -25,10 +25,17 @@ private open class MessageRecipientServiceImpl :MessageRecipientService  {
     }
 
     /**
-     * Получение получателя сообщения
+     * Получение получателя сообщения по id
      */
-    override fun get(id: Long): MessageRecipient {
-        return dao.get(id)
+    override fun getById(id: Long): MessageRecipient {
+        return dao.getById(id)
+    }
+
+    /**
+     * Получение получателя сообщения по id получателя
+     */
+    override fun getByRecipientId(recipientId: Long): List<MessageRecipient> {
+        return dao.getByRecipientId(recipientId)
     }
 
     /**

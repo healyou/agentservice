@@ -15,7 +15,6 @@ import javax.ws.rs.core.Response
 interface LoginService {
 
     // todo разобраться с tydy
-    // todo проверка уникальности mas_id в бд
 
     @POST
     @Path("/registration")

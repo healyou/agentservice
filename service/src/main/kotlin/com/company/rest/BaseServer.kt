@@ -30,7 +30,7 @@ abstract class BaseServer {
     /**
      * Уникальный идентификатор агента в сесии
      */
-    protected val masId: String?
+    protected val currentAgentMasId: String?
         get() {
             val session = httpSession
             return session.getAttribute(MAS_ID) as String?

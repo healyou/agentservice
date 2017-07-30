@@ -17,8 +17,20 @@ open class JdbcMessageRecipientsDao: AbstractDao(), MessageRecipientDao {
         return jdbcTemplate.query("select * from message_recipient_v where message_id = ?", MessageRecipientRowMapper(), message.id!!)
     }
 
-    override fun get(id: Long): MessageRecipient {
-        return jdbcTemplate.queryForObject("select * from message_recipient_v where id = ?", MessageRecipientRowMapper(), id)
+    override fun getById(id: Long): MessageRecipient {
+        return jdbcTemplate.queryForObject(
+                "select * from message_recipient_v where id = ?",
+                MessageRecipientRowMapper(),
+                id
+        )
+    }
+
+    override fun getByRecipientId(recipientId: Long): List<MessageRecipient> {
+        return jdbcTemplate.query(
+                "select * from message_recipient_v where recipient_id = ?",
+                MessageRecipientRowMapper(),
+                recipientId
+        )
     }
 
     override fun create(messageId: Long, messageRecipient: MessageRecipient): Long {

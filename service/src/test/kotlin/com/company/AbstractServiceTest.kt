@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional
  * @author Nikita Gorodilov
  */
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner::class)
-@ContextConfiguration("classpath:beans.xml")
+@ContextConfiguration("classpath:testBeans.xml")
 @Transactional("transactionManager")
 abstract class AbstractServiceTest:  AbstractTransactionalJUnit4SpringContextTests()
