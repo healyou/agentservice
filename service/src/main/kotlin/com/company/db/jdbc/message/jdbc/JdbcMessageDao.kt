@@ -6,8 +6,10 @@ import com.company.db.core.agent.Agent
 import com.company.db.core.message.Message
 import com.company.db.core.message.MessageRecipient
 import com.company.db.core.message.MessageRecipientService
+import com.company.db.core.sc.MessageSC
 import com.company.db.jdbc.agent.jdbc.AgentRowMapper
 import com.company.db.jdbc.message.MessageDao
+import com.company.rest.Utils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -76,10 +78,14 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         jdbcTemplate.update("delete from message_v where id = ?;", id)
     }
 
-    override fun get(): List<Message> {
-        val messages = query("select * from message_v", MessageRowMapper())
+    override fun get(sc: MessageSC): List<Message> {
+        val sql = StringBuilder("select * from message_v ")
 
-        // получаем получателей сообщения
+        /* Конфигурация поискового запроса */
+        applyCondition(sql, sc)
+        /* сообщения */
+        val messages = query(sql.toString(), MessageRowMapper())
+        /* получаем получателей сообщения */
         messages.forEach { it.recipients = recipientService.get(it) }
 
         return messages
@@ -94,44 +100,25 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
 
         // получаем получателей сообщения
         message.recipients = recipientService.get(message)
-        //message.recipients = getRecipitients(message.id!!)
 
         return message
     }
 
-    /*
-     * Работа с recipients
-     */
-
-    /**
-     * Удаление всех получателей сообщения
-     */
-    private fun deleteRecipients(messageId: Long) {
-        jdbcTemplate.update("delete from message_recipient where message_id = ?", messageId)
-    }
-
-    /**
-     * Сохранение всех получателей сообщения
-     */
-    private fun createRecipients(messageId: Long, recipients: List<Agent>) {
-        recipients.forEach {
-            jdbcTemplate.update(
-                    "insert into message_recipient (message_id, recipient_id) values (?, ?)",
-                    messageId,
-                    it.id!!
-            )
+    /* Делаем поисковых запрос */
+    private fun applyCondition(sql: StringBuilder, sc: MessageSC) {
+        // TODO доделать
+        if (!Utils.isNull(sc.isViewed)) {
+            sql.append("where ")
         }
-    }
-
-    /**
-     * Получение всех получателей сообщения
-     */
-    private fun getRecipitients(messageId: Long): List<Agent> {
-        return jdbcTemplate.query("SELECT * from agent_v a\n" +
-                "  LEFT JOIN message_recipient mr on a.id = mr.recipient_id\n" +
-                "  where mr.message_id = ?",
-                AgentRowMapper(),
-                messageId
-        )
+        if (sc.isViewed != null) {
+            var nullQuery = ""
+            if (sc.isViewed!!) {
+                nullQuery = "is not null"
+            }
+            else {
+                nullQuery = "in null"
+            }
+            sql.append(" exists (select 1 from message_recipient_v mrv where mrv.message_id = message_v.id and mrv.viewed_date $nullQuery) ")
+        }
     }
 }

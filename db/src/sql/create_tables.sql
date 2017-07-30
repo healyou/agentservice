@@ -80,7 +80,7 @@ CREATE TABLE if not exists message_recipient
         id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, -- Идентификатор
         message_id    INTEGER                     NOT NULL, -- Сообщение
         recipient_id  INTEGER                     NOT NULL, -- Получатель
-        viewed_date   TEXT                        NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f')), -- Дата просмотра пользователем
+        viewed_date   TEXT                                , -- Дата просмотра пользователем
         FOREIGN KEY(message_id) REFERENCES message(id),
         FOREIGN KEY(recipient_id) REFERENCES agent(id)
 );

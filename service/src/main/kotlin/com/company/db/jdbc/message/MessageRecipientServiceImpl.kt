@@ -38,6 +38,10 @@ private open class MessageRecipientServiceImpl : MessageRecipientService  {
         return dao.getByRecipientId(recipientId)
     }
 
+    override fun update(messageRecipient: MessageRecipient) {
+        dao.update(messageRecipient)
+    }
+
     /**
      * Создание получателя сообщения
      */

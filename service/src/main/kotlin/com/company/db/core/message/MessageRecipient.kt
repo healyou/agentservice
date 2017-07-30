@@ -16,4 +16,9 @@ class MessageRecipient (
         var recipient: Agent,
         /* Дата просмотра пользователем */
         var viewedDate: Date?
-): Entity
+): Entity {
+
+    /* Просмотрено ли сообщение */
+    val isViewed
+        get() = viewedDate != null
+}

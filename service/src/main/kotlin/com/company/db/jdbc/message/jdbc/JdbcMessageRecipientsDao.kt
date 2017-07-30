@@ -1,6 +1,7 @@
 package com.company.db.jdbc.message.jdbc
 
 import com.company.db.base.AbstractDao
+import com.company.db.base.toSqlite
 import com.company.db.core.message.Message
 import com.company.db.core.message.MessageRecipient
 import com.company.db.jdbc.message.MessageRecipientDao
@@ -30,6 +31,17 @@ open class JdbcMessageRecipientsDao: AbstractDao(), MessageRecipientDao {
                 "select * from message_recipient_v where recipient_id = ?",
                 MessageRecipientRowMapper(),
                 recipientId
+        )
+    }
+
+    override fun update(messageRecipient: MessageRecipient) {
+        // todo надо ли вообще менять(текст ниже)? -> пока вроде нет
+        /* Сообщение, которому принадлежит messageRecipient не поменять */
+        jdbcTemplate.update(
+                "update message_recipient set recipient_id = ?, viewed_date = ? where message_recipient.id = ?",
+                messageRecipient.recipient.id!!,
+                messageRecipient.viewedDate?.toSqlite(),
+                messageRecipient.id!!
         )
     }
 

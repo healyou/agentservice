@@ -17,7 +17,7 @@ class MessageRecipientRowMapper : AbstractRowMapper<MessageRecipient>() {
         return MessageRecipient(
                 getLong(rs, "id"),
                 mapRecipient(rs),
-                getDate(rs, "viewed_date")
+                getNullDate(rs, "viewed_date")
         )
     }
 

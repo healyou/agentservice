@@ -1,6 +1,7 @@
 package com.company.db.jdbc.message
 
 import com.company.db.core.message.Message
+import com.company.db.core.sc.MessageSC
 
 /**
  * @author Nikita Gorodilov
@@ -13,7 +14,7 @@ interface MessageDao {
 
     fun delete(id: Long)
 
-    fun get(): List<Message>
+    fun get(sc: MessageSC): List<Message>
 
     fun get(id: Long): Message
 }

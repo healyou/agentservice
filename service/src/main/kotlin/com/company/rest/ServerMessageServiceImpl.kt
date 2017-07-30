@@ -1,9 +1,9 @@
 package com.company.rest
 
 import com.company.db.base.Codable
-import com.company.db.core.agent.Agent
 import com.company.db.core.agent.AgentService
 import com.company.db.core.message.*
+import com.company.db.core.sc.MessageSC
 import com.company.rest.exceptions.AgentError
 import com.company.rest.exceptions.Error
 import com.company.rest.response.ResponseCreator
@@ -93,6 +93,35 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
             /* Ошибка возникнет, если не будут найдены в бд необходимые параметры типов данных */
             return error("Ошибка отправки сообщения")
         }
+    }
+
+    /**
+     * Получения сообщений авторизованного агента
+     *      На входе параметры для поиска по бж
+     *      Все параметры не обязательные
+     *
+     * @param goalType цель сообщения
+     * @param type тип цель сообщения
+     * @param bodyType тип тела сообщения
+     * @param senderId отправитель сообщения
+     * @param isViewed просмотрено ли
+     * @param sinceViewedDate с даты просмотра
+     * @param sinceCreatedDate с даты создания
+     */
+    override fun getMessages(goalType: String?,
+                             type: String?,
+                             bodyType: String?,
+                             senderId: Long?,
+                             isViewed: Boolean?,
+                             sinceViewedDate: Date?,
+                             sinceCreatedDate: Date?): Response {
+        /* Поисковые данные */
+        val messageSC = MessageSC()
+        messageSC.isViewed = isViewed
+
+        // todo сделать для остальных данных sc + тесты
+        // установить сообщения, как прочитанные - сделать функцию Прочитать сообщения - она пусть всё сделает
+        return ResponseCreator.success(headerVersion, messageService.get(messageSC))
     }
 
     fun error(message: String): Response {

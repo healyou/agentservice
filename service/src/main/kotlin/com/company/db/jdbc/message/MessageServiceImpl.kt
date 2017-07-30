@@ -2,6 +2,7 @@ package com.company.db.jdbc.message
 
 import com.company.db.core.message.Message
 import com.company.db.core.message.MessageService
+import com.company.db.core.sc.MessageSC
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -33,9 +34,9 @@ open class MessageServiceImpl : MessageService{
         dao.delete(id)
     }
 
-    /* Получить все сообщения */
-    override fun get(): List<Message> {
-        return dao.get()
+    /* Получить все сообщения с фильтром */
+    override fun get(sc: MessageSC): List<Message> {
+        return dao.get(sc)
     }
 
     /* Получить сообщение */

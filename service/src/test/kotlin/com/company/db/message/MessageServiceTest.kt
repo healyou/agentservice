@@ -6,14 +6,13 @@ import com.company.db.core.agent.AgentService
 import com.company.db.core.agent.AgentType
 import com.company.db.core.agent.AgentTypeService
 import com.company.db.core.message.*
+import com.company.db.core.sc.MessageSC
 import org.junit.Before
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.EmptyResultDataAccessException
 import java.util.*
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 /**
  * Тестирование функциональности сервиса работы с Message
@@ -98,6 +97,33 @@ class MessageServiceTest : AbstractServiceTest() {
         assertNotNull(message.createDate)
     }
 
+    /* Тест получения просмотренных сообщений */
+    @Test
+    fun testGetIsViewedMessages() {
+        /* Сообщение */
+        val message = messageService.get(id!!)
+        /* Получатель сообщения */
+        val agentType = agentTypeService.get(AgentType.Code.WORKER)
+        val messageRecipient = createMessageRecipient(message, agentType)
+        /* Указываем, что получатель просмотрел сообщение */
+        messageRecipient.viewedDate = Date(System.currentTimeMillis())
+        messageRecipientService.update(messageRecipient)
+
+        /* Получаем просмотренные сообщения */
+        val messageSC = MessageSC()
+        messageSC.isViewed = true
+        val messages = messageService.get(messageSC)
+
+        /* В списке просмотренных сообщений должно быть сообщение нашего агента - список не пуст */
+        assertTrue {
+            messages.filter { itMessage ->
+                itMessage.recipients.filter {
+                    it.isViewed && it.recipient.id == messageRecipient.recipient.id
+                }.isNotEmpty()
+            }.isNotEmpty()
+        }
+    }
+
     /* Тест обновления сообщения в бд */
     @Test
     fun testUpdateMessage() {
@@ -166,7 +192,40 @@ class MessageServiceTest : AbstractServiceTest() {
         message.recipients.forEach {
             assertNotNull(it.id)
             assertNotNull(it.recipient)
-            assertNotNull(it.viewedDate)
+            assertNull(it.viewedDate)
+        }
+    }
+
+    /* Проверка обновления данных MessageRecipient */
+    @Test
+    fun testMessageRecipientUpdateData() {
+        /* Создание объекта */
+        val message = messageService.get(id!!)
+        val agentType = agentTypeService.get(AgentType.Code.WORKER)
+        val messageRecipient = createMessageRecipient(message, agentType)
+
+        /* Начальные параметры */
+        val oldId = messageRecipient.id!!
+        val oldRecipient = messageRecipient.recipient
+        val oldViewedDate = messageRecipient.viewedDate
+
+        /* Новые параметры */
+        val newRecipient = createAgent(agentType)
+        val newViewedDate = Date(System.currentTimeMillis())
+
+        /* Обновление */
+        messageRecipient.recipient = newRecipient
+        messageRecipient.viewedDate = newViewedDate
+        messageRecipientService.update(messageRecipient)
+
+        /* Проверка обновления данных в бд */
+        val updateMessageRecipient = messageRecipientService.getById(messageRecipient.id!!)
+        assertNotNull(updateMessageRecipient)
+        assertEquals(oldId, updateMessageRecipient.id)
+        assertNotEquals(oldRecipient.id!!, updateMessageRecipient.recipient.id!!)
+        assertEquals(newViewedDate, updateMessageRecipient.viewedDate)
+        assertTrue {
+            updateMessageRecipient.isViewed
         }
     }
 
