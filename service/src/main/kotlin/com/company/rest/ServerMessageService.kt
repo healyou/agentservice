@@ -33,5 +33,7 @@ interface ServerMessageService {
                     @FormParam("type") type: String?,
                     @FormParam("bodyType") bodyType: String?,
                     @FormParam("senderId") senderId: Long?,
-                    @FormParam("isViewed") isViewed: Boolean?): Response
+                    @FormParam("isViewed") isViewed: Boolean?,
+                    @FormParam("sinceCreatedDate") sinceCreatedDate: Date?,
+                    @FormParam("sinceViewedDate") sinceViewedDate: Date?): Response
 }

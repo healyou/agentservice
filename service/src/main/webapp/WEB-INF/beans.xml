@@ -35,6 +35,7 @@
 
     <bean id="customExceptionMapper" class="com.company.rest.exceptions.CustomExceptionMapper"/>
     <bean id="securityInterceptor" class="com.company.rest.response.AuthorizingInterceptor"/>
+    <bean id="dateParameterConverterProvider" class="com.company.rest.providers.DateParameterConverterProvider"/>
 
     <bean id="jacksonMapper" class="com.fasterxml.jackson.databind.ObjectMapper">
         <property name="dateFormat">
@@ -54,6 +55,7 @@
         <jaxrs:providers>
             <bean id="jjProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
             <ref bean="customExceptionMapper"/>
+            <ref bean="dateParameterConverterProvider"/>
         </jaxrs:providers>
     </jaxrs:server>
 
@@ -67,6 +69,7 @@
         <jaxrs:providers>
             <bean id="jjProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
             <ref bean="customExceptionMapper"/>
+            <ref bean="dateParameterConverterProvider"/>
         </jaxrs:providers>
     </jaxrs:server>
 </beans>

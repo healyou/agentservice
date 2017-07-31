@@ -48,9 +48,10 @@ open class JdbcMessageRecipientsDao: AbstractDao(), MessageRecipientDao {
     override fun create(messageId: Long, messageRecipient: MessageRecipient): Long {
         /* todo почему то не работает метод в AbstractDao */
         jdbcTemplate.update(
-                "insert into message_recipient (message_id, recipient_id) values (?, ?)",
+                "insert into message_recipient (message_id, recipient_id, viewed_date) values (?, ?, ?)",
                 messageId,
-                messageRecipient.recipient.id!!
+                messageRecipient.recipient.id!!,
+                messageRecipient.viewedDate?.toSqlite()
         )
 
         /* id последней введённой записи */

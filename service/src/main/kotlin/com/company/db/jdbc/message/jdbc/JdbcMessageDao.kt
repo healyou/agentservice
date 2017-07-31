@@ -64,7 +64,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         message.recipients.forEach {
             recipientService.create(
                     message.id!!,
-                    MessageRecipient(null, it.recipient, null)
+                    MessageRecipient(null, it.recipient, it.viewedDate)
             )
         }
         //deleteRecipients(message.id!!)
@@ -108,9 +108,18 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
     private fun applyCondition(sql: StringBuilder, sc: MessageSC) {
         val addSqlList = arrayListOf<String>()
 
-        // TODO доделать
+        // TODO -> QueryBuilder
         /* параметры запроса */
-        if (Utils.isOneNotNull(sc.isViewed, sc.type, sc.goalType, sc.senderId, sc.bodyType)) {
+        if (Utils.isOneNotNull(
+                sc.isViewed,
+                sc.type,
+                sc.goalType,
+                sc.senderId,
+                sc.bodyType,
+                sc.sinceCreatedDate,
+                sc.sinceViewedDate,
+                sc.recipientAgentId
+        )) {
             sql.append("where ")
         }
         if (sc.isViewed != null) {
@@ -136,8 +145,17 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         if (sc.type != null) {
             addSqlList.add(" message_type_code = '${sc.type}'")
         }
+        if (sc.sinceCreatedDate != null) {
+            addSqlList.add(" create_date >= '${sc.sinceCreatedDate!!.toSqlite()}'")
+        }
+        if (sc.sinceViewedDate != null) {
+            addSqlList.add(" exists (select 1 from message_recipient_v mrv where mrv.message_id = message_v.id and mrv.viewed_date >= '${sc.sinceViewedDate!!.toSqlite()}') ")
+        }
+        if (sc.recipientAgentId != null) {
+            addSqlList.add(" exists (select 1 from message_recipient_v mrv where mrv.message_id = message_v.id and mrv.recipient_id = ${sc.recipientAgentId}) ")
+        }
 
-        /* заключительный запрос */
+        /* объединяем условия запроса */
         for (i in addSqlList.indices) {
             sql.append(addSqlList[i])
             if (i != addSqlList.size - 1) {

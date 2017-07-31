@@ -191,6 +191,80 @@ class MessageServiceTest : AbstractServiceTest() {
         }
     }
 
+    /* Тест поиска сообщений по дате создания */
+    @Test
+    fun testGetMessagesBySinceCreatedDate() {
+        /* Получаем сообщения */
+        val messageSC = MessageSC()
+        /* Берём -5 часов. тк дата в sqlite почему то ошибается на n часов*/
+        val time = 1000 * 60 * 60 * 5 // 5 часов
+        messageSC.sinceCreatedDate = Date(System.currentTimeMillis() - time)
+
+        /* создание сообщения с позднее даты messageSC.sinceCreatedDate */
+        createMessage()
+        val messages = messageService.get(messageSC)
+
+        /* В списке просмотренных сообщений должны быть все сообщение с датой больше messageSC.sinceCreatedDate */
+        assertTrue {
+            messages.filter { itMessage ->
+                itMessage.createDate < messageSC.sinceCreatedDate
+
+            }.isEmpty() && !messages.isEmpty()
+        }
+    }
+
+    /* Тест поиска сообщений по дате просмотра */
+    @Test
+    fun testGetMessagesBySinceViewedDate() {
+        /* Получаем сообщения */
+        val messageSC = MessageSC()
+        messageSC.sinceViewedDate = createDate
+
+        /* Установка даты просмотра */
+        val message = messageService.get(id!!)
+        message.recipients.forEach {
+            it.viewedDate = createDate
+        }
+        messageService.update(message)
+
+        /* Получение сообщений*/
+        val messages = messageService.get(messageSC)
+
+        /* В списке просмотренных сообщений должны быть сообщения, которые просмотрел пользователь */
+        assertTrue {
+            !messages.filter { itMessage ->
+                !itMessage.recipients.filter {
+                    it.isViewed
+
+                }.isEmpty()
+
+            }.isEmpty()
+        }
+    }
+
+    /* Тест поиска сообщений по получателю */
+    @Test
+    fun testGetMessagesByRecipientId() {
+        /* Сообщение */
+        val message = messageService.get(id!!)
+
+        /* Получаем сообщения */
+        val messageSC = MessageSC()
+        messageSC.recipientAgentId = message.recipients[0].recipient.id
+        val messages = messageService.get(messageSC)
+
+        /* В списке просмотренных сообщений должны быть сообщения указанного пользователя */
+        assertTrue {
+            !messages.filter { itMessage ->
+                !itMessage.recipients.filter {
+                    it.recipient.id == messageSC.recipientAgentId
+
+                }.isEmpty()
+
+            }.isEmpty()
+        }
+    }
+
     /* Тест обновления сообщения в бд */
     @Test
     fun testUpdateMessage() {
