@@ -124,6 +124,73 @@ class MessageServiceTest : AbstractServiceTest() {
         }
     }
 
+    /* Тест поиска сообщений по id отправителя */
+    @Test
+    fun testGetMessagesBySenderId() {
+        /* Исходное сообщение */
+        val message = messageService.get(id!!)
+
+        /* Получаем сообщения */
+        val messageSC = MessageSC()
+        messageSC.senderId = message.sender.id
+        val messages = messageService.get(messageSC)
+
+        /* В списке просмотренных сообщений должны быть все сообщение нашего агента */
+        assertTrue {
+            messages.filter { itMessage ->
+                itMessage.sender.id!! != message.sender.id!!
+            }.isEmpty()
+        }
+    }
+
+    /* Тест поиска сообщений по типу тела сообщения */
+    @Test
+    fun testGetMessagesByBodyType() {
+        /* Получаем сообщения */
+        val messageSC = MessageSC()
+        messageSC.bodyType = MessageBodyType.Code.JSON.code
+        val messages = messageService.get(messageSC)
+
+        /* В списке просмотренных сообщений должны быть все сообщение типа MessageBodyType.Code.JSON.code */
+        assertTrue {
+            messages.filter { itMessage ->
+                itMessage.bodyType.code.code != MessageBodyType.Code.JSON.code
+            }.isEmpty()
+        }
+    }
+
+    /* Тест поиска сообщений по цели сообщения */
+    @Test
+    fun testGetMessagesByGoalType() {
+        /* Получаем сообщения */
+        val messageSC = MessageSC()
+        messageSC.goalType = MessageGoalType.Code.TASK_DECISION.code
+        val messages = messageService.get(messageSC)
+
+        /* В списке просмотренных сообщений должны быть все сообщение типа MessageGoalType.Code.TASK_DECISION.code */
+        assertTrue {
+            messages.filter { itMessage ->
+                itMessage.goalType.code.code != MessageGoalType.Code.TASK_DECISION.code
+            }.isEmpty()
+        }
+    }
+
+    /* Тест поиска сообщений по типу цели сообщения */
+    @Test
+    fun testGetMessagesByType() {
+        /* Получаем сообщения */
+        val messageSC = MessageSC()
+        messageSC.type = MessageType.Code.SEARCH_SOLUTION.code
+        val messages = messageService.get(messageSC)
+
+        /* В списке просмотренных сообщений должны быть все сообщение типа MessageType.Code.SEARCH_SOLUTION.code */
+        assertTrue {
+            messages.filter { itMessage ->
+                itMessage.type.code.code != MessageType.Code.SEARCH_SOLUTION.code
+            }.isEmpty()
+        }
+    }
+
     /* Тест обновления сообщения в бд */
     @Test
     fun testUpdateMessage() {
@@ -183,6 +250,10 @@ class MessageServiceTest : AbstractServiceTest() {
         /* проверяем, что в бд нет сообщения -> EmptyResultDataAccessException*/
         messageService.get(id!!)
     }
+
+    /**
+     * MessageRecipient Test
+     */
 
     /* Проверка создания MessageRecipient */
     @Test

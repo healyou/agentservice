@@ -1,7 +1,5 @@
 package com.company.db.core.sc
 
-import java.util.*
-
 /**
  * Параметры для поиска сообщений в базе данных
  *

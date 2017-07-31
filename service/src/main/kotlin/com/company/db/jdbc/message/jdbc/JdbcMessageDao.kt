@@ -127,6 +127,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
             addSqlList.add(" sender_id = ${sc.senderId} ")
         }
         if (sc.bodyType != null) {
+            // todo при поиске по коду надо приводить всё к одному регистру(так будет удобнее)
             addSqlList.add(" message_body_type_code = '${sc.bodyType}'")
         }
         if (sc.goalType != null) {
@@ -136,7 +137,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
             addSqlList.add(" message_type_code = '${sc.type}'")
         }
 
-        /* заклюльный запрос */
+        /* заключительный запрос */
         for (i in addSqlList.indices) {
             sql.append(addSqlList[i])
             if (i != addSqlList.size - 1) {
