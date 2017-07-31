@@ -105,21 +105,26 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
      * @param bodyType тип тела сообщения
      * @param senderId отправитель сообщения
      * @param isViewed просмотрено ли
-     * @param sinceViewedDate с даты просмотра
-     * @param sinceCreatedDate с даты создания
      */
     override fun getMessages(goalType: String?,
                              type: String?,
                              bodyType: String?,
                              senderId: Long?,
-                             isViewed: Boolean?,
-                             sinceViewedDate: Date?,
-                             sinceCreatedDate: Date?): Response {
+                             isViewed: Boolean?): Response {
+        // todo нужны ли вообще ? ниже
+        /**
+         * sinceViewedDate с даты просмотра
+         * sinceCreatedDate с даты создания
+         */
         /* Поисковые данные */
         val messageSC = MessageSC()
         messageSC.isViewed = isViewed
+        messageSC.senderId = senderId
+        messageSC.goalType = goalType
+        messageSC.bodyType = bodyType
+        messageSC.type = type
 
-        // todo сделать для остальных данных sc + тесты
+        // todo сделать для sinceViewedDate - sinceCreatedDate sc + тесты
         // установить сообщения, как прочитанные - сделать функцию Прочитать сообщения - она пусть всё сделает
         return ResponseCreator.success(headerVersion, messageService.get(messageSC))
     }

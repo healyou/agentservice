@@ -106,8 +106,11 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
 
     /* Делаем поисковых запрос */
     private fun applyCondition(sql: StringBuilder, sc: MessageSC) {
+        val addSqlList = arrayListOf<String>()
+
         // TODO доделать
-        if (!Utils.isNull(sc.isViewed)) {
+        /* параметры запроса */
+        if (Utils.isOneNotNull(sc.isViewed, sc.type, sc.goalType, sc.senderId, sc.bodyType)) {
             sql.append("where ")
         }
         if (sc.isViewed != null) {
@@ -116,9 +119,29 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
                 nullQuery = "is not null"
             }
             else {
-                nullQuery = "in null"
+                nullQuery = "is null"
             }
-            sql.append(" exists (select 1 from message_recipient_v mrv where mrv.message_id = message_v.id and mrv.viewed_date $nullQuery) ")
+            addSqlList.add(" exists (select 1 from message_recipient_v mrv where mrv.message_id = message_v.id and mrv.viewed_date $nullQuery) ")
+        }
+        if (sc.senderId != null) {
+            addSqlList.add(" sender_id = ${sc.senderId} ")
+        }
+        if (sc.bodyType != null) {
+            addSqlList.add(" message_body_type_code = '${sc.bodyType}'")
+        }
+        if (sc.goalType != null) {
+            addSqlList.add(" message_goal_type_code = '${sc.goalType}'")
+        }
+        if (sc.type != null) {
+            addSqlList.add(" message_type_code = '${sc.type}'")
+        }
+
+        /* заклюльный запрос */
+        for (i in addSqlList.indices) {
+            sql.append(addSqlList[i])
+            if (i != addSqlList.size - 1) {
+                sql.append(" and ")
+            }
         }
     }
 }
