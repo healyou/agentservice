@@ -13,11 +13,11 @@ class MessageSC {
     var isViewed: Boolean? = null
     /* Отправетель(Agent) */
     var senderId: Long? = null
-    /* Тип тела сообщения(MessageBodyType.code) */
+    /* Тип тела сообщения(MessageBodyType.Code.code) */
     var bodyType: String? = null
-    /* Тип цели сообщения(MessageGoalType.code) */
+    /* Тип цели сообщения(MessageGoalType.Code.code) */
     var goalType: String? = null
-    /* Тип цели сообщения(MessageType.code) */
+    /* Тип цели сообщения(MessageType.Code.code) */
     var type: String? = null
     /* С даты создания сообщения и больше */
     var sinceCreatedDate: Date? = null

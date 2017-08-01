@@ -4,8 +4,6 @@ import com.company.db.base.Codable
 import com.company.db.core.agent.AgentService
 import com.company.db.core.message.*
 import com.company.db.core.sc.MessageSC
-import com.company.rest.exceptions.AgentError
-import com.company.rest.exceptions.Error
 import com.company.rest.response.ResponseCreator
 import org.springframework.beans.factory.annotation.Autowired
 import java.util.*
@@ -47,7 +45,7 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
                              body: String?): Response {
         /* Проверка параметров*/
         if (Utils.isNull(goalType, type, bodyType, recipientsIds, body)) {
-            return error("Параметр имеет значение null")
+            return errorMessageResponse("Параметр имеет значение null")
         }
 
         try {
@@ -91,7 +89,7 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
             return ResponseCreator.success(headerVersion, messageService.get(messageId))
         } catch (e: Exception) {
             /* Ошибка возникнет, если не будут найдены в бд необходимые параметры типов данных */
-            return error("Ошибка отправки сообщения")
+            return errorMessageResponse("Ошибка отправки сообщения")
         }
     }
 
@@ -115,27 +113,24 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
                              isViewed: Boolean?,
                              sinceCreatedDate: Date?,
                              sinceViewedDate: Date?): Response {
-        /* Поисковые данные */
-        val messageSC = MessageSC()
-        messageSC.isViewed = isViewed
-        messageSC.senderId = senderId
-        messageSC.goalType = goalType
-        messageSC.bodyType = bodyType
-        messageSC.type = type
-        messageSC.sinceCreatedDate = sinceCreatedDate
-        messageSC.sinceViewedDate = sinceViewedDate
-        messageSC.recipientAgentId = agentService.getByMasId(currentAgentMasId!!).id
+        try {
+            /* Поисковые данные */
+            val messageSC = MessageSC()
+            messageSC.isViewed = isViewed
+            messageSC.senderId = senderId
+            messageSC.goalType = goalType
+            messageSC.bodyType = bodyType
+            messageSC.type = type
+            messageSC.sinceCreatedDate = sinceCreatedDate
+            messageSC.sinceViewedDate = sinceViewedDate
+            messageSC.recipientAgentId = agentService.getByMasId(currentAgentMasId!!).id
 
-        // todo установить сообщения, как прочитанные - сделать функцию Прочитать сообщения - она пусть всё сделает
-        return ResponseCreator.success(headerVersion, messageService.get(messageSC))
-    }
+            // todo установить сообщения, как прочитанные - сделать функцию Прочитать сообщения - она пусть всё сделает
+            val messages = messageService.get(messageSC)
 
-    fun error(message: String): Response {
-        return ResponseCreator.error(
-                Error.SERVER_ERROR.code,
-                Error.SERVER_ERROR.code,
-                headerVersion,
-                AgentError(message)
-        )
+            return ResponseCreator.success(headerVersion, messages)
+        } catch (e: Exception) {
+            return errorMessageResponse("Ошибка поиска агентов")
+        }
     }
 }

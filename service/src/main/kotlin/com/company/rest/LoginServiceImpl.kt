@@ -42,7 +42,7 @@ class LoginServiceImpl: BaseServer(), LoginService {
     override fun registration(masId: String?, name: String?, type: String?, password: String?): Response {
         /* Проверка параметров*/
         if (Utils.isNull(masId, name, type, password) || password != TEST_PASSWORD) {
-            return error("Неверное значение параметров")
+            return errorMessageResponse("Неверное значение параметров")
         }
 
         /* Регистрация агента */
@@ -59,7 +59,7 @@ class LoginServiceImpl: BaseServer(), LoginService {
 
             return ResponseCreator.success(headerVersion, agentService.get(id))
         } catch (e: Exception) {
-            return error("Ошибка регистрации агента")
+            return errorMessageResponse("Ошибка регистрации агента")
         }
     }
 
@@ -73,7 +73,7 @@ class LoginServiceImpl: BaseServer(), LoginService {
     override fun login(masId: String?, password: String?): Response {
         /* Проверка параметров*/
         if (Utils.isNull(masId, password)) {
-            return error("Параметр имеет значение null")
+            return errorMessageResponse("Параметр имеет значение null")
         }
 
         /* Авторизация агента */
@@ -91,10 +91,10 @@ class LoginServiceImpl: BaseServer(), LoginService {
                 return ResponseCreator.success(headerVersion, agent)
             } catch (e: Exception) {
                 /* Ошибка будет, если не сможем найти агента по masId */
-                return error("Ошибка авторизации")
+                return errorMessageResponse("Ошибка авторизации")
             }
         } else {
-            return error("Ошибка авторизации")
+            return errorMessageResponse("Ошибка авторизации")
         }
     }
 
@@ -105,17 +105,6 @@ class LoginServiceImpl: BaseServer(), LoginService {
     override fun logout(): Response {
         httpSession.invalidate()
 
-        val test = arrayListOf<Long>(1, 2, 3 , 4, 5)
-
-        return ResponseCreator.success(headerVersion, test)
-    }
-
-    private fun error(message: String): Response {
-        return ResponseCreator.error(
-                Error.SERVER_ERROR.code,
-                Error.SERVER_ERROR.code,
-                headerVersion,
-                AgentError(message)
-        )
+        return ResponseCreator.success(headerVersion)
     }
 }

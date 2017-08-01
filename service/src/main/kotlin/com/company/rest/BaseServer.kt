@@ -1,5 +1,8 @@
 package com.company.rest
 
+import com.company.rest.exceptions.AgentError
+import com.company.rest.exceptions.Error
+import com.company.rest.response.ResponseCreator
 import org.apache.cxf.phase.PhaseInterceptorChain
 import org.apache.cxf.transport.http.AbstractHTTPDestination
 import java.math.BigInteger
@@ -7,6 +10,7 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
+import javax.ws.rs.core.Response
 
 /**
  * @author Nikita Gorodilov
@@ -48,5 +52,15 @@ abstract class BaseServer {
             hashtext = "0" + hashtext
         }
         return hashtext
+    }
+
+    /* Вывод сообщения с ошибкой */
+    protected fun errorMessageResponse(message: String): Response {
+        return ResponseCreator.error(
+                Error.SERVER_ERROR.code,
+                Error.SERVER_ERROR.code,
+                headerVersion,
+                AgentError(message)
+        )
     }
 }

@@ -1,6 +1,7 @@
 package com.company.db.core.agent
 
 import com.company.AbstractServiceTest
+import com.company.db.core.sc.AgentSC
 import org.junit.Before
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,6 +10,7 @@ import org.springframework.jdbc.UncategorizedSQLException
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 /**
  * Тестирование функциональности сервиса работы с Agent
@@ -64,6 +66,86 @@ class AgentServiceTest: AbstractServiceTest() {
         assertEquals(type.code, agent.type.code)
         assertEquals(createDate.time, agent.createDate.time)
         assertEquals(isDeleted, agent.isDeleted)
+    }
+
+    /* Получение агентов с типом AgentType.Code.WORKER */
+    @Test
+    fun testGetAgentsByTypeWorker() {
+        /* Cоздание агентов AgentType.Code.WORKER */
+        val agentTypeWorker = AgentType.Code.WORKER
+        val workerType = typeService.get(agentTypeWorker)
+        createTestAgent(workerType)
+        createTestAgent(workerType)
+
+        /* Получаем список агентов */
+        val sc = AgentSC()
+        sc.type = agentTypeWorker.code
+        val agents = service.get(sc)
+
+        /* Только агенты с типом AgentType.Code.WORKER */
+        assertTrue {
+            agents.filter {
+                it.type.code.code != sc.type
+            }.isEmpty() && !agents.isEmpty()
+        }
+    }
+
+    /* Получение агентов с типом AgentType.Code.SERVER */
+    @Test
+    fun testGetAgentsByTypeServer() {
+        /* Cоздание агентов AgentType.Code.SERVER */
+        val agentTypeServer = AgentType.Code.SERVER
+        val serverType = typeService.get(agentTypeServer)
+        createTestAgent(serverType)
+        createTestAgent(serverType)
+
+        /* Получаем список агентов */
+        val sc = AgentSC()
+        sc.type = agentTypeServer.code
+        val agents = service.get(sc)
+
+        /* Только агенты с типом AgentType.Code.SERVER */
+        assertTrue {
+            agents.filter {
+                it.type.code.code != sc.type
+            }.isEmpty() && !agents.isEmpty()
+        }
+    }
+
+    /* Получение всех удалённых и не удалённых агентов */
+    @Test
+    fun testGetIsDeletedAgents() {
+        /* Удаляем агента */
+        val serverType = typeService.get(AgentType.Code.SERVER)
+        val agent = createTestAgent(serverType)
+        agent.isDeleted = true
+        service.update(agent)
+
+        /* Не удалённые агенты */
+        createTestAgent(serverType)
+        createTestAgent(serverType)
+
+        val sc = AgentSC()
+
+        /* Получаем удалённых агентов */
+        sc.isDeleted = true
+        var agents = service.get(sc)
+        /* Только удалённые агенты */
+        assertTrue {
+            agents.filter {
+                it.isDeleted != sc.isDeleted
+            }.isEmpty() && !agents.isEmpty()
+        }
+
+        /* Получаем не удалённых агентов */
+        sc.isDeleted = false
+        agents = service.get(sc)
+        /* Только не удалённые агенты */
+        assertTrue {
+            agents.filter {
+                it.isDeleted != sc.isDeleted
+            }.isEmpty() && !agents.isEmpty()
+        }
     }
 
     @Test(expected = EmptyResultDataAccessException::class)
@@ -136,5 +218,17 @@ class AgentServiceTest: AbstractServiceTest() {
 
         /* проверяем, что в бд нет агента -> EmptyResultDataAccessException*/
         service.get(id!!)
+    }
+
+    private fun createTestAgent(type: AgentType): Agent {
+        val id = service.create(Agent(
+                null,
+                UUID.randomUUID().toString(),
+                "name",
+                type,
+                Date(System.currentTimeMillis()),
+                false
+        ))
+        return service.get(id)
     }
 }

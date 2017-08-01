@@ -2,6 +2,7 @@ package com.company.db.jdbc.agent
 
 import com.company.db.core.agent.Agent
 import com.company.db.core.agent.AgentService
+import com.company.db.core.sc.AgentSC
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -26,8 +27,8 @@ open class AgentServiceImpl: AgentService {
         dao.delete(id)
     }
 
-    override fun get(): List<Agent> {
-        return dao.get()
+    override fun get(agentSC: AgentSC): List<Agent> {
+        return dao.get(agentSC)
     }
 
     override fun get(id: Long): Agent {
