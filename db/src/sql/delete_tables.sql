@@ -17,3 +17,4 @@ drop table if exists message_goal_type;
 drop table if exists message_body_type;
 drop table if exists message;
 drop table if exists message_recipient;
+drop table if exists parameter;

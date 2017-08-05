@@ -17,3 +17,7 @@ INSERT INTO message_type (code, name, message_order, message_goal_type_id) VALUE
 ------------------ messageBodyType data ------------------
 INSERT INTO message_body_type (code, name) VALUES
     ('json', 'Тело сообщения формата Json');
+
+------------------ parameter data ------------------
+INSERT INTO parameter (key, value) VALUES
+    ('agent.service.password', 'psw');

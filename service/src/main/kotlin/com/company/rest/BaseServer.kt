@@ -57,8 +57,8 @@ abstract class BaseServer {
     /* Вывод сообщения с ошибкой */
     protected fun errorMessageResponse(message: String): Response {
         return ResponseCreator.error(
-                Error.SERVER_ERROR.code,
-                Error.SERVER_ERROR.code,
+                Error.FORBIDDEN.code,
+                Error.FORBIDDEN.code,
                 headerVersion,
                 AgentError(message)
         )
