@@ -2,6 +2,7 @@ package com.company.db.core.message
 
 import com.company.db.base.Entity
 import com.company.db.core.agent.Agent
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.util.*
 
 /**
@@ -20,5 +21,6 @@ class MessageRecipient (
 
     /* Просмотрено ли сообщение */
     val isViewed
+        @JsonIgnore
         get() = viewedDate != null
 }
