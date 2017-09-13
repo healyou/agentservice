@@ -5,6 +5,8 @@ import com.company.db.core.agent.AgentService
 import com.company.db.core.message.*
 import com.company.db.core.sc.MessageSC
 import com.company.rest.response.ResponseCreator
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import java.util.*
 import javax.ws.rs.core.Response
@@ -16,6 +18,8 @@ import javax.ws.rs.core.Response
  * @author Nikita Gorodilov
  */
 class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
+
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @Autowired
     lateinit var agentService: AgentService
@@ -43,6 +47,8 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
                              recipientsIds: List<Long>?,
                              bodyType: String?,
                              body: String?): Response {
+        log("Отправка сообщения")
+
         /* Проверка параметров*/
         if (Utils.isNull(goalType, type, bodyType, recipientsIds, body)) {
             return errorMessageResponse("Параметр имеет значение null")
@@ -113,6 +119,8 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
                              isViewed: Boolean?,
                              sinceCreatedDate: Date?,
                              sinceViewedDate: Date?): Response {
+        log("Получение списка сообщений")
+
         try {
             /* Поисковые данные */
             val messageSC = MessageSC()
@@ -132,5 +140,9 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
         } catch (e: Exception) {
             return errorMessageResponse("Ошибка поиска агентов")
         }
+    }
+
+    override fun getLogger(): Logger {
+        return logger
     }
 }

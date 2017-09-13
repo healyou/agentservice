@@ -8,9 +8,13 @@ import com.company.db.core.agent.AgentTypeService
 import com.company.rest.exceptions.AgentError
 import com.company.rest.exceptions.Error
 import com.company.rest.response.ResponseCreator
+import org.slf4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
 import java.util.*
 import javax.ws.rs.core.Response
+import org.slf4j.LoggerFactory
+
+
 
 /**
  * Вход агента в сервис
@@ -18,6 +22,8 @@ import javax.ws.rs.core.Response
  * @author Nikita Gorodilov
  */
 class LoginServiceImpl: BaseServer(), LoginService {
+
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     // todo как тестить работу сервиса?
 
@@ -40,6 +46,8 @@ class LoginServiceImpl: BaseServer(), LoginService {
      */
     @Throws(Exception::class)
     override fun registration(masId: String?, name: String?, type: String?, password: String?): Response {
+        log("Регистрация агента")
+
         /* Проверка параметров*/
         if (Utils.isNull(masId, name, type, password) || password != TEST_PASSWORD) {
             return errorMessageResponse("Неверное значение параметров")
@@ -71,6 +79,8 @@ class LoginServiceImpl: BaseServer(), LoginService {
      */
     @Throws(Exception::class)
     override fun login(masId: String?, password: String?): Response {
+        log("Вход агента")
+
         /* Проверка параметров*/
         if (Utils.isNull(masId, password)) {
             return errorMessageResponse("Параметр имеет значение null")
@@ -103,8 +113,13 @@ class LoginServiceImpl: BaseServer(), LoginService {
      */
     @Throws(Exception::class)
     override fun logout(): Response {
+        log("Выход агента")
         httpSession.invalidate()
 
         return ResponseCreator.success(headerVersion)
+    }
+
+    override fun getLogger(): Logger {
+        return logger
     }
 }
