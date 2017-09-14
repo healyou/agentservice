@@ -19,7 +19,6 @@
         <kotlin.version>1.1.4</kotlin.version>
         <junit.version>4.12</junit.version>
         <sqlite.version>3.19.3</sqlite.version>
-
         <versions-maven-plugin.version>2.0</versions-maven-plugin.version>
         <version.spring>4.3.10.RELEASE</version.spring>
         <quava.version>18.0</quava.version>
@@ -27,6 +26,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.jsoup>1.7.2</version.jsoup>
         <version.cxf>3.1.12</version.cxf>
+
+        <logback.version>1.1.3</logback.version>
+        <jcl.slf4j.version>1.7.12</jcl.slf4j.version>
     </properties>
 
     <repositories>
@@ -39,6 +41,20 @@
     </repositories>
 
     <dependencies>
+        <!-- 2. Bridge logging from JCL to SLF4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${jcl.slf4j.version}</version>
+        </dependency>
+
+        <!-- 3. logback -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
         <!-- spring test -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -90,6 +106,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${version.spring}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -217,6 +239,12 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
 
         <testResources>
             <testResource>

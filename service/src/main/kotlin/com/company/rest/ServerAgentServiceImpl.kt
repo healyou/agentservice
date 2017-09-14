@@ -3,6 +3,8 @@ package com.company.rest
 import com.company.db.core.agent.AgentService
 import com.company.db.core.sc.AgentSC
 import com.company.rest.response.ResponseCreator
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import javax.ws.rs.core.Response
 
@@ -14,6 +16,8 @@ import javax.ws.rs.core.Response
  */
 class ServerAgentServiceImpl: BaseServer(), ServerAgentService {
 
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     @Autowired
     private lateinit var agentService: AgentService
 
@@ -24,6 +28,8 @@ class ServerAgentServiceImpl: BaseServer(), ServerAgentService {
      * @param isDeleted удалён ли агента
      */
     override fun getAgents(type: String?, isDeleted: Boolean?): Response {
+        log("Получение списка агентов")
+
         return try {
             /* Параметры запроса */
             val sc = AgentSC()
@@ -45,6 +51,8 @@ class ServerAgentServiceImpl: BaseServer(), ServerAgentService {
      * Получить текущего агента
      */
     override fun getCurrentAgent(): Response {
+        log("Получение текущего агента")
+
         return try {
             val agent = agentService.getByMasId(currentAgentMasId!!)
 
@@ -52,5 +60,9 @@ class ServerAgentServiceImpl: BaseServer(), ServerAgentService {
         } catch (e: Exception) {
             errorMessageResponse("Не найден текущий агент")
         }
+    }
+
+    override fun getLogger(): Logger {
+        return logger
     }
 }

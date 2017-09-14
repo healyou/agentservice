@@ -1,6 +1,5 @@
 package com.company
 
-import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests
@@ -10,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional
 /**
  * @author Nikita Gorodilov
  */
-
 @RunWith(SpringJUnit4ClassRunner::class)
 @ContextConfiguration("classpath:testBeans.xml")
 @Transactional("transactionManager")
