@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response
 class ServerAgentServiceImpl: BaseServer(), ServerAgentService {
 
     @Autowired
-    lateinit var agentService: AgentService
+    private lateinit var agentService: AgentService
 
     /**
      * Получение списка агентов с параметрами, кроме текущего агента
@@ -24,7 +24,7 @@ class ServerAgentServiceImpl: BaseServer(), ServerAgentService {
      * @param isDeleted удалён ли агента
      */
     override fun getAgents(type: String?, isDeleted: Boolean?): Response {
-        try {
+        return try {
             /* Параметры запроса */
             val sc = AgentSC()
             sc.type = type
@@ -35,9 +35,9 @@ class ServerAgentServiceImpl: BaseServer(), ServerAgentService {
                 it.masId != currentAgentMasId
             }
 
-            return ResponseCreator.success(headerVersion, agents)
+            ResponseCreator.success(headerVersion, agents)
         } catch (e: Exception) {
-            return errorMessageResponse("Ошибка поиска агентов")
+            errorMessageResponse("Ошибка поиска агентов")
         }
     }
 
@@ -45,12 +45,12 @@ class ServerAgentServiceImpl: BaseServer(), ServerAgentService {
      * Получить текущего агента
      */
     override fun getCurrentAgent(): Response {
-        try {
+        return try {
             val agent = agentService.getByMasId(currentAgentMasId!!)
 
-            return ResponseCreator.success(headerVersion, agent)
+            ResponseCreator.success(headerVersion, agent)
         } catch (e: Exception) {
-            return errorMessageResponse("Не найден текущий агент")
+            errorMessageResponse("Не найден текущий агент")
         }
     }
 }

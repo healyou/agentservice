@@ -5,12 +5,12 @@ import com.company.db.core.agent.Agent
 import com.company.db.core.agent.AgentService
 import com.company.db.core.agent.AgentType
 import com.company.db.core.agent.AgentTypeService
-import com.company.rest.exceptions.AgentError
-import com.company.rest.exceptions.Error
 import com.company.rest.response.ResponseCreator
 import org.springframework.beans.factory.annotation.Autowired
 import java.util.*
 import javax.ws.rs.core.Response
+
+
 
 /**
  * Вход агента в сервис
@@ -22,10 +22,10 @@ class LoginServiceImpl: BaseServer(), LoginService {
     // todo как тестить работу сервиса?
 
     @Autowired
-    lateinit var agentService: AgentService
+    private lateinit var agentService: AgentService
 
     @Autowired
-    lateinit var agentTypeService: AgentTypeService
+    private lateinit var agentTypeService: AgentTypeService
 
     /* тестовый пароль для авторизации агентов */
     private val TEST_PASSWORD = "psw"
@@ -46,7 +46,7 @@ class LoginServiceImpl: BaseServer(), LoginService {
         }
 
         /* Регистрация агента */
-        try {
+        return try {
             val agentTypeCode = Codable.find(AgentType.Code::class.java, type!!)
             val id = agentService.create(Agent(
                     null,
@@ -57,9 +57,9 @@ class LoginServiceImpl: BaseServer(), LoginService {
                     false
             ))
 
-            return ResponseCreator.success(headerVersion, agentService.get(id))
+            ResponseCreator.success(headerVersion, agentService.get(id))
         } catch (e: Exception) {
-            return errorMessageResponse("Ошибка регистрации агента")
+            errorMessageResponse("Ошибка регистрации агента")
         }
     }
 
@@ -78,7 +78,7 @@ class LoginServiceImpl: BaseServer(), LoginService {
 
         /* Авторизация агента */
         if (password!! == TEST_PASSWORD) {
-            try {
+            return try {
                 val agent = agentService.getByMasId(masId!!)
 
                 /* закрываем сессию, если была */
@@ -88,10 +88,10 @@ class LoginServiceImpl: BaseServer(), LoginService {
                 session = httpSession
                 session.setAttribute(MAS_ID, masId)
 
-                return ResponseCreator.success(headerVersion, agent)
+                ResponseCreator.success(headerVersion, agent)
             } catch (e: Exception) {
                 /* Ошибка будет, если не сможем найти агента по masId */
-                return errorMessageResponse("Ошибка авторизации")
+                errorMessageResponse("Ошибка авторизации")
             }
         } else {
             return errorMessageResponse("Ошибка авторизации")

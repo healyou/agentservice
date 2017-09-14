@@ -18,15 +18,15 @@ import javax.ws.rs.core.Response
 class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
 
     @Autowired
-    lateinit var agentService: AgentService
+    private lateinit var agentService: AgentService
     @Autowired
-    lateinit var messageService: MessageService
+    private lateinit var messageService: MessageService
     @Autowired
-    lateinit var messageGoalTypeService: MessageGoalTypeService
+    private lateinit var messageGoalTypeService: MessageGoalTypeService
     @Autowired
-    lateinit var messageTypeService: MessageTypeService
+    private lateinit var messageTypeService: MessageTypeService
     @Autowired
-    lateinit var messageBodyTypeService: MessageBodyTypeService
+    private lateinit var messageBodyTypeService: MessageBodyTypeService
 
     /**
      * Отправка сообщения другим агентам
@@ -48,7 +48,7 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
             return errorMessageResponse("Параметр имеет значение null")
         }
 
-        try {
+        return try {
             /* Цель сообщения */
             val goalTypeCode = Codable.find(MessageGoalType.Code::class.java, goalType!!)
             val messageGoalType = messageGoalTypeService.get(goalTypeCode)
@@ -86,10 +86,10 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
                     body!!
             ))
 
-            return ResponseCreator.success(headerVersion, messageService.get(messageId))
+            ResponseCreator.success(headerVersion, messageService.get(messageId))
         } catch (e: Exception) {
             /* Ошибка возникнет, если не будут найдены в бд необходимые параметры типов данных */
-            return errorMessageResponse("Ошибка отправки сообщения")
+            errorMessageResponse("Ошибка отправки сообщения")
         }
     }
 
@@ -113,7 +113,7 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
                              isViewed: Boolean?,
                              sinceCreatedDate: Date?,
                              sinceViewedDate: Date?): Response {
-        try {
+        return try {
             /* Поисковые данные */
             val messageSC = MessageSC()
             messageSC.isViewed = isViewed
@@ -128,9 +128,9 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
             // todo установить сообщения, как прочитанные - сделать функцию Прочитать сообщения - она пусть всё сделает
             val messages = messageService.get(messageSC)
 
-            return ResponseCreator.success(headerVersion, messages)
+            ResponseCreator.success(headerVersion, messages)
         } catch (e: Exception) {
-            return errorMessageResponse("Ошибка поиска агентов")
+            errorMessageResponse("Ошибка поиска агентов")
         }
     }
 }
