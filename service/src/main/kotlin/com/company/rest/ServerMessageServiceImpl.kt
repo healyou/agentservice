@@ -142,7 +142,5 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
         }
     }
 
-    override fun getLogger(): Logger {
-        return logger
-    }
+    override fun getLogger(): Logger = logger
 }

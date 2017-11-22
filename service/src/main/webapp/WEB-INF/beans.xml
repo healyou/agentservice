@@ -33,6 +33,7 @@
     <bean id="loginService" class="com.company.rest.LoginServiceImpl"/>
     <bean id="messageService" class="com.company.rest.ServerMessageServiceImpl"/>
     <bean id="agentService" class="com.company.rest.ServerAgentServiceImpl"/>
+    <bean id="typeService" class="com.company.rest.ServerTypeServiceImpl"/>
 
     <bean id="customExceptionMapper" class="com.company.rest.exceptions.CustomExceptionMapper"/>
     <bean id="securityInterceptor" class="com.company.rest.response.AuthorizingInterceptor"/>
@@ -74,9 +75,23 @@
         </jaxrs:providers>
     </jaxrs:server>
 
-    <jaxrs:server id="agentServiceContainer" address="/agent">
+    <jaxrs:server id="agentRestContainer" address="/agent">
         <jaxrs:serviceBeans>
             <ref bean="agentService"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:inInterceptors>
+            <ref bean="securityInterceptor"/>
+        </jaxrs:inInterceptors>
+        <jaxrs:providers>
+            <bean id="jjProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+            <ref bean="customExceptionMapper"/>
+            <ref bean="dateParameterConverterProvider"/>
+        </jaxrs:providers>
+    </jaxrs:server>
+
+    <jaxrs:server id="typeRestContainer" address="/type">
+        <jaxrs:serviceBeans>
+            <ref bean="typeService"/>
         </jaxrs:serviceBeans>
         <jaxrs:inInterceptors>
             <ref bean="securityInterceptor"/>

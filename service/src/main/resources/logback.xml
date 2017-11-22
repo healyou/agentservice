@@ -59,5 +59,9 @@
         <appender-ref ref="SERVICE_FILE" />
         <appender-ref ref="STDOUT" />
     </logger>
+    <logger name="com.company.rest.ServerTypeServiceImpl" level="debug" additivity="false">
+        <appender-ref ref="SERVICE_FILE" />
+        <appender-ref ref="STDOUT" />
+    </logger>
 
 </configuration>
