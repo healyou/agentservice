@@ -18,6 +18,8 @@ class AgentType(
     /* Типы агентов */
     enum class Code(override val code: String): Codable<String> {
         WORKER("worker"),
-        SERVER("server");
+        SERVER("server"),
+        TEST_AGENT_TYPE_1("test_agent_type_1"),
+        TEST_AGENT_TYPE_2("test_agent_type_2");
     }
 }
