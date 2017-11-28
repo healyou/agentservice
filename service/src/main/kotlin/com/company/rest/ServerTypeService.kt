@@ -37,4 +37,6 @@ interface ServerTypeService {
     @Description(value = "Получение типов сообщений", target = DocTarget.METHOD)
     @Throws(Exception::class)
     fun getMessageTypes(@FormParam("goalType") goalType: String?): Response
+
+    // TODO - метод получения сразу всех MessageType
 }
