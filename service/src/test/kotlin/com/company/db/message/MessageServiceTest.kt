@@ -421,6 +421,101 @@ class MessageServiceTest : AbstractServiceTest() {
         assertEquals(message.recipients.size, messageRecipientService.get(message).size)
     }
 
+    /* Тест использования сообщений для всех агентов*/
+    @Test
+    fun testUseMessages() {
+        val messages = arrayListOf(
+                createMessageWithRecipients(),
+                createMessageWithRecipients(),
+                createMessageWithRecipients()
+        )
+        messageService.use(messages)
+
+        messages.forEach {
+            assertTrue(it.recipients.isNotEmpty())
+            messageService.get(it.id!!).recipients.forEach {
+                assertTrue(it.isViewed)
+            }
+        }
+    }
+
+    /* Тест использования сообщения для всех его агентов*/
+    @Test
+    fun testUseMessage() {
+        val message = createMessageWithRecipients()
+        messageService.use(message)
+
+        val updateMessage = messageService.get(message.id!!)
+        assertTrue(updateMessage.recipients.isNotEmpty())
+        messageService.get(updateMessage.id!!).recipients.forEach {
+            assertTrue(it.isViewed)
+        }
+    }
+
+    /**
+     * Тест использования сообщения конкректного агента
+     * Агент - 3 сообщения - используем их все и проверяем, что они заюзаны
+     */
+    @Test
+    fun testUseRecipientMessages() {
+        val recipient = createAgent(agentTypeService.get(AgentType.Code.WORKER))
+        val messages = arrayListOf(
+                createMessage(),
+                createMessage(),
+                createMessage()
+        )
+        messages.forEach {
+            it.recipients = arrayListOf(createMessageRecipient(it, recipient))
+            messageService.update(it)
+        }
+
+        messageService.use(recipient)
+
+        val sc = MessageSC()
+        sc.recipientAgentId = recipient.id!!
+        messageService.get(sc).forEach {
+            assertTrue(it.recipients.size == 1)
+            messageService.get(it.id!!).recipients.forEach {
+                assertTrue(it.isViewed)
+            }
+        }
+
+        sc.isViewed = false
+        assertTrue(messageService.get(sc).isEmpty())
+    }
+
+    /* Тест использования сообщений для конкректного агента */
+    @Test
+    fun testUseMessagesByRecipient() {
+        val r1_use = createAgent(agentTypeService.get(AgentType.Code.WORKER))
+        val r2 = createAgent(agentTypeService.get(AgentType.Code.WORKER))
+        val r3 = createAgent(agentTypeService.get(AgentType.Code.WORKER))
+
+        val messages = arrayListOf(createMessage(), createMessage(), createMessage())
+        messages.forEach {
+            it.recipients = arrayListOf(
+                    createMessageRecipient(it, r1_use),
+                    createMessageRecipient(it, r2),
+                    createMessageRecipient(it, r3)
+            )
+            messageService.update(it)
+        }
+
+        messageService.use(messages, r1_use)
+
+        messages.forEach {
+            val message = messageService.get(it.id!!)
+            assertTrue(message.recipients.isNotEmpty())
+            message.recipients.forEach {
+                if (it.recipient.id == r1_use.id) {
+                    assertTrue(it.isViewed)
+                } else {
+                    assertFalse(it.isViewed)
+                }
+            }
+        }
+    }
+
     /* СОЗДАНИЕ ОБЪЕКТОВ */
 
     /* Создание сообщения */
@@ -442,6 +537,14 @@ class MessageServiceTest : AbstractServiceTest() {
         ))
 
         return messageService.get(id)
+    }
+
+    private fun createMessageWithRecipients(): Message {
+        val message = createMessage()
+        message.recipients = createRecipients(message)
+        messageService.update(message)
+
+        return messageService.get(message.id!!)
     }
 
     /* создание отправителя сообщения */
@@ -468,6 +571,18 @@ class MessageServiceTest : AbstractServiceTest() {
                 MessageRecipient(
                         null,
                         createAgent(agentType),
+                        null
+                )
+        )
+        return messageRecipientService.getById(id)
+    }
+
+    private fun createMessageRecipient(message: Message, recipient: Agent): MessageRecipient {
+        val id = messageRecipientService.create(
+                message.id!!,
+                MessageRecipient(
+                        null,
+                        recipient,
                         null
                 )
         )

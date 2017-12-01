@@ -1,6 +1,7 @@
 package com.company.db.jdbc.message.jdbc
 
 import com.company.db.base.AbstractDao
+import com.company.db.base.Entity
 import com.company.db.base.toSqlite
 import com.company.db.core.agent.Agent
 import com.company.db.core.message.Message
@@ -102,6 +103,17 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         message.recipients = recipientService.get(message)
 
         return message
+    }
+
+    override fun use(message: Message) {
+        if (message.recipients.isNotEmpty()) {
+            jdbcTemplate.update(
+                    "update message_recipient set viewed_date = strftime('%Y-%m-%d %H:%M:%f') " +
+                            " where message_id = ? and " +
+                            " recipient_id in ${configureInQuery(message.recipients.map { it.recipient })}",
+                    message.id!!
+            )
+        }
     }
 
     /* Делаем поисковых запрос */

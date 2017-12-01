@@ -122,6 +122,8 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
         log("Получение списка сообщений")
 
         return try {
+            val currentAgent = agentService.getByMasId(currentAgentMasId!!)
+
             /* Поисковые данные */
             val messageSC = MessageSC()
             messageSC.isViewed = isViewed
@@ -131,14 +133,14 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
             messageSC.type = type
             messageSC.sinceCreatedDate = sinceCreatedDate
             messageSC.sinceViewedDate = sinceViewedDate
-            messageSC.recipientAgentId = agentService.getByMasId(currentAgentMasId!!).id
+            messageSC.recipientAgentId = currentAgent.id
 
-            // todo установить сообщения, как прочитанные - сделать функцию Прочитать сообщения - она пусть всё сделает
             val messages = messageService.get(messageSC)
+            messageService.use(messages, currentAgent)
 
             ResponseCreator.success(headerVersion, messages)
         } catch (e: Exception) {
-            errorMessageResponse("Ошибка поиска агентов")
+            errorMessageResponse("Ошибка поиска сообщений")
         }
     }
 

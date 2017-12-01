@@ -2,6 +2,7 @@ package com.company.db.jdbc.message.jdbc
 
 import com.company.db.base.AbstractDao
 import com.company.db.base.toSqlite
+import com.company.db.core.agent.Agent
 import com.company.db.core.message.Message
 import com.company.db.core.message.MessageRecipient
 import com.company.db.jdbc.message.MessageRecipientDao
@@ -70,5 +71,24 @@ open class JdbcMessageRecipientsDao: AbstractDao(), MessageRecipientDao {
                 "delete from message_recipient where message_id = ?",
                 message.id!!
         )
+    }
+
+    override fun use(recipient: Agent) {
+        jdbcTemplate.update(
+                "update message_recipient set viewed_date = strftime('%Y-%m-%d %H:%M:%f') " +
+                        "where recipient_id = ?",
+                recipient.id!!
+        )
+    }
+
+    override fun use(messages: List<Message>, recipient: Agent) {
+        if (messages.isNotEmpty() && !recipient.isNew) {
+            jdbcTemplate.update(
+                    "update message_recipient set viewed_date = strftime('%Y-%m-%d %H:%M:%f') " +
+                            " where message_id in ${configureInQuery(messages)} and " +
+                            " recipient_id = ?",
+                    recipient.id!!
+            )
+        }
     }
 }
