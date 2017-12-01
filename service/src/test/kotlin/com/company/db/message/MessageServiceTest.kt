@@ -516,6 +516,29 @@ class MessageServiceTest : AbstractServiceTest() {
         }
     }
 
+    /* Тест получения непрочитанных сообщений конкректным агентом */
+    @Test
+    fun testGetNotViewedMessagesWithRecipient() {
+        val r1_search_use = createAgent(agentTypeService.get(AgentType.Code.WORKER))
+        val r2 = createAgent(agentTypeService.get(AgentType.Code.WORKER))
+
+        val messages = arrayListOf(createMessage(), createMessage(), createMessage())
+        messages.forEach {
+            it.recipients = arrayListOf(
+                    createMessageRecipient(it, r1_search_use),
+                    createMessageRecipient(it, r2)
+            )
+            messageService.update(it)
+        }
+
+        messageService.use(messages, r1_search_use)
+
+        val sc = MessageSC()
+        sc.isViewed = false
+        sc.recipientAgentId = r1_search_use.id!!
+        assertTrue(messageService.get(sc).isEmpty())
+    }
+
     /* СОЗДАНИЕ ОБЪЕКТОВ */
 
     /* Создание сообщения */

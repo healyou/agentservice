@@ -142,7 +142,11 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
             else {
                 nullQuery = "is null"
             }
-            addSqlList.add(" exists (select 1 from message_recipient_v mrv where mrv.message_id = message_v.id and mrv.viewed_date $nullQuery) ")
+            // TODO - добавить на это условие тест, если указан конкректный агент, то ищем для конкректного агента
+            addSqlList.add(" exists (select 1 from message_recipient_v mrv " +
+                    "where mrv.message_id = message_v.id " +
+                    "and mrv.viewed_date $nullQuery " +
+                    "${if (sc.recipientAgentId != null) "and mrv.recipient_id = ${sc.recipientAgentId}" else ""}) ")
         }
         if (sc.senderId != null) {
             addSqlList.add(" sender_id = ${sc.senderId} ")
