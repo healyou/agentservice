@@ -65,16 +65,15 @@ abstract class BaseServer {
         )
     }
 
-    /* TODO логирование запросов к сервису в отдельные файлы */
     /* TODO Почему тестовый спринг файл не видно в тестовых ресурсах? */
     /* TODO Вынести в логгер интерфейс */
     protected abstract fun getLogger(): Logger
 
-    protected fun log(message: String, vararg args: Any?) {
-        getLogger().debug("${currentAgentMasId ?: ""} - " + message, args)
+    protected fun log(message: String, masId: String?) {
+        getLogger().debug("$masId - " + message)
     }
 
     protected fun log(message: String) {
-        getLogger().debug("${currentAgentMasId ?: ""} - " + message)
+        getLogger().debug((if (currentAgentMasId == null) "" else "$currentAgentMasId - ") + message)
     }
 }

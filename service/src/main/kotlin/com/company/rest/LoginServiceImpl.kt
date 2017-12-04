@@ -46,7 +46,7 @@ class LoginServiceImpl: BaseServer(), LoginService {
      */
     @Throws(Exception::class)
     override fun registration(masId: String?, name: String?, type: String?, password: String?): Response {
-        log("Регистрация агента")
+        log("Регистрация агента", masId)
 
         /* Проверка параметров*/
         if (Utils.isNull(masId, name, type, password) || password != TEST_PASSWORD) {
@@ -79,7 +79,7 @@ class LoginServiceImpl: BaseServer(), LoginService {
      */
     @Throws(Exception::class)
     override fun login(masId: String?, password: String?): Response {
-        log("Вход агента")
+        log("Вход агента", masId)
 
         /* Проверка параметров*/
         if (Utils.isNull(masId, password)) {
