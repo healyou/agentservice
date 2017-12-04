@@ -1,7 +1,15 @@
 ------------------ agentType data ------------------
 INSERT INTO agent_type (code, name) VALUES
     ('worker', 'Рабочий агент'),
-    ('server', 'Серверный агент');
+    ('server', 'Серверный агент'),
+    ('test_agent_type_1', 'Тип тестового агента 1'),--integration test
+    ('test_agent_type_2', 'Тип тестового агента 2');--integration test
+
+-------------- integration test data - agent --------------
+INSERT INTO agent (mas_id, name, type_id) VALUES
+    ('test_agent_1_masId', 'Тестовый агент 1', 3),--integration test
+    ('test_agent_2_masId', 'Тестовый агент 2', 4),--integration test
+    ('masId', 'masId', 1);
 
 ------------------ communicationGoal data ------------------
 INSERT INTO message_goal_type (code, name) VALUES
@@ -21,10 +29,3 @@ INSERT INTO message_body_type (code, name) VALUES
 ------------------ parameter data ------------------
 INSERT INTO parameter (key, value) VALUES
     ('agent.service.password', 'psw');
-
---------------- integration test data --------------
-INSERT INTO agent_type (code, name) VALUES
-    ('test_agent_type_1', 'Тип тестового агента 1'),
-    ('test_agent_type_2', 'Тип тестового агента 2');
-INSERT INTO agent (mas_id, name, type_id) VALUES ('test_agent_1_masId', 'Тестовый агент 1', 3);
-INSERT INTO agent (mas_id, name, type_id) VALUES ('test_agent_2_masId', 'Тестовый агент 2', 4);
