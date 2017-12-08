@@ -16,7 +16,6 @@ open class JdbcAgentTypeDao: AbstractDao(), AgentTypeDao{
     }
 
     override fun get(code: AgentType.Code): AgentType {
-        // todo исправить вызов на AbstractDao.queryForObject -> почему то не работал
         return jdbcTemplate.queryForObject("select * from agent_type where code = ?",  AgentTypeRowMapper(), code.code)
     }
 }

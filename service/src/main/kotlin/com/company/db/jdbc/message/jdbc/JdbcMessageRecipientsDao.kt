@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component
 open class JdbcMessageRecipientsDao: AbstractDao(), MessageRecipientDao {
 
     override fun get(message: Message): List<MessageRecipient> {
-        // todo в abstract
         return jdbcTemplate.query("select * from message_recipient_v where message_id = ?", MessageRecipientRowMapper(), message.id!!)
     }
 
@@ -36,7 +35,6 @@ open class JdbcMessageRecipientsDao: AbstractDao(), MessageRecipientDao {
     }
 
     override fun update(messageRecipient: MessageRecipient) {
-        // todo надо ли вообще менять(текст ниже)? -> пока вроде нет
         /* Сообщение, которому принадлежит messageRecipient не поменять */
         jdbcTemplate.update(
                 "update message_recipient set recipient_id = ?, viewed_date = ? where message_recipient.id = ?",
@@ -47,7 +45,6 @@ open class JdbcMessageRecipientsDao: AbstractDao(), MessageRecipientDao {
     }
 
     override fun create(messageId: Long, messageRecipient: MessageRecipient): Long {
-        /* todo почему то не работает метод в AbstractDao */
         jdbcTemplate.update(
                 "insert into message_recipient (message_id, recipient_id, viewed_date) values (?, ?, ?)",
                 messageId,

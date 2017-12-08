@@ -21,7 +21,7 @@ class MessageTypeRowMapper : AbstractRowMapper<MessageType>() {
                 getString(rs,"name"),
                 getLong(rs, "message_order"),
                 mapMessageGoalType(rs),
-                rs.getString("is_deleted").toIsDeleted() // todo выгести в AbstractRowMapper -> is_deleted
+                rs.getString("is_deleted").toIsDeleted()
         )
     }
 

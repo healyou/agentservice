@@ -3,9 +3,11 @@ package com.company.db.message
 import com.company.db.core.agent.Agent
 import com.company.db.core.agent.AgentType
 import com.company.db.core.message.*
+import com.sun.deploy.net.HttpResponse
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.springframework.http.HttpStatus
 import java.util.*
 
 /**

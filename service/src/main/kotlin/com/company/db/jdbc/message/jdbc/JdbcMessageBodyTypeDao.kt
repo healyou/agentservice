@@ -16,7 +16,6 @@ open class JdbcMessageBodyTypeDao: AbstractDao(), MessageBodyTypeDao {
     }
 
     override fun get(code: MessageBodyType.Code): MessageBodyType {
-        // todo исправить вызов на AbstractDao.queryForObject -> почему то не работал
         return jdbcTemplate.queryForObject("select * from message_body_type where code = ?",  MessageBodyTypeRowMapper(), code.code)
     }
 }

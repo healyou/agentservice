@@ -9,11 +9,16 @@ import java.util.*
  * @author Nikita Gorodilov
  */
 class Agent(
+        /* Идентификатор в бд */
         override var id: Long?,
+        /* Уникальный идентификатор агента в многоагентной системе */
         var masId: String,
+        /* Имя */
         var name: String,
+        /* Тип */
         var type: AgentType,
+        /* Дата создания */
         var createDate: Date,
-        var isDeleted: Boolean
+        /* Удалён ли */
+        var isDeleted: Boolean //TODO - надо ли вообще это учитывать?
 ): Entity
-// todo проставить комментарии над переменными - чтобы потом всё было также понятно

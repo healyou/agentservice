@@ -2,6 +2,7 @@ package com.company.rest
 
 import com.company.rest.exceptions.AgentError
 import com.company.rest.exceptions.Error
+import com.company.rest.logger.LoggerSupport
 import com.company.rest.response.ResponseCreator
 import org.apache.cxf.phase.PhaseInterceptorChain
 import org.apache.cxf.transport.http.AbstractHTTPDestination
@@ -16,7 +17,9 @@ import javax.ws.rs.core.Response
 /**
  * @author Nikita Gorodilov
  */
-abstract class BaseServer {
+abstract class BaseServer: LoggerSupport {
+
+    // TODO https://help.apiary.io/api_101/api_blueprint_tutorial/ https://swagger.io/docs/swagger-tools/#download-33 ascidoctor
 
     companion object {
         val MAS_ID = "user_login"
@@ -41,20 +44,6 @@ abstract class BaseServer {
             return session.getAttribute(MAS_ID) as String?
         }
 
-    @Throws(NoSuchAlgorithmException::class)
-    protected fun getMD5(plaintext: String): String {
-        val m = MessageDigest.getInstance("MD5")
-        m.reset()
-        m.update(plaintext.toByteArray())
-        val digest = m.digest()
-        val bigInt = BigInteger(1, digest)
-        var hashtext = bigInt.toString(16)
-        while (hashtext.length < 32) {
-            hashtext = "0" + hashtext
-        }
-        return hashtext
-    }
-
     /* Вывод сообщения с ошибкой */
     protected fun errorMessageResponse(message: String): Response {
         return ResponseCreator.error(
@@ -65,15 +54,7 @@ abstract class BaseServer {
         )
     }
 
-    /* TODO Почему тестовый спринг файл не видно в тестовых ресурсах? */
-    /* TODO Вынести в логгер интерфейс */
-    protected abstract fun getLogger(): Logger
-
-    protected fun log(message: String, masId: String?) {
-        getLogger().debug("$masId - " + message)
-    }
-
-    protected fun log(message: String) {
-        getLogger().debug((if (currentAgentMasId == null) "" else "$currentAgentMasId - ") + message)
+    override fun log(message: String) {
+        log(message, currentAgentMasId)
     }
 }

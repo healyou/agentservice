@@ -18,6 +18,11 @@ abstract class AbstractDao {
         return jdbcTemplate.query(query, rowMapper)
     }
 
+    /**
+     * Создание запроса in по Id Entity для поиска
+     *
+     * @return example: [1,2,3]
+     */
     protected fun <T: Entity> configureInQuery(recipients: List<T>): String {
         if (recipients.isEmpty()) {
             throw RuntimeException("Не должно быть пустого массива - так как с 2 условиями сработает лишь по одному и обновятся все записи")
@@ -35,13 +40,13 @@ abstract class AbstractDao {
         return inQuery.toString()
     }
 
-    // todo почему вызов через эту функцию даёт null, а вызов прямой вызов jdbcTemplate.queryForObject норм работает
-//    protected fun <T: Entity> queryForObject(query: String, rowMapper: RowMapper<T>, vararg args: Any): T {
-//        return jdbcTemplate.queryForObject(query, rowMapper, args)
-//    }
-//
-//    // todo почему вызов через эту функцию даёт null, а вызов прямой вызов jdbcTemplate.update норм работает
-//    protected fun update(query: String, vararg args: Any) {
-//        jdbcTemplate.update(query, args)
-//    }
+    /**
+     * Id последней введённой записи в таблицу
+     *
+     * @param tableName имя таблицы
+     */
+    protected fun getLastInsertId(tableName: String): Long {
+        return jdbcTemplate.queryForObject("select seq from sqlite_sequence where name = ? ;", Long::class.java, tableName)
+    }
+    // TODO вынести сюда вызовы через jdbcTemplate
 }

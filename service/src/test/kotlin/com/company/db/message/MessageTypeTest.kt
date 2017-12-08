@@ -20,8 +20,7 @@ class MessageTypeTest : Assert() {
     private val id = 1L
     private val code = MessageType.Code.SOLUTION_ANSWER
     private val name = "name"
-    private val messageOrder = 3L // todo поля, которые ненадо в базе менять - createDate и другие, что с ними делать
-    /* для теста необязательно из бд считывать, тут проверим лишь общую работу класса */
+    private val messageOrder = 3L
     private val messageGoalType = MessageGoalType(
             1L,
             MessageGoalType.Code.TASK_DECISION,

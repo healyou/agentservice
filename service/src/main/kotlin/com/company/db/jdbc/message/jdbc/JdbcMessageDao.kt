@@ -35,7 +35,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         )
 
         /* id последней введённой записи */
-        val messageId = jdbcTemplate.queryForObject("select seq from sqlite_sequence where name='message';", Long::class.java)
+        val messageId = getLastInsertId("message")
 
         // сохранение получателей
         message.recipients.forEach {
@@ -44,8 +44,6 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
                     MessageRecipient(null, it.recipient, null)
             )
         }
-
-        //createRecipients(messageId, message.recipients)
 
         return messageId
     }
@@ -68,14 +66,11 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
                     MessageRecipient(null, it.recipient, it.viewedDate)
             )
         }
-        //deleteRecipients(message.id!!)
-        //createRecipients(message.id!!, message.recipients)
 
         return message.id!!
     }
 
     override fun delete(id: Long) {
-        // todo вынести в AbstractDao
         jdbcTemplate.update("delete from message_v where id = ?;", id)
     }
 
@@ -142,7 +137,6 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
             else {
                 nullQuery = "is null"
             }
-            // TODO - добавить на это условие тест, если указан конкректный агент, то ищем для конкректного агента
             addSqlList.add(" exists (select 1 from message_recipient_v mrv " +
                     "where mrv.message_id = message_v.id " +
                     "and mrv.viewed_date $nullQuery " +

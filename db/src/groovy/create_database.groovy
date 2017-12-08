@@ -3,8 +3,6 @@ import groovy.sql.Sql
 // --------------- Подключение к БД ---------------
 def sql = Sql.newInstance("jdbc:sqlite:" + parentDir + addrDB + nameDB, "org.sqlite.JDBC")
 
-// todo отдельные файлы под связанные вещи(агент отдельно, сообщения отдельно и другое)
-
 def sqlScript = ""
 [
         "/src/sql/delete_tables.sql",

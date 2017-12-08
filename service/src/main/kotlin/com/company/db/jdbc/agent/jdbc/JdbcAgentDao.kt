@@ -25,17 +25,14 @@ open class JdbcAgentDao: AbstractDao(), AgentDao {
                 agent.isDeleted.toSqlite()
         )
 
-        /* id последней введённой записи */
-        return jdbcTemplate.queryForObject("select seq from sqlite_sequence where name='agent';", Long::class.java)
+        return getLastInsertId("agent")
     }
 
     override fun update(agent: Agent): Long {
-        // todo вынести в AbstractDao
         jdbcTemplate.update("update agent SET mas_id=?,name=?,type_id=?,create_date=?,is_deleted=? where id = ?;",
                 agent.masId,
                 agent.name,
                 agent.type.id,
-                // todo вынести работу с датой и isDeleted
                 agent.createDate.toSqlite(),
                 agent.isDeleted.toSqlite(),
                 agent.id!!
@@ -45,7 +42,6 @@ open class JdbcAgentDao: AbstractDao(), AgentDao {
     }
 
     override fun delete(id: Long) {
-        // todo вынести в AbstractDao
         jdbcTemplate.update("delete from agent where id = ?;", id)
     }
 
@@ -59,12 +55,10 @@ open class JdbcAgentDao: AbstractDao(), AgentDao {
     }
 
     override fun get(id: Long): Agent {
-        // todo исправить вызов на AbstractDao.queryForObject -> почему то не работал
         return jdbcTemplate.queryForObject("select * from agent_v where id = ?", AgentRowMapper(), id)
     }
 
     override fun getByMasId(masId: String): Agent {
-        // todo исправить вызов на AbstractDao.queryForObject -> почему то не работал
         return jdbcTemplate.queryForObject("select * from agent_v where mas_id = ?", AgentRowMapper(), masId)
     }
 

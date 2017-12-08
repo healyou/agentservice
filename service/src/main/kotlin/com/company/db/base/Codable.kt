@@ -11,7 +11,6 @@ interface Codable<S> {
         get
 
     companion object {
-        // todo что делают эти функции
         fun <T, S> find(codableSet: Class<T>, code: S): T where T : Enum<T>, T : Codable<S>, S : Any {
             return tryFind(codableSet, code).orElseThrow { IllegalArgumentException(String.format("%s type not found for code = %s", *arrayOf<Any>(codableSet.name, code))) }
         }

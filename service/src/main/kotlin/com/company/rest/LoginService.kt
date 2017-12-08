@@ -14,8 +14,6 @@ import javax.ws.rs.core.Response
 @Produces(MediaType.APPLICATION_JSON)
 interface LoginService {
 
-    // todo разобраться с tydy
-
     @POST
     @Path("/registration")
     @Description(value = "Регистрация агента", target = DocTarget.METHOD)

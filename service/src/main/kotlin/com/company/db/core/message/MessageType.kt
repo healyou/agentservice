@@ -17,7 +17,6 @@ class MessageType (
         var isDeleted: Boolean
 ): Entity {
 
-    // todo для каждого MessageGoalType.Code тут сделать свой codable
     /* Типы сообщения */
     enum class Code(override val code: String): Codable<String> {
         /* Связанные с MessageGoalType.Code.TASK_DECISION */

@@ -25,5 +25,3 @@ class Message (
         /* Тело сообщения */
         var body: String
 ): Entity
-
-// todo получатели сообщения
