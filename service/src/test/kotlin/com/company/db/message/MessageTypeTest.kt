@@ -50,34 +50,4 @@ class MessageTypeTest : Assert() {
         assertEquals(messageGoalType, type.messageGoalType)
         assertEquals(isDeleted, type.isDeleted)
     }
-
-    @Test
-    fun testTypeSetDate() {
-        /* новые значение */
-        val newId = 2L
-        val newCode = MessageType.Code.TASK_SOLUTION_ANSWER
-        val newName = "newName"
-        val newMessageOrder = 4L
-        val newMessageGoalType = MessageGoalType(
-                2L,
-                MessageGoalType.Code.TASK_DECISION,
-                "name2",
-                true
-        )
-        val newIsDeleted = true
-
-        type.id = newId
-        type.code = newCode
-        type.name = newName
-        type.messageOrder = newMessageOrder
-        type.messageGoalType = newMessageGoalType
-        type.isDeleted = newIsDeleted
-
-        assertEquals(newId, type.id!!)
-        assertEquals(newCode, type.code)
-        assertEquals(newName, type.name)
-        assertEquals(newMessageOrder, type.messageOrder)
-        assertEquals(newMessageGoalType, type.messageGoalType)
-        assertEquals(newIsDeleted, type.isDeleted)
-    }
 }

@@ -38,23 +38,4 @@ class AgentTypeTest: Assert() {
         assertEquals(typeName, agentType.name)
         assertEquals(isDeleted, agentType.isDeleted)
     }
-
-    @Test
-    fun testAgentTypeSetData() {
-        /* новые значение */
-        val newId = 1L
-        val newCode = AgentType.Code.WORKER
-        val newName = "name"
-        val newIsDeleted = true
-
-        agentType.id = newId
-        agentType.code = newCode
-        agentType.name = newName
-        agentType.isDeleted = newIsDeleted
-
-        assertEquals(newId, agentType.id!!)
-        assertEquals(newCode, agentType.code)
-        assertEquals(newName, agentType.name)
-        assertEquals(newIsDeleted, agentType.isDeleted)
-    }
 }

@@ -20,5 +20,5 @@ class Agent(
         /* Дата создания */
         var createDate: Date,
         /* Удалён ли */
-        var isDeleted: Boolean //TODO - надо ли вообще это учитывать?
+        var isDeleted: Boolean
 ): Entity

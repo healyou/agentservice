@@ -24,7 +24,7 @@ open class JdbcAgentDao: AbstractDao(), AgentDao {
                 agent.isDeleted.toSqlite()
         )
 
-        return getLastInsertId("agent")
+        return getSequence("agent")
     }
 
     override fun update(agent: Agent): Long {

@@ -3,7 +3,6 @@ package com.company.db.base
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
-import java.util.*
 
 /**
  * @author Nikita Gorodilov
@@ -12,7 +11,6 @@ abstract class AbstractDao {
 
     @Autowired
     protected lateinit var jdbcTemplate: JdbcTemplate
-        get
 
     protected fun <T: Entity> query(query: String, rowMapper: RowMapper<T>): List<T> {
         return jdbcTemplate.query(query, rowMapper)
@@ -41,12 +39,13 @@ abstract class AbstractDao {
     }
 
     /**
-     * Id последней введённой записи в таблицу
+     * Возвращает идентификатор последней введённой в таблицу записи
      *
-     * @param tableName имя таблицы
+     * @param tableName имя таблицы в бд
      */
-    protected fun getLastInsertId(tableName: String): Long {
+    protected fun getSequence(tableName: String): Long {
         return jdbcTemplate.queryForObject("select seq from sqlite_sequence where name = ? ;", Long::class.java, tableName)
     }
-    // TODO вынести сюда вызовы через jdbcTemplate
+
+    // TODO базовые классы вынести в отдельный пакет
 }

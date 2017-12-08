@@ -1,14 +1,11 @@
 package com.company.db.jdbc.message.jdbc
 
 import com.company.db.base.AbstractDao
-import com.company.db.base.Entity
 import com.company.db.base.toSqlite
-import com.company.db.core.agent.Agent
 import com.company.db.core.message.Message
 import com.company.db.core.message.MessageRecipient
 import com.company.db.core.message.MessageRecipientService
 import com.company.db.core.sc.MessageSC
-import com.company.db.jdbc.agent.jdbc.AgentRowMapper
 import com.company.db.jdbc.message.MessageDao
 import com.company.rest.Utils
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,7 +32,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         )
 
         /* id последней введённой записи */
-        val messageId = getLastInsertId("message")
+        val messageId = getSequence("message")
 
         // сохранение получателей
         message.recipients.forEach {
@@ -115,7 +112,6 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
     private fun applyCondition(sql: StringBuilder, sc: MessageSC) {
         val addSqlList = arrayListOf<String>()
 
-        // TODO -> QueryBuilder
         /* параметры запроса */
         if (Utils.isOneNotNull(
                 sc.isViewed,

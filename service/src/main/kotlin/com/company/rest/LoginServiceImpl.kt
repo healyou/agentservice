@@ -12,10 +12,6 @@ import java.util.*
 import javax.ws.rs.core.Response
 import org.slf4j.LoggerFactory
 
-
-
-
-
 /**
  * Вход агента в сервис
  *
@@ -25,7 +21,7 @@ class LoginServiceImpl: BaseServer(), LoginService {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    // todo как тестить работу сервиса?
+    // todo тесты самого сервиса(json данные от запросов)
 
     @Autowired
     private lateinit var agentService: AgentService

@@ -22,6 +22,6 @@ open class Environment : AbstractDao() {
         )
 
         /* id последней введённой записи */
-        return getLastInsertId("parameter")
+        return getSequence("parameter")
     }
 }

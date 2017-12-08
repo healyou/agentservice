@@ -1,7 +1,7 @@
 package com.company.db.core.agent
 
 import com.company.db.base.Codable
-import com.company.db.base.Entity
+import com.company.db.base.IDictionary
 
 /**
  * Тип агента
@@ -10,10 +10,10 @@ import com.company.db.base.Entity
  */
 class AgentType(
         override var id: Long?,
-        var code: Code,
-        var name: String,
-        var isDeleted: Boolean
-): Entity {
+        override val code: Code,
+        override val name: String,
+        override val isDeleted: Boolean
+): IDictionary<AgentType.Code> {
 
     /* Типы агентов */
     enum class Code(override val code: String): Codable<String> {

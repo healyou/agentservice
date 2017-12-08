@@ -1,7 +1,7 @@
 package com.company.db.core.message
 
 import com.company.db.base.Codable
-import com.company.db.base.Entity
+import com.company.db.base.IDictionary
 
 /**
  * Тип сообщения - зависит от цели сообщения
@@ -10,12 +10,12 @@ import com.company.db.base.Entity
  */
 class MessageType (
         override var id: Long?,
-        var code: Code,
-        var name: String,
+        override val code: Code,
+        override val name: String,
         var messageOrder: Long,
         var messageGoalType: MessageGoalType,
-        var isDeleted: Boolean
-): Entity {
+        override val isDeleted: Boolean
+): IDictionary<MessageType.Code> {
 
     /* Типы сообщения */
     enum class Code(override val code: String): Codable<String> {

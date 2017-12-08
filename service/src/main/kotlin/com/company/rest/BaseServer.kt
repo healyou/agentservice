@@ -19,8 +19,6 @@ import javax.ws.rs.core.Response
  */
 abstract class BaseServer: LoggerSupport {
 
-    // TODO https://help.apiary.io/api_101/api_blueprint_tutorial/ https://swagger.io/docs/swagger-tools/#download-33 ascidoctor
-
     companion object {
         val MAS_ID = "user_login"
     }
