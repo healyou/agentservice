@@ -20,6 +20,10 @@ open class JdbcMessageTypeDao: AbstractDao(), MessageTypeDao {
         )
     }
 
+    override fun get(): List<MessageType> {
+        return jdbcTemplate.query("select * from message_type_v", MessageTypeRowMapper())
+    }
+
     override fun get(code: MessageType.Code): MessageType {
         return jdbcTemplate.queryForObject("select * from message_type_v where code = ?",  MessageTypeRowMapper(), code.code)
     }

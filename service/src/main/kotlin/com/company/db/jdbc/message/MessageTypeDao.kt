@@ -10,5 +10,7 @@ interface MessageTypeDao {
 
     fun get(messageGoalType: MessageGoalType): List<MessageType>
 
+    fun get(): List<MessageType>
+
     fun get(code: MessageType.Code): MessageType
 }

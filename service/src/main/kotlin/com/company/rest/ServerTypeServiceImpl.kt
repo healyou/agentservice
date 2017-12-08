@@ -51,7 +51,7 @@ class ServerTypeServiceImpl : BaseServer(), ServerTypeService {
      * @param goalType цель общения
      */
     override fun getMessageTypes(goalType: String?): Response {
-        log("Получение типов сообщений")
+        log("Получение типов сообщений по цели общения")
 
         if (Utils.isNull(goalType)) {
             return errorMessageResponse("Параметр имеет значение null")
@@ -61,6 +61,12 @@ class ServerTypeServiceImpl : BaseServer(), ServerTypeService {
         val messageGoalType = messageGoalTypeService.get(messageGoalTypeCode)
 
         return ResponseCreator.success(headerVersion, messageTypeService.get(messageGoalType))
+    }
+
+    override fun getMessageTypes(): Response {
+        log("Получение типов сообщений")
+
+        return ResponseCreator.success(headerVersion, messageTypeService.get())
     }
 
     override fun getLogger(): Logger = logger

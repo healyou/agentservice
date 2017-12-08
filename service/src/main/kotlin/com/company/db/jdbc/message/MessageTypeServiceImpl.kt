@@ -19,6 +19,10 @@ open class MessageTypeServiceImpl : MessageTypeService {
         return dao.get(messageGoalType)
     }
 
+    override fun get(): List<MessageType> {
+        return dao.get()
+    }
+
     override fun get(code: MessageType.Code): MessageType {
         return dao.get(code)
     }

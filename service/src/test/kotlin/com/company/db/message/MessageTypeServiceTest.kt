@@ -38,4 +38,11 @@ class MessageTypeServiceTest : AbstractServiceTest() {
 
         assertEquals(MessageType.Code.TASK_SOLUTION_ANSWER, type.code)
     }
+
+    @Test
+    fun getTypes() {
+        val types = messageTypeService.get()
+
+        assertEquals(MessageType.Code.values().size, types.size)
+    }
 }
