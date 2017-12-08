@@ -539,6 +539,48 @@ class MessageServiceTest : AbstractServiceTest() {
         assertTrue(messageService.get(sc).isEmpty())
     }
 
+    /* Поиск данных без учёта регистра при испоользовании code поля */
+    @Test
+    fun testGetMessagesWithTypeRegistry() {
+        val messages = arrayListOf(createMessage(), createMessage(), createMessage())
+        val bodyTypeCode = messages[0].bodyType.code.code
+        val goalTypeCode = messages[0].goalType.code.code
+        val typeCode = messages[0].type.code.code
+
+        var sc = MessageSC()
+        arrayListOf(bodyTypeCode.toLowerCase(), bodyTypeCode.toUpperCase()).forEach { code ->
+            sc.bodyType = code
+            val searchMessages = messageService.get(sc)
+            assertTrue {
+                searchMessages.isNotEmpty() && searchMessages.all {
+                    it.bodyType.code.code == bodyTypeCode
+                }
+            }
+        }
+
+        sc = MessageSC()
+        arrayListOf(goalTypeCode.toLowerCase(), goalTypeCode.toUpperCase()).forEach { code ->
+            sc.goalType = code
+            val searchMessages = messageService.get(sc)
+            assertTrue {
+                searchMessages.isNotEmpty() && searchMessages.all {
+                    it.goalType.code.code == goalTypeCode
+                }
+            }
+        }
+
+        sc = MessageSC()
+        arrayListOf(typeCode.toLowerCase(), typeCode.toUpperCase()).forEach { code ->
+            sc.type = code
+            val searchMessages = messageService.get(sc)
+            assertTrue {
+                searchMessages.isNotEmpty() && searchMessages.all {
+                    it.type.code.code == typeCode
+                }
+            }
+        }
+    }
+
     /* СОЗДАНИЕ ОБЪЕКТОВ */
 
     /* Создание сообщения */

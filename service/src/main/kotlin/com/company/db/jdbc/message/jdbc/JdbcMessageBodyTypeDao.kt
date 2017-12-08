@@ -16,6 +16,6 @@ open class JdbcMessageBodyTypeDao: AbstractDao(), MessageBodyTypeDao {
     }
 
     override fun get(code: MessageBodyType.Code): MessageBodyType {
-        return jdbcTemplate.queryForObject("select * from message_body_type where code = ?",  MessageBodyTypeRowMapper(), code.code)
+        return jdbcTemplate.queryForObject("select * from message_body_type where UPPER(code) = UPPER(?)",  MessageBodyTypeRowMapper(), code.code)
     }
 }

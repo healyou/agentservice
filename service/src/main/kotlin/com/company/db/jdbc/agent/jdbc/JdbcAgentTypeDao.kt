@@ -16,6 +16,6 @@ open class JdbcAgentTypeDao: AbstractDao(), AgentTypeDao{
     }
 
     override fun get(code: AgentType.Code): AgentType {
-        return jdbcTemplate.queryForObject("select * from agent_type where code = ?",  AgentTypeRowMapper(), code.code)
+        return jdbcTemplate.queryForObject("select * from agent_type where UPPER(code) = UPPER(?)",  AgentTypeRowMapper(), code.code)
     }
 }

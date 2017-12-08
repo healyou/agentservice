@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component
 open class JdbcAgentDao: AbstractDao(), AgentDao {
 
     override fun create(agent: Agent): Long {
-        // todo вынести в AbstractDao c возвратом id
         jdbcTemplate.update("INSERT INTO agent " +
                 "(mas_id, name, type_id, create_date, is_deleted) VALUES (?, ?, ?, ?, ?);",
                 agent.masId,

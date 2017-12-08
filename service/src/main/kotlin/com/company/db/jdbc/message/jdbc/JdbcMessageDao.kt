@@ -131,12 +131,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
         }
         if (sc.isViewed != null) {
             var nullQuery = ""
-            if (sc.isViewed!!) {
-                nullQuery = "is not null"
-            }
-            else {
-                nullQuery = "is null"
-            }
+            nullQuery = if (sc.isViewed!!) "is not null" else "is null"
             addSqlList.add(" exists (select 1 from message_recipient_v mrv " +
                     "where mrv.message_id = message_v.id " +
                     "and mrv.viewed_date $nullQuery " +
@@ -146,14 +141,13 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
             addSqlList.add(" sender_id = ${sc.senderId} ")
         }
         if (sc.bodyType != null) {
-            // todo при поиске по коду надо приводить всё к одному регистру(так будет удобнее)
-            addSqlList.add(" message_body_type_code = '${sc.bodyType}'")
+            addSqlList.add(" UPPER(message_body_type_code) = UPPER('${sc.bodyType}')")
         }
         if (sc.goalType != null) {
-            addSqlList.add(" message_goal_type_code = '${sc.goalType}'")
+            addSqlList.add(" UPPER(message_goal_type_code) = UPPER('${sc.goalType}')")
         }
         if (sc.type != null) {
-            addSqlList.add(" message_type_code = '${sc.type}'")
+            addSqlList.add(" UPPER(message_type_code) = UPPER('${sc.type}')")
         }
         if (sc.sinceCreatedDate != null) {
             addSqlList.add(" create_date >= '${sc.sinceCreatedDate!!.toSqlite()}'")
