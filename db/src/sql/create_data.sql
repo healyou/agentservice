@@ -13,7 +13,8 @@ INSERT INTO agent (mas_id, name, type_id) VALUES
 
 ------------------ communicationGoal data ------------------
 INSERT INTO message_goal_type (code, name) VALUES
-    ('task_decision', 'Решение задачи');
+    ('task_decision', 'Решение задачи'),
+    ('test_message_goal_type_1', 'Тестовая цель общения 1');
 
 ------------------ messageType data ------------------
 INSERT INTO message_type (code, name, message_order, message_goal_type_id) VALUES
