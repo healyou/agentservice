@@ -1,6 +1,8 @@
 package com.company.rest
 
+import com.company.rest.utils.Documentation
 import org.apache.cxf.jaxrs.model.wadl.Description
+import org.apache.cxf.jaxrs.model.wadl.Descriptions
 import org.apache.cxf.jaxrs.model.wadl.DocTarget
 import java.util.*
 import javax.jws.WebService
@@ -17,23 +19,91 @@ interface ServerMessageService {
 
     @POST
     @Path("/sendMessage")
-    @Description(value = "Отправка сообщения", target = DocTarget.METHOD)
+    @Descriptions(
+            Description(title = "Описание метода",
+                    value = "Отправка сообщения",
+                    target = DocTarget.METHOD),
+            Description(title = "Описание запроса",
+                    value = Documentation.allParamsIsRequired,
+                    target = DocTarget.REQUEST),
+            Description(title = "Необходимость входа в систему для выполнения метода",
+                    value = Documentation.loginIsRequired,
+                    target = DocTarget.RESOURCE),
+            Description(title = "Описание возвращаемых кодов",
+                    value = Documentation.sendMessageResponseValue,
+                    target = DocTarget.RESPONSE),
+            Description(title = "Пример возвращаемых данных",
+                    value = Documentation.messageJsonReturnValue,
+                    target = DocTarget.RETURN)
+    )
     @Throws(Exception::class)
-    fun sendMessage(@FormParam("goalType") goalType: String?,
-                    @FormParam("type") type: String?,
-                    @FormParam("recipientsIds") recipientsIds: List<Long>?,
-                    @FormParam("bodyType") bodyType: String?,
-                    @FormParam("body") body: String?): Response
+    fun sendMessage(@FormParam("goalType")
+                    @Description(title = "Описание параметра",
+                            value = Documentation.goalTypeParamValue,
+                            target = DocTarget.PARAM) goalType: String?,
+                    @FormParam("type")
+                    @Description(title = "Описание параметра",
+                            value = Documentation.messageTypeParamValue,
+                            target = DocTarget.PARAM) type: String?,
+                    @FormParam("recipientsIds")
+                    @Description(title = "Описание параметра",
+                            value = "Идентификаторы получателей сообщения(агентов)",
+                            target = DocTarget.PARAM) recipientsIds: List<Long>?,
+                    @FormParam("bodyType")
+                    @Description(title = "Описание параметра",
+                            value = Documentation.messageBodyTypeParamValue,
+                            target = DocTarget.PARAM) bodyType: String?,
+                    @FormParam("body")
+                    @Description(title = "Описание параметра",
+                            value = "Тело сообщения",
+                            target = DocTarget.PARAM) body: String?): Response
 
     @POST
     @Path("/getMessages")
-    @Description(value = "Получение сообщений", target = DocTarget.METHOD)
+    @Descriptions(
+            Description(title = "Описание метода",
+                    value = "Получение сообщений текущего агента",
+                    target = DocTarget.METHOD),
+            Description(title = "Описание запроса",
+                    value = Documentation.allParamsIsOptional,
+                    target = DocTarget.REQUEST),
+            Description(title = "Необходимость входа в систему для выполнения метода",
+                    value = Documentation.loginIsRequired,
+                    target = DocTarget.RESOURCE),
+            Description(title = "Описание возвращаемых кодов",
+                    value = Documentation.getMessagesResponseValue,
+                    target = DocTarget.RESPONSE),
+            Description(title = "Пример возвращаемых данных",
+                    value = Documentation.messagesJsonReturnValue,
+                    target = DocTarget.RETURN)
+    )
     @Throws(Exception::class)
-    fun getMessages(@FormParam("goalType") goalType: String?,
-                    @FormParam("type") type: String?,
-                    @FormParam("bodyType") bodyType: String?,
-                    @FormParam("senderId") senderId: Long?,
-                    @FormParam("isViewed") isViewed: Boolean?,
-                    @FormParam("sinceCreatedDate") sinceCreatedDate: Date?,
-                    @FormParam("sinceViewedDate") sinceViewedDate: Date?): Response
+    fun getMessages(@FormParam("goalType")
+                    @Description(title = "Описание параметра",
+                            value = Documentation.goalTypeParamValue,
+                            target = DocTarget.PARAM) goalType: String?,
+                    @FormParam("type")
+                    @Description(title = "Описание параметра",
+                            value = Documentation.messageTypeParamValue,
+                            target = DocTarget.PARAM) type: String?,
+                    @FormParam("bodyType")
+                    @Description(title = "Описание параметра",
+                            value = Documentation.messageBodyTypeParamValue,
+                            target = DocTarget.PARAM) bodyType: String?,
+                    @FormParam("senderId")
+                    @Description(title = "Описание параметра",
+                            value = "Идентификатор отправителя сообщения(агента)",
+                            target = DocTarget.PARAM) senderId: Long?,
+                    @FormParam("isViewed")
+                    @Description(title = "Описание параметра",
+                            value = Documentation.isViewedParamValue,
+                            target = DocTarget.PARAM) isViewed: Boolean?,
+                    @FormParam("sinceCreatedDate")
+                    @Description(title = "Описание параметра",
+                            value = "С даты создания сообщения",
+                            target = DocTarget.PARAM) sinceCreatedDate: Date?,
+                    @FormParam("sinceViewedDate")
+                    @Description(title = "Описание параметра",
+                            value = "С даты просмотра сообщения",
+                            target = DocTarget.PARAM) sinceViewedDate: Date?): Response
 }
