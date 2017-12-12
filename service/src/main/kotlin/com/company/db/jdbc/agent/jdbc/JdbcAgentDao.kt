@@ -5,7 +5,7 @@ import com.company.db.base.toSqlite
 import com.company.db.core.agent.Agent
 import com.company.db.core.sc.AgentSC
 import com.company.db.jdbc.agent.AgentDao
-import com.company.rest.Utils
+import com.company.rest.utils.Utils
 import org.springframework.stereotype.Component
 
 /**

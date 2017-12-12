@@ -1,4 +1,4 @@
-package com.company.rest
+package com.company.rest.utils
 
 /**
  * Вспомогательные функции

@@ -7,7 +7,7 @@ import com.company.db.core.message.MessageRecipient
 import com.company.db.core.message.MessageRecipientService
 import com.company.db.core.sc.MessageSC
 import com.company.db.jdbc.message.MessageDao
-import com.company.rest.Utils
+import com.company.rest.utils.Utils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
