@@ -1,6 +1,7 @@
 package com.company.rest
 
 import org.apache.cxf.jaxrs.model.wadl.Description
+import org.apache.cxf.jaxrs.model.wadl.Descriptions
 import org.apache.cxf.jaxrs.model.wadl.DocTarget
 import javax.jws.WebService
 import javax.ws.rs.*
@@ -16,12 +17,22 @@ interface LoginService {
 
     @POST
     @Path("/registration")
-    @Description(value = "Регистрация агента", target = DocTarget.METHOD)
     @Throws(Exception::class)
-    fun registration(@FormParam("masId") masId: String?,
-                     @FormParam("name") name: String?,
-                     @FormParam("type") type: String?,
-                     @FormParam("password") password: String?): Response
+    @Descriptions(
+            Description(lang = "LANG", title = "TITLE", value = "Регистрация METHOD", target = DocTarget.METHOD),
+            Description(value = "Регистрация REQUEST", target = DocTarget.REQUEST),
+            Description(value = "Регистрация RESOURCE", target = DocTarget.RESOURCE),
+            Description(value = "Регистрация RESPONSE", target = DocTarget.RESPONSE),
+            Description(value = "Регистрация RETURN", target = DocTarget.RETURN)
+    )
+    fun registration(@FormParam("masId")
+                     @Description(lang = "LANG", title = "TITLE", value = "PARAM", target = DocTarget.PARAM) masId: String?,
+                     @FormParam("name")
+                     @Description(value = "PARAM", target = DocTarget.PARAM) name: String?,
+                     @FormParam("type")
+                     @Description(value = "PARAM", target = DocTarget.PARAM) type: String?,
+                     @FormParam("password")
+                     @Description(value = "PARAM", target = DocTarget.PARAM) password: String?): Response
 
     @POST
     @Path("/login")
