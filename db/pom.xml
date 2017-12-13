@@ -42,30 +42,21 @@
                             <name>addrDB</name>
                             <value>\data\</value>
                         </property>
-
                         <property>
                             <name>nameDB</name>
                             <value>${db.source.name}</value>
                         </property>
-
                         <property>
                             <name>sourceDir</name>
                             <value>${db.source.basedir}</value>
                         </property>
-
                         <property>
                             <name>parentDir</name>
                             <value>${parent.project.basedir}</value>
                         </property>
                     </properties>
                     <scripts>
-
-                        <!-- Создание БД  -->
                         <script>file:///${db.source.basedir}/src/groovy/create_database.groovy</script>
-
-                        <!-- Создание тригеров -->
-                        <script>file:///${db.source.basedir}/src/groovy/create_triggers.groovy</script>
-
                     </scripts>
                 </configuration>
                 <dependencies>

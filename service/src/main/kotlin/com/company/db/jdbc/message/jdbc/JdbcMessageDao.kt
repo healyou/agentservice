@@ -23,7 +23,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
     private lateinit var recipientService: MessageRecipientService
 
     override fun create(message: Message): Long {
-        jdbcTemplate.update("insert into message_v (sender_id, message_goal_type_id, message_type_id, body_type_id, body) values (?, ?, ?, ?, ?)",
+        jdbcTemplate.update("insert into message (sender_id, message_goal_type_id, message_type_id, body_type_id, body) values (?, ?, ?, ?, ?)",
                 message.sender.id!!,
                 message.goalType.id!!,
                 message.type.id!!,
@@ -46,7 +46,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
     }
 
     override fun update(message: Message): Long {
-        jdbcTemplate.update("update message_v SET sender_id=?,message_goal_type_id=?,message_type_id=?,body_type_id=?,body=? where id = ?",
+        jdbcTemplate.update("update message SET sender_id=?,message_goal_type_id=?,message_type_id=?,body_type_id=?,body=? where id = ?",
                 message.sender.id!!,
                 message.goalType.id!!,
                 message.type.id!!,
@@ -68,7 +68,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
     }
 
     override fun delete(id: Long) {
-        jdbcTemplate.update("delete from message_v where id = ?;", id)
+        jdbcTemplate.update("delete from message where id = ?;", id)
     }
 
     override fun get(sc: MessageSC): List<Message> {

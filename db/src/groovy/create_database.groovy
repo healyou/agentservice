@@ -8,7 +8,6 @@ def sqlScript = ""
         "/src/sql/delete_tables.sql",
         "/src/sql/create_tables.sql",
         "/src/sql/create_views.sql",
-        //"/src/sql/create_triggers.sql", // пока отдельным груви файлом -> почему-то не хочет всё сразу в execute пихать и выполнять
         "/src/sql/create_data.sql"
 ].each {
     new File((String) sourceDir + it).eachLine {
