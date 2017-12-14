@@ -11,4 +11,6 @@ class AgentSC {
     var type: String? = null
     /* Удалена ли запись агента */
     var isDeleted: Boolean? = null
+    /* Поиск по имени агента */
+    var name: String? = null
 }

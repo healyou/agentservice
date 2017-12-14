@@ -5,10 +5,7 @@ import org.apache.cxf.jaxrs.model.wadl.Description
 import org.apache.cxf.jaxrs.model.wadl.Descriptions
 import org.apache.cxf.jaxrs.model.wadl.DocTarget
 import javax.jws.WebService
-import javax.ws.rs.FormParam
-import javax.ws.rs.POST
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
+import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
@@ -65,5 +62,34 @@ interface ServerAgentService {
                   @FormParam("isDeleted")
                   @Description(title = "Описание параметра",
                           value = Documentation.isDeletedParamValue,
-                          target = DocTarget.PARAM) isDeleted: Boolean?): Response
+                          target = DocTarget.PARAM) isDeleted: Boolean?,
+                  @FormParam("name")
+                  @Description(title = "Описание параметра",
+                          value = Documentation.nameParamValue,
+                          target = DocTarget.PARAM) name: String?): Response
+
+    @GET
+    @Path("/getAgent")
+    @Descriptions(
+            Description(title = "Описание метода",
+                    value = "Получение агента по идентификатору masId",
+                    target = DocTarget.METHOD),
+            Description(title = "Описание запроса",
+                    value = Documentation.allParamsIsRequired,
+                    target = DocTarget.REQUEST),
+            Description(title = "Необходимость входа в систему для выполнения метода",
+                    value = Documentation.loginIsRequired,
+                    target = DocTarget.RESOURCE),
+            Description(title = "Описание возвращаемых кодов",
+                    value = Documentation.getAgentResponseValue,
+                    target = DocTarget.RESPONSE),
+            Description(title = "Пример возвращаемых данных",
+                    value = Documentation.agentsJsonReturnValue,
+                    target = DocTarget.RETURN)
+    )
+    @Throws(Exception::class)
+    fun getAgent(@FormParam("masId")
+                 @Description(title = "Описание параметра",
+                         value = Documentation.masIdParamValue,
+                         target = DocTarget.PARAM) masId: String?): Response
 }

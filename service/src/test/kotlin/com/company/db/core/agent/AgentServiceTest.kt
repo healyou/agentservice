@@ -220,11 +220,40 @@ class AgentServiceTest: AbstractServiceTest() {
         service.get(id!!)
     }
 
+    /* Получение агента по имени без привязки к заглавным и маленьким буквам */
+    @Test
+    fun getAgentByMasId() {
+        val agentType = typeService.get(AgentType.Code.values()[0])
+        val name = UUID.randomUUID().toString()
+        val agents = arrayListOf(
+                createTestAgent(agentType, name.toLowerCase()),
+                createTestAgent(agentType, name.toUpperCase()),
+                createTestAgent(agentType, name.toLowerCase())
+        )
+
+        val sc = AgentSC()
+        sc.name = name
+        val getAgents = service.get(sc)
+
+        assertEquals(agents.size, getAgents.size)
+        assertTrue {
+            agents.all { agent ->
+                getAgents.any { getAgent ->
+                    agent.id == getAgent.id
+                }
+            }
+        }
+    }
+
     private fun createTestAgent(type: AgentType): Agent {
+        return createTestAgent(type, "name")
+    }
+
+    private fun createTestAgent(type: AgentType, name: String): Agent {
         val id = service.create(Agent(
                 null,
                 UUID.randomUUID().toString(),
-                "name",
+                name,
                 type,
                 Date(System.currentTimeMillis()),
                 false

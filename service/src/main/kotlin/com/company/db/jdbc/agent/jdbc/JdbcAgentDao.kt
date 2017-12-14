@@ -67,7 +67,7 @@ open class JdbcAgentDao: AbstractDao(), AgentDao {
 
         // TODO -> QueryBuilder
         /* параметры запроса */
-        if (Utils.isOneNotNull(sc.type, sc.isDeleted)) {
+        if (Utils.isOneNotNull(sc.type, sc.isDeleted, sc.name)) {
             sql.append("where ")
         }
         if (sc.type != null) {
@@ -75,6 +75,9 @@ open class JdbcAgentDao: AbstractDao(), AgentDao {
         }
         if (sc.isDeleted != null) {
             addSqlList.add(" is_deleted = '${sc.isDeleted!!.toSqlite()}'")
+        }
+        if (sc.name != null) {
+            addSqlList.add(" UPPER(name) = UPPER('${sc.name}')")
         }
 
         /* объединяем условия запроса */

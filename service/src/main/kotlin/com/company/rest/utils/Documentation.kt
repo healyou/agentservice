@@ -12,6 +12,7 @@ object Documentation {
     const val loginIsRequired = "Метод не доступен без входа в систему"
     const val passwordParamValue = "Пароль для выполнения регистрации(выдаётся администратором)"
     const val masIdParamValue = "Уникальный идентификатор агента"
+    const val nameParamValue = "Наименование"
     const val allParamsIsRequired = "Все параметры метода являются обязательными"
     const val allParamsIsOptional = "Все параметры метода являются не обязательными"
     const val agentTypeParamValue = "Тип агента(поле code таблицы agent_type)"
@@ -33,6 +34,10 @@ object Documentation {
                     "200 - Успешная вход в систему"
     const val getCurrentAgentResponseValue =
             "403 - Не найден текущий агент\n" +
+                    "401 - Не авторизован в системе\n" +
+                    "200 - Агент найден"
+    const val getAgentResponseValue =
+            "403 - Агент не найден\n" +
                     "401 - Не авторизован в системе\n" +
                     "200 - Агент найден"
     const val getAgentsResponseValue =
