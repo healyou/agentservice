@@ -12,8 +12,8 @@ class MessageType (
         override var id: Long?,
         override val code: Code,
         override val name: String,
-        var messageOrder: Long,
-        var messageGoalType: MessageGoalType,
+        var order: Long,
+        var goalType: MessageGoalType,
         override val isDeleted: Boolean
 ): IDictionary<MessageType.Code> {
 

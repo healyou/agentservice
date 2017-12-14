@@ -15,8 +15,6 @@ class Message (
         /* Получатели сообщения */
         var recipients: List<MessageRecipient>,
         /* Цель сообщения */
-        var goalType: MessageGoalType,
-        /* Цель сообщения */
         var type: MessageType,
         /* Дата создания */
         var createDate: Date,

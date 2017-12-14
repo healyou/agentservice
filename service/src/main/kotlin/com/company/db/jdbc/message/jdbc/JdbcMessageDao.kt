@@ -23,9 +23,8 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
     private lateinit var recipientService: MessageRecipientService
 
     override fun create(message: Message): Long {
-        jdbcTemplate.update("insert into message (sender_id, message_goal_type_id, message_type_id, body_type_id, body) values (?, ?, ?, ?, ?)",
+        jdbcTemplate.update("insert into message (sender_id, message_type_id, body_type_id, body) values (?, ?, ?, ?)",
                 message.sender.id!!,
-                message.goalType.id!!,
                 message.type.id!!,
                 message.bodyType.id!!,
                 message.body
@@ -46,9 +45,8 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
     }
 
     override fun update(message: Message): Long {
-        jdbcTemplate.update("update message SET sender_id=?,message_goal_type_id=?,message_type_id=?,body_type_id=?,body=? where id = ?",
+        jdbcTemplate.update("update message SET sender_id=?,message_type_id=?,body_type_id=?,body=? where id = ?",
                 message.sender.id!!,
-                message.goalType.id!!,
                 message.type.id!!,
                 message.bodyType.id!!,
                 message.body,
@@ -140,7 +138,7 @@ open class JdbcMessageDao: AbstractDao(), MessageDao {
             addSqlList.add(" UPPER(message_body_type_code) = UPPER('${sc.bodyType}')")
         }
         if (sc.goalType != null) {
-            addSqlList.add(" UPPER(message_goal_type_code) = UPPER('${sc.goalType}')")
+            addSqlList.add(" UPPER(message_type_message_goal_type_code) = UPPER('${sc.goalType}')")
         }
         if (sc.type != null) {
             addSqlList.add(" UPPER(message_type_code) = UPPER('${sc.type}')")

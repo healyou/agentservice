@@ -58,8 +58,8 @@ object Documentation {
             "        \"id\": 3,\n" +
             "        \"code\": \"SOLUTION_ANSWER\",\n" +
             "        \"name\": \"Ответ на запрос решения задачи\",\n" +
-            "        \"messageOrder\": 3,\n" +
-            "        \"messageGoalType\": {\n" +
+            "        \"order\": 3,\n" +
+            "        \"goalType\": {\n" +
             "            \"id\": 1,\n" +
             "            \"code\": \"TASK_DECISION\",\n" +
             "            \"name\": \"Решение задачи\",\n" +
@@ -71,8 +71,8 @@ object Documentation {
             "        \"id\": 4,\n" +
             "        \"code\": \"TASK_SOLUTION_ANSWER\",\n" +
             "        \"name\": \"Ответ на задачу\",\n" +
-            "        \"messageOrder\": 4,\n" +
-            "        \"messageGoalType\": {\n" +
+            "        \"order\": 4,\n" +
+            "        \"goalType\": {\n" +
             "            \"id\": 1,\n" +
             "            \"code\": \"TASK_DECISION\",\n" +
             "            \"name\": \"Решение задачи\",\n" +
@@ -208,8 +208,8 @@ object Documentation {
             "            \"id\": 2,\n" +
             "            \"code\": \"SEARCH_SOLUTION\",\n" +
             "            \"name\": \"Поиск решения\",\n" +
-            "            \"messageOrder\": 2,\n" +
-            "            \"messageGoalType\": {\n" +
+            "            \"order\": 2,\n" +
+            "            \"goalType\": {\n" +
             "                \"id\": 1,\n" +
             "                \"code\": \"TASK_DECISION\",\n" +
             "                \"name\": \"Решение задачи\",\n" +
@@ -272,8 +272,8 @@ object Documentation {
             "            \"id\": 2,\n" +
             "            \"code\": \"SEARCH_SOLUTION\",\n" +
             "            \"name\": \"Поиск решения\",\n" +
-            "            \"messageOrder\": 2,\n" +
-            "            \"messageGoalType\": {\n" +
+            "            \"order\": 2,\n" +
+            "            \"goalType\": {\n" +
             "                \"id\": 1,\n" +
             "                \"code\": \"TASK_DECISION\",\n" +
             "                \"name\": \"Решение задачи\",\n" +
@@ -334,8 +334,8 @@ object Documentation {
             "            \"id\": 2,\n" +
             "            \"code\": \"SEARCH_SOLUTION\",\n" +
             "            \"name\": \"Поиск решения\",\n" +
-            "            \"messageOrder\": 2,\n" +
-            "            \"messageGoalType\": {\n" +
+            "            \"order\": 2,\n" +
+            "            \"goalType\": {\n" +
             "                \"id\": 1,\n" +
             "                \"code\": \"TASK_DECISION\",\n" +
             "                \"name\": \"Решение задачи\",\n" +

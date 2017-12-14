@@ -43,23 +43,18 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
      * @param body тело сообщения
      */
     @Throws(Exception::class)
-    override fun sendMessage(goalType:String?,
-                             type: String?,
+    override fun sendMessage(type: String?,
                              recipientsIds: List<Long>?,
                              bodyType: String?,
                              body: String?): Response {
         log("Отправка сообщения")
 
         /* Проверка параметров*/
-        if (Utils.isNull(goalType, type, bodyType, recipientsIds, body)) {
+        if (Utils.isNull(type, bodyType, recipientsIds, body)) {
             return errorMessageResponse("Параметр имеет значение null")
         }
 
         return try {
-            /* Цель сообщения */
-            val goalTypeCode = Codable.find(MessageGoalType.Code::class.java, goalType!!)
-            val messageGoalType = messageGoalTypeService.get(goalTypeCode)
-
             /* Тип цели сообщения */
             val typeCode = Codable.find(MessageType.Code::class.java, type!!)
             val messageType = messageTypeService.get(typeCode)
@@ -86,7 +81,6 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
                     null,
                     sender,
                     recipients,
-                    messageGoalType,
                     messageType,
                     Date(System.currentTimeMillis()),
                     messageBodyType,

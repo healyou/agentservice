@@ -46,8 +46,8 @@ class MessageTypeTest : Assert() {
         assertEquals(id, type.id)
         assertEquals(code, type.code)
         assertEquals(name, type.name)
-        assertEquals(messageOrder, type.messageOrder)
-        assertEquals(messageGoalType, type.messageGoalType)
+        assertEquals(messageOrder, type.order)
+        assertEquals(messageGoalType, type.goalType)
         assertEquals(isDeleted, type.isDeleted)
     }
 }

@@ -62,13 +62,11 @@ CREATE TABLE if not exists message
 (
         id      INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, -- Идентификатор
         sender_id     INTEGER                     NOT NULL, -- Отправитель
-        message_goal_type_id INTEGER             NOT NULL, -- Цель общения
         message_type_id INTEGER                   NOT NULL, -- Тип сообщения
         create_date    TEXT                       NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f')), -- Дата создания
         body_type_id   INTEGER                    NOT NULL, -- Тип тела сообщения
         body           TEXT                               , -- Тело сообщения
         FOREIGN KEY(sender_id) REFERENCES agent(id),
-        FOREIGN KEY(message_goal_type_id) REFERENCES message_goal_type(id),
         FOREIGN KEY(message_type_id) REFERENCES message_type(id),
         FOREIGN KEY(body_type_id) REFERENCES message_body_type(id)
 );

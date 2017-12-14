@@ -24,8 +24,8 @@ class MessageTest : Assert() {
     private val id = 1L
     private val sender = createNextTestAgent()
     private val recipients = createRecipients()
-    private val goalType = createMessageGoalType()
     private val type = createMessageType()
+    private val goalType = type.goalType
     private val createDate = Date(System.currentTimeMillis())
     private var viewedDate: Date? = null
     private val isViewed = false
@@ -38,7 +38,6 @@ class MessageTest : Assert() {
                 id,
                 sender,
                 recipients,
-                goalType,
                 type,
                 createDate,
                 bodyType,
@@ -51,7 +50,7 @@ class MessageTest : Assert() {
         assertEquals(id, message.id)
         assertEquals(sender, message.sender)
         assertEquals(recipients, message.recipients)
-        assertEquals(goalType, message.goalType)
+        assertEquals(goalType, message.type.goalType)
         assertEquals(type, message.type)
         assertEquals(createDate, message.createDate)
         assertEquals(bodyType, message.bodyType)
@@ -64,7 +63,6 @@ class MessageTest : Assert() {
         val newId = 2L
         val newSender = createNextTestAgent()
         val newRecipients = createRecipients()
-        val newGoalType = createMessageGoalType()
         val newType = createMessageType()
         val newCreateDate = Date(System.currentTimeMillis())
         val newBodyType = createJsonMessageBodyType()
@@ -73,7 +71,6 @@ class MessageTest : Assert() {
         message.id = newId
         message.sender = newSender
         message.recipients = newRecipients
-        message.goalType = newGoalType
         message.type = newType
         message.createDate = newCreateDate
         message.bodyType = newBodyType
@@ -82,7 +79,6 @@ class MessageTest : Assert() {
         assertEquals(newId, message.id!!)
         assertEquals(newSender, message.sender)
         assertEquals(newRecipients, message.recipients)
-        assertEquals(newGoalType, message.goalType)
         assertEquals(newType, message.type)
         assertEquals(newCreateDate, message.createDate)
         assertEquals(newBodyType, message.bodyType)

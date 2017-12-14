@@ -24,21 +24,11 @@ class MessageRowMapper : AbstractRowMapper<Message>() {
         return Message(
                 getLong(rs, "id"),
                 mapSender(rs),
-                arrayListOf(), // список получаем отдельно
-                mapGoalType(rs),
+                arrayListOf(), // TODO список получаем отдельно
                 mapMessageType(rs),
                 getDate(rs, "create_date"),
                 mapBodyType(rs),
                 getString(rs, "body")
-        )
-    }
-
-    private fun mapGoalType(rs: ResultSet): MessageGoalType {
-        return MessageGoalType(
-                getLong(rs, "message_goal_type_id"),
-                Codable.find(MessageGoalType.Code::class.java, getString(rs, "message_goal_type_code")),
-                getString(rs, "message_goal_type_name"),
-                getString(rs, "message_goal_type_is_deleted").toIsDeleted()
         )
     }
 

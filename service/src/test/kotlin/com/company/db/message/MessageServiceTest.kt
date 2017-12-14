@@ -72,7 +72,7 @@ class MessageServiceTest : AbstractServiceTest() {
         /* при сохранениии получатели пересоздаются */
         messageService.update(message)
 
-        goalType = message.goalType
+        goalType = message.type.goalType
         messageType = message.type
         bodyType = message.bodyType
         id = message.id
@@ -90,8 +90,8 @@ class MessageServiceTest : AbstractServiceTest() {
         recipients.forEachIndexed { index, recipient ->
             assertEquals(recipient.recipient.id, message.recipients[index].recipient.id)
         }
-        assertEquals(goalType.code, message.goalType.code)
         assertEquals(messageType.code, message.type.code)
+        assertEquals(goalType.code, messageType.goalType.code)
         assertEquals(bodyType.code, message.bodyType.code)
         assertEquals(body, message.body)
         assertNotNull(message.createDate)
@@ -170,7 +170,7 @@ class MessageServiceTest : AbstractServiceTest() {
         /* В списке просмотренных сообщений должны быть все сообщение типа MessageGoalType.Code.TASK_DECISION.code */
         assertTrue {
             messages.filter { itMessage ->
-                itMessage.goalType.code.code != MessageGoalType.Code.TASK_DECISION.code
+                itMessage.type.goalType.code.code != MessageGoalType.Code.TASK_DECISION.code
             }.isEmpty()
         }
     }
@@ -273,7 +273,6 @@ class MessageServiceTest : AbstractServiceTest() {
         /* новые значения */
         val newSender = createSender()
         val newRecipients = createRecipients(message)
-        val newGoalType = goalTypeService.get(MessageGoalType.Code.TASK_DECISION)
         val newMessageType = messageTypeService.get(MessageType.Code.TASK_SOLUTION_ANSWER)
         val newCreateDate = Date(System.currentTimeMillis())
         val newBodyType = messageBodyTypeService.get(MessageBodyType.Code.JSON)
@@ -282,7 +281,6 @@ class MessageServiceTest : AbstractServiceTest() {
         /* присвоение новых значений */
         message.sender = newSender
         message.recipients = newRecipients
-        message.goalType = newGoalType
         message.type = newMessageType
         message.createDate = newCreateDate
         message.bodyType = newBodyType
@@ -302,7 +300,6 @@ class MessageServiceTest : AbstractServiceTest() {
         newRecipients.forEachIndexed { index, agent ->
             assertEquals(agent.recipient.id, message.recipients[index].recipient.id)
         }
-        assertEquals(newGoalType.code, message.goalType.code)
         assertEquals(newBodyType.code, message.bodyType.code)
         assertEquals(newBody, message.body)
 
@@ -544,8 +541,8 @@ class MessageServiceTest : AbstractServiceTest() {
     fun testGetMessagesWithTypeRegistry() {
         val messages = arrayListOf(createMessage(), createMessage(), createMessage())
         val bodyTypeCode = messages[0].bodyType.code.code
-        val goalTypeCode = messages[0].goalType.code.code
         val typeCode = messages[0].type.code.code
+        val goalTypeCode = messages[0].type.goalType.code.code
 
         var sc = MessageSC()
         arrayListOf(bodyTypeCode.toLowerCase(), bodyTypeCode.toUpperCase()).forEach { code ->
@@ -564,7 +561,7 @@ class MessageServiceTest : AbstractServiceTest() {
             val searchMessages = messageService.get(sc)
             assertTrue {
                 searchMessages.isNotEmpty() && searchMessages.all {
-                    it.goalType.code.code == goalTypeCode
+                    it.type.goalType.code.code == goalTypeCode
                 }
             }
         }
@@ -585,7 +582,6 @@ class MessageServiceTest : AbstractServiceTest() {
 
     /* Создание сообщения */
     private fun createMessage(): Message {
-        val goalType = goalTypeService.get(MessageGoalType.Code.TASK_DECISION)
         val messageType = messageTypeService.get(MessageType.Code.SEARCH_SOLUTION)
         val bodyType = messageBodyTypeService.get(MessageBodyType.Code.JSON)
         sender = createSender()
@@ -594,7 +590,6 @@ class MessageServiceTest : AbstractServiceTest() {
                 null,
                 sender,
                 arrayListOf(),
-                goalType,
                 messageType,
                 createDate,
                 bodyType,

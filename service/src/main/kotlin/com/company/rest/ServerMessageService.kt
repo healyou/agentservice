@@ -37,11 +37,7 @@ interface ServerMessageService {
                     target = DocTarget.RETURN)
     )
     @Throws(Exception::class)
-    fun sendMessage(@FormParam("goalType")
-                    @Description(title = "Описание параметра",
-                            value = Documentation.goalTypeParamValue,
-                            target = DocTarget.PARAM) goalType: String?,
-                    @FormParam("type")
+    fun sendMessage(@FormParam("type")
                     @Description(title = "Описание параметра",
                             value = Documentation.messageTypeParamValue,
                             target = DocTarget.PARAM) type: String?,
