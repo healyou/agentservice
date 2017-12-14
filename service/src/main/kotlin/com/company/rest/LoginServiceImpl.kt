@@ -22,8 +22,6 @@ class LoginServiceImpl: BaseServer(), LoginService {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    // todo тесты самого сервиса(json данные от запросов)
-
     @Autowired
     private lateinit var agentService: AgentService
 

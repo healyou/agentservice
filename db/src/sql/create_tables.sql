@@ -22,7 +22,7 @@ CREATE TABLE if not exists agent
         FOREIGN KEY(type_id) REFERENCES agent_type(id)
 );
 
------------------------ communication goal -----------------------
+----------------------- message goal type -----------------------
 CREATE TABLE if not exists message_goal_type
 -- Цель общения агентов
 (
@@ -32,7 +32,7 @@ CREATE TABLE if not exists message_goal_type
         is_deleted TEXT                           NOT NULL DEFAULT ('N') CHECK(is_deleted='N' OR is_deleted='Y') -- Удалено ли значение
 );
 
------------------------ communication goal -----------------------
+----------------------- message type -----------------------
 CREATE TABLE if not exists message_type
 -- Тип сообщения
 (
@@ -83,7 +83,7 @@ CREATE TABLE if not exists message_recipient
         FOREIGN KEY(recipient_id) REFERENCES agent(id)
 );
 
------------------- parameter table ------------------
+------------------ parameter ------------------
 CREATE TABLE if not exists parameter
         -- Таблицы параметров в системе
 (

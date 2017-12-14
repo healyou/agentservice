@@ -24,7 +24,7 @@ class MessageRowMapper : AbstractRowMapper<Message>() {
         return Message(
                 getLong(rs, "id"),
                 mapSender(rs),
-                arrayListOf(), // TODO список получаем отдельно
+                arrayListOf(),
                 mapMessageType(rs),
                 getDate(rs, "create_date"),
                 mapBodyType(rs),

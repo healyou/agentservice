@@ -2,6 +2,7 @@ package com.company.rest.utils
 
 /**
  * Константы для описание функций сервиса в wadl файле
+ * актуально на дату 14.12.2017 - последнее обновление записй
  *
  * @author Nikita Gorodilov
  */
@@ -198,12 +199,6 @@ object Documentation {
             "                \"viewedDate\": 1512886847776\n" +
             "            }\n" +
             "        ],\n" +
-            "        \"goalType\": {\n" +
-            "            \"id\": 1,\n" +
-            "            \"code\": \"TASK_DECISION\",\n" +
-            "            \"name\": \"Решение задачи\",\n" +
-            "            \"deleted\": false\n" +
-            "        },\n" +
             "        \"type\": {\n" +
             "            \"id\": 2,\n" +
             "            \"code\": \"SEARCH_SOLUTION\",\n" +
@@ -262,12 +257,6 @@ object Documentation {
             "                \"viewedDate\": 1512886847776\n" +
             "            }\n" +
             "        ],\n" +
-            "        \"goalType\": {\n" +
-            "            \"id\": 1,\n" +
-            "            \"code\": \"TASK_DECISION\",\n" +
-            "            \"name\": \"Решение задачи\",\n" +
-            "            \"deleted\": false\n" +
-            "        },\n" +
             "        \"type\": {\n" +
             "            \"id\": 2,\n" +
             "            \"code\": \"SEARCH_SOLUTION\",\n" +
@@ -324,12 +313,6 @@ object Documentation {
             "                \"viewedDate\": 1512894648608\n" +
             "            }\n" +
             "        ],\n" +
-            "        \"goalType\": {\n" +
-            "            \"id\": 1,\n" +
-            "            \"code\": \"TASK_DECISION\",\n" +
-            "            \"name\": \"Решение задачи\",\n" +
-            "            \"deleted\": false\n" +
-            "        },\n" +
             "        \"type\": {\n" +
             "            \"id\": 2,\n" +
             "            \"code\": \"SEARCH_SOLUTION\",\n" +
