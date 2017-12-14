@@ -68,7 +68,7 @@ interface ServerAgentService {
                           value = Documentation.nameParamValue,
                           target = DocTarget.PARAM) name: String?): Response
 
-    @GET
+    @POST
     @Path("/getAgent")
     @Descriptions(
             Description(title = "Описание метода",
