@@ -46,6 +46,4 @@ abstract class AbstractDao {
     protected fun getSequence(tableName: String): Long {
         return jdbcTemplate.queryForObject("select seq from sqlite_sequence where name = ? ;", Long::class.java, tableName)
     }
-
-    // TODO базовые классы вынести в отдельный пакет
 }
