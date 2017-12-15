@@ -1,7 +1,6 @@
 package com.company.db.jdbc.message.jdbc
 
 import com.company.db.base.AbstractRowMapper
-import com.company.db.base.Codable
 import com.company.db.base.toIsDeleted
 import com.company.db.core.agent.Agent
 import com.company.db.core.agent.AgentType
@@ -35,7 +34,7 @@ class MessageRowMapper : AbstractRowMapper<Message>() {
     private fun mapMessageType(rs: ResultSet): MessageType {
         return MessageType(
                 getLong(rs, "message_type_id"),
-                Codable.find(MessageType.Code::class.java, getString(rs, "message_type_code")),
+                getString(rs, "message_type_code"),
                 getString(rs, "message_type_name"),
                 getLong(rs, "message_type_message_order"),
                 mapGoalTypeOnMessageType(rs),
@@ -46,7 +45,7 @@ class MessageRowMapper : AbstractRowMapper<Message>() {
     private fun mapGoalTypeOnMessageType(rs: ResultSet): MessageGoalType {
         return MessageGoalType(
                 getLong(rs, "message_type_message_goal_type_id"),
-                Codable.find(MessageGoalType.Code::class.java, getString(rs, "message_type_message_goal_type_code")),
+                getString(rs, "message_type_message_goal_type_code"),
                 getString(rs, "message_type_message_goal_type_name"),
                 getString(rs, "message_type_message_goal_type_is_deleted").toIsDeleted()
         )
@@ -55,7 +54,7 @@ class MessageRowMapper : AbstractRowMapper<Message>() {
     private fun mapBodyType(rs: ResultSet): MessageBodyType {
         return MessageBodyType(
                 getLong(rs, "body_type_id"),
-                Codable.find(MessageBodyType.Code::class.java, getString(rs, "message_body_type_code")),
+                getString(rs, "message_body_type_code"),
                 getString(rs, "message_body_type_name"),
                 getString(rs, "message_body_type_is_deleted").toIsDeleted()
         )
@@ -75,7 +74,7 @@ class MessageRowMapper : AbstractRowMapper<Message>() {
     private fun mapAgentType(rs: ResultSet): AgentType {
         return AgentType(
                 getLong(rs, "sender_type_id"),
-                Codable.find(AgentType.Code::class.java, getString(rs, "sender_type_code")),
+                getString(rs, "sender_type_code"),
                 getString(rs, "sender_type_name"),
                 getString(rs, "sender_type_is_deleted").toIsDeleted()
         )

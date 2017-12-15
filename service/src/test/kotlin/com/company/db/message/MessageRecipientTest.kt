@@ -3,6 +3,7 @@ package com.company.db.message
 import com.company.db.core.agent.Agent
 import com.company.db.core.agent.AgentType
 import com.company.db.core.message.MessageRecipient
+import com.company.objects.TypesObjects
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -62,7 +63,7 @@ class MessageRecipientTest : Assert() {
                 "name",
                 AgentType(
                         1L,
-                        AgentType.Code.SERVER,
+                        TypesObjects.testAgentCode1,
                         "name",
                         false
                 ),

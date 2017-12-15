@@ -12,5 +12,5 @@ interface MessageTypeService {
 
     fun get(): List<MessageType>
 
-    fun get(code: MessageType.Code): MessageType
+    fun getByCode(code: String): MessageType
 }

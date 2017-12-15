@@ -1,17 +1,15 @@
 package com.company.rest
 
-import com.company.db.base.Codable
 import com.company.db.core.agent.Agent
 import com.company.db.core.agent.AgentService
-import com.company.db.core.agent.AgentType
 import com.company.db.core.agent.AgentTypeService
 import com.company.rest.response.ResponseCreator
 import com.company.rest.utils.Utils
 import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import java.util.*
 import javax.ws.rs.core.Response
-import org.slf4j.LoggerFactory
 
 /**
  * Вход агента в сервис
@@ -50,12 +48,11 @@ class LoginServiceImpl: BaseServer(), LoginService {
 
         /* Регистрация агента */
         return try {
-            val agentTypeCode = Codable.find(AgentType.Code::class.java, type!!)
             val id = agentService.create(Agent(
                     null,
                     masId!!,
                     name!!,
-                    agentTypeService.get(agentTypeCode),
+                    agentTypeService.getByCode(type!!),
                     Date(System.currentTimeMillis()),
                     false
             ))

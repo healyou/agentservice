@@ -1,7 +1,6 @@
 package com.company.db.jdbc.message.jdbc
 
 import com.company.db.base.AbstractRowMapper
-import com.company.db.base.Codable
 import com.company.db.base.toIsDeleted
 import com.company.db.core.message.MessageGoalType
 import com.company.db.core.message.MessageType
@@ -17,7 +16,7 @@ class MessageTypeRowMapper : AbstractRowMapper<MessageType>() {
     override fun mapRow(rs: ResultSet, i: Int): MessageType {
         return MessageType(
                 getLong(rs,"id"),
-                Codable.find(MessageType.Code::class.java, rs.getString("code")),
+                rs.getString("code"),
                 getString(rs,"name"),
                 getLong(rs, "message_order"),
                 mapMessageGoalType(rs),
@@ -28,7 +27,7 @@ class MessageTypeRowMapper : AbstractRowMapper<MessageType>() {
     private fun mapMessageGoalType(rs: ResultSet): MessageGoalType {
         return MessageGoalType(
                 getLong(rs, "message_goal_type_id"),
-                Codable.find(MessageGoalType.Code::class.java, rs.getString("message_goal_type_code")),
+                rs.getString("message_goal_type_code"),
                 getString(rs, "message_goal_type_name"),
                 getString(rs, "message_goal_type_is_deleted").toIsDeleted()
         )

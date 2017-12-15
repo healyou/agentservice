@@ -1,9 +1,11 @@
 package com.company.db.core.agent
 
 import com.company.AbstractServiceTest
+import com.company.objects.TypesObjects
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 /**
  * Тестирование функциональности сервиса работы с AgentType
@@ -15,22 +17,18 @@ open class AgentTypeServiceTest: AbstractServiceTest() {
     @Autowired
     private lateinit var service: AgentTypeService
 
-    /* количество значений в базе данных */
-    private val AGENT_TYPES_SIZE = AgentType.Code.values().size
-
     @Test
-    fun testGetAllTypes() {
+    fun testNotEmptyTypes() {
         val types = service.get()
-
-        assertEquals(AGENT_TYPES_SIZE, types.size)
+        assertTrue(types.isNotEmpty())
     }
 
     @Test
     fun getType() {
-        val workerType = service.get(AgentType.Code.WORKER)
-        val serverType = service.get(AgentType.Code.WORKER)
+        val agentType1 = service.getByCode(TypesObjects.testAgentCode1)
+        val agentType2 = service.getByCode(TypesObjects.testAgentCode2)
 
-        assertEquals(AgentType.Code.WORKER, workerType.code)
-        assertEquals(AgentType.Code.WORKER, serverType.code)
+        assertEquals(TypesObjects.testAgentCode1, agentType1.code)
+        assertEquals(TypesObjects.testAgentCode2, agentType2.code)
     }
 }

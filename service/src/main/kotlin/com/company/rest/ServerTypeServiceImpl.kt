@@ -1,8 +1,9 @@
 package com.company.rest
 
-import com.company.db.base.Codable
 import com.company.db.core.agent.AgentTypeService
-import com.company.db.core.message.*
+import com.company.db.core.message.MessageBodyTypeService
+import com.company.db.core.message.MessageGoalTypeService
+import com.company.db.core.message.MessageTypeService
 import com.company.rest.response.ResponseCreator
 import com.company.rest.utils.Utils
 import org.slf4j.Logger
@@ -58,8 +59,7 @@ class ServerTypeServiceImpl : BaseServer(), ServerTypeService {
             return errorMessageResponse("Параметр имеет значение null")
         }
 
-        val messageGoalTypeCode = Codable.find(MessageGoalType.Code::class.java, goalType!!)
-        val messageGoalType = messageGoalTypeService.get(messageGoalTypeCode)
+        val messageGoalType = messageGoalTypeService.getByCode(goalType!!)
 
         return ResponseCreator.success(headerVersion, messageTypeService.get(messageGoalType))
     }

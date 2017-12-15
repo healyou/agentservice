@@ -1,6 +1,7 @@
 package com.company.db.message
 
 import com.company.db.core.message.MessageBodyType
+import com.company.objects.TypesObjects
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -18,7 +19,7 @@ class MessageBodyTypeTest: Assert() {
 
     /* Параметры */
     private val id = 1L
-    private val code = MessageBodyType.Code.JSON
+    private val code = TypesObjects.testMessageBodyCode1
     private val name = "name"
     private val isDeleted = false
 

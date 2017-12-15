@@ -9,5 +9,5 @@ interface MessageGoalTypeDao {
 
     fun get(): List<MessageGoalType>
 
-    fun get(code: MessageGoalType.Code): MessageGoalType
+    fun getByCode(code: String): MessageGoalType
 }

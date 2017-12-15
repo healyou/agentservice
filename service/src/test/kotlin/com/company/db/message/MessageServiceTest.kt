@@ -7,6 +7,7 @@ import com.company.db.core.agent.AgentType
 import com.company.db.core.agent.AgentTypeService
 import com.company.db.core.message.*
 import com.company.db.core.sc.MessageSC
+import com.company.objects.TypesObjects
 import org.junit.Before
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -103,7 +104,7 @@ class MessageServiceTest : AbstractServiceTest() {
         /* Сообщение */
         val message = messageService.get(id!!)
         /* Получатель сообщения */
-        val agentType = agentTypeService.get(AgentType.Code.WORKER)
+        val agentType = agentTypeService.getByCode(TypesObjects.testAgentCode1)
         val messageRecipient = createMessageRecipient(message, agentType)
         /* Указываем, что получатель просмотрел сообщение */
         messageRecipient.viewedDate = Date(System.currentTimeMillis())
@@ -148,13 +149,14 @@ class MessageServiceTest : AbstractServiceTest() {
     fun testGetMessagesByBodyType() {
         /* Получаем сообщения */
         val messageSC = MessageSC()
-        messageSC.bodyType = MessageBodyType.Code.JSON.code
+        val testTypeCode1 = TypesObjects.testMessageBodyCode1
+        messageSC.bodyType = testTypeCode1
         val messages = messageService.get(messageSC)
 
-        /* В списке просмотренных сообщений должны быть все сообщение типа MessageBodyType.Code.JSON.code */
+        /* В списке просмотренных сообщений должны быть все сообщение типа TypesObjects.testMessageBodyCode1 */
         assertTrue {
             messages.filter { itMessage ->
-                itMessage.bodyType.code.code != MessageBodyType.Code.JSON.code
+                itMessage.bodyType.code != testTypeCode1
             }.isEmpty()
         }
     }
@@ -164,13 +166,14 @@ class MessageServiceTest : AbstractServiceTest() {
     fun testGetMessagesByGoalType() {
         /* Получаем сообщения */
         val messageSC = MessageSC()
-        messageSC.goalType = MessageGoalType.Code.TASK_DECISION.code
+        val testMessageGoalTypeCode1 = TypesObjects.testMessageGoalCode1
+        messageSC.goalType = testMessageGoalTypeCode1
         val messages = messageService.get(messageSC)
 
-        /* В списке просмотренных сообщений должны быть все сообщение типа MessageGoalType.Code.TASK_DECISION.code */
+        /* В списке просмотренных сообщений должны быть все сообщение типа TypesObjects.testMessageGoalCode1*/
         assertTrue {
             messages.filter { itMessage ->
-                itMessage.type.goalType.code.code != MessageGoalType.Code.TASK_DECISION.code
+                itMessage.type.goalType.code != testMessageGoalTypeCode1
             }.isEmpty()
         }
     }
@@ -180,13 +183,14 @@ class MessageServiceTest : AbstractServiceTest() {
     fun testGetMessagesByType() {
         /* Получаем сообщения */
         val messageSC = MessageSC()
-        messageSC.type = MessageType.Code.SEARCH_SOLUTION.code
+        val testMessageGoalTypeCode1 = TypesObjects.testMessageGoalCode1
+        messageSC.type = testMessageGoalTypeCode1
         val messages = messageService.get(messageSC)
 
-        /* В списке просмотренных сообщений должны быть все сообщение типа MessageType.Code.SEARCH_SOLUTION.code */
+        /* В списке просмотренных сообщений должны быть все сообщение типа TypesObjects.testMessageGoalCode1 */
         assertTrue {
             messages.filter { itMessage ->
-                itMessage.type.code.code != MessageType.Code.SEARCH_SOLUTION.code
+                itMessage.type.code != testMessageGoalTypeCode1
             }.isEmpty()
         }
     }
@@ -273,9 +277,9 @@ class MessageServiceTest : AbstractServiceTest() {
         /* новые значения */
         val newSender = createSender()
         val newRecipients = createRecipients(message)
-        val newMessageType = messageTypeService.get(MessageType.Code.TASK_SOLUTION_ANSWER)
+        val newMessageType = messageTypeService.getByCode(TypesObjects.testMessageCode1)
         val newCreateDate = Date(System.currentTimeMillis())
-        val newBodyType = messageBodyTypeService.get(MessageBodyType.Code.JSON)
+        val newBodyType = messageBodyTypeService.getByCode(TypesObjects.testMessageBodyCode1)
         val newBody = "{ 'a': 1}"
 
         /* присвоение новых значений */
@@ -343,7 +347,7 @@ class MessageServiceTest : AbstractServiceTest() {
     fun testMessageRecipientUpdateData() {
         /* Создание объекта */
         val message = messageService.get(id!!)
-        val agentType = agentTypeService.get(AgentType.Code.WORKER)
+        val agentType = agentTypeService.getByCode(TypesObjects.testAgentCode1)
         val messageRecipient = createMessageRecipient(message, agentType)
 
         /* Начальные параметры */
@@ -455,7 +459,7 @@ class MessageServiceTest : AbstractServiceTest() {
      */
     @Test
     fun testUseRecipientMessages() {
-        val recipient = createAgent(agentTypeService.get(AgentType.Code.WORKER))
+        val recipient = createAgent(agentTypeService.getByCode(TypesObjects.testAgentCode1))
         val messages = arrayListOf(
                 createMessage(),
                 createMessage(),
@@ -484,9 +488,9 @@ class MessageServiceTest : AbstractServiceTest() {
     /* Тест использования сообщений для конкректного агента */
     @Test
     fun testUseMessagesByRecipient() {
-        val r1_use = createAgent(agentTypeService.get(AgentType.Code.WORKER))
-        val r2 = createAgent(agentTypeService.get(AgentType.Code.WORKER))
-        val r3 = createAgent(agentTypeService.get(AgentType.Code.WORKER))
+        val r1_use = createAgent(agentTypeService.getByCode(TypesObjects.testAgentCode1))
+        val r2 = createAgent(agentTypeService.getByCode(TypesObjects.testAgentCode1))
+        val r3 = createAgent(agentTypeService.getByCode(TypesObjects.testAgentCode1))
 
         val messages = arrayListOf(createMessage(), createMessage(), createMessage())
         messages.forEach {
@@ -516,8 +520,8 @@ class MessageServiceTest : AbstractServiceTest() {
     /* Тест получения непрочитанных сообщений конкректным агентом */
     @Test
     fun testGetNotViewedMessagesWithRecipient() {
-        val r1_search_use = createAgent(agentTypeService.get(AgentType.Code.WORKER))
-        val r2 = createAgent(agentTypeService.get(AgentType.Code.WORKER))
+        val r1_search_use = createAgent(agentTypeService.getByCode(TypesObjects.testAgentCode1))
+        val r2 = createAgent(agentTypeService.getByCode(TypesObjects.testAgentCode1))
 
         val messages = arrayListOf(createMessage(), createMessage(), createMessage())
         messages.forEach {
@@ -540,9 +544,9 @@ class MessageServiceTest : AbstractServiceTest() {
     @Test
     fun testGetMessagesWithTypeRegistry() {
         val messages = arrayListOf(createMessage(), createMessage(), createMessage())
-        val bodyTypeCode = messages[0].bodyType.code.code
-        val typeCode = messages[0].type.code.code
-        val goalTypeCode = messages[0].type.goalType.code.code
+        val bodyTypeCode = messages[0].bodyType.code
+        val typeCode = messages[0].type.code
+        val goalTypeCode = messages[0].type.goalType.code
 
         var sc = MessageSC()
         arrayListOf(bodyTypeCode.toLowerCase(), bodyTypeCode.toUpperCase()).forEach { code ->
@@ -550,7 +554,7 @@ class MessageServiceTest : AbstractServiceTest() {
             val searchMessages = messageService.get(sc)
             assertTrue {
                 searchMessages.isNotEmpty() && searchMessages.all {
-                    it.bodyType.code.code == bodyTypeCode
+                    it.bodyType.code == bodyTypeCode
                 }
             }
         }
@@ -561,7 +565,7 @@ class MessageServiceTest : AbstractServiceTest() {
             val searchMessages = messageService.get(sc)
             assertTrue {
                 searchMessages.isNotEmpty() && searchMessages.all {
-                    it.type.goalType.code.code == goalTypeCode
+                    it.type.goalType.code == goalTypeCode
                 }
             }
         }
@@ -572,7 +576,7 @@ class MessageServiceTest : AbstractServiceTest() {
             val searchMessages = messageService.get(sc)
             assertTrue {
                 searchMessages.isNotEmpty() && searchMessages.all {
-                    it.type.code.code == typeCode
+                    it.type.code == typeCode
                 }
             }
         }
@@ -582,8 +586,8 @@ class MessageServiceTest : AbstractServiceTest() {
 
     /* Создание сообщения */
     private fun createMessage(): Message {
-        val messageType = messageTypeService.get(MessageType.Code.SEARCH_SOLUTION)
-        val bodyType = messageBodyTypeService.get(MessageBodyType.Code.JSON)
+        val messageType = messageTypeService.getByCode(TypesObjects.testMessageCode1)
+        val bodyType = messageBodyTypeService.getByCode(TypesObjects.testMessageBodyCode1)
         sender = createSender()
 
         val id = messageService.create(Message(
@@ -609,14 +613,14 @@ class MessageServiceTest : AbstractServiceTest() {
 
     /* создание отправителя сообщения */
     private fun createSender(): Agent {
-        val agentType = agentTypeService.get(AgentType.Code.WORKER)
+        val agentType = agentTypeService.getByCode(TypesObjects.testAgentCode1)
         return createAgent(agentType)
     }
 
     /* создание получателей сообщения */
     private fun createRecipients(message: Message): List<MessageRecipient> {
-        val agentType = agentTypeService.get(AgentType.Code.WORKER)
-        return arrayListOf<MessageRecipient>(
+        val agentType = agentTypeService.getByCode(TypesObjects.testAgentCode1)
+        return arrayListOf(
                 createMessageRecipient(message, agentType),
                 createMessageRecipient(message, agentType),
                 createMessageRecipient(message, agentType),
@@ -661,4 +665,6 @@ class MessageServiceTest : AbstractServiceTest() {
         ))
         return agentService.get(id)
     }
+
+    // TODO создание агента без типа агента - любой
 }

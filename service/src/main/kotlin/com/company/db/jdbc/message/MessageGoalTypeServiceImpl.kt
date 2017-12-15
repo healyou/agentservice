@@ -18,7 +18,7 @@ open class MessageGoalTypeServiceImpl: MessageGoalTypeService {
         return dao.get()
     }
 
-    override fun get(code: MessageGoalType.Code): MessageGoalType {
-        return dao.get(code)
+    override fun getByCode(code: String): MessageGoalType {
+        return dao.getByCode(code)
     }
 }

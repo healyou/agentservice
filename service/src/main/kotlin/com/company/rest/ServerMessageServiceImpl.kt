@@ -1,6 +1,5 @@
 package com.company.rest
 
-import com.company.db.base.Codable
 import com.company.db.core.agent.AgentService
 import com.company.db.core.message.*
 import com.company.db.core.sc.MessageSC
@@ -56,13 +55,9 @@ class ServerMessageServiceImpl : BaseServer(), ServerMessageService {
 
         return try {
             /* Тип цели сообщения */
-            val typeCode = Codable.find(MessageType.Code::class.java, type!!)
-            val messageType = messageTypeService.get(typeCode)
-
+            val messageType = messageTypeService.getByCode(type!!)
             /* Тип тела сообщения */
-            val bodyTypeCode = Codable.find(MessageBodyType.Code::class.java, bodyType!!)
-            val messageBodyType = messageBodyTypeService.get(bodyTypeCode)
-
+            val messageBodyType = messageBodyTypeService.getByCode(bodyType!!)
             /* Получатели сообщения */
             val recipients = arrayListOf<MessageRecipient>()
             recipientsIds!!.forEach {

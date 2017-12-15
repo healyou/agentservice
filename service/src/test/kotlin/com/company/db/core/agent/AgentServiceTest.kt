@@ -2,6 +2,7 @@ package com.company.db.core.agent
 
 import com.company.AbstractServiceTest
 import com.company.db.core.sc.AgentSC
+import com.company.objects.TypesObjects
 import org.junit.Before
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,7 +34,7 @@ class AgentServiceTest: AbstractServiceTest() {
 
     @Before
     fun setup() {
-        type = typeService.get(AgentType.Code.WORKER)
+        type = typeService.getByCode(TypesObjects.testAgentCode1)
         id = service.create(Agent(
                 null,
                 masId,
@@ -68,46 +69,46 @@ class AgentServiceTest: AbstractServiceTest() {
         assertEquals(isDeleted, agent.isDeleted)
     }
 
-    /* Получение агентов с типом AgentType.Code.WORKER */
+    /* Получение агентов с типом testAgentCode1 */
     @Test
     fun testGetAgentsByTypeWorker() {
-        /* Cоздание агентов AgentType.Code.WORKER */
-        val agentTypeWorker = AgentType.Code.WORKER
-        val workerType = typeService.get(agentTypeWorker)
+        /* Cоздание агентов testAgentCode1 */
+        val agentTypeCode1 = TypesObjects.testAgentCode1
+        val workerType = typeService.getByCode(agentTypeCode1)
         createTestAgent(workerType)
         createTestAgent(workerType)
 
         /* Получаем список агентов */
         val sc = AgentSC()
-        sc.type = agentTypeWorker.code
+        sc.type = agentTypeCode1
         val agents = service.get(sc)
 
-        /* Только агенты с типом AgentType.Code.WORKER */
+        /* Только агенты с типом testAgentCode1 */
         assertTrue {
             agents.filter {
-                it.type.code.code != sc.type
+                it.type.code != sc.type
             }.isEmpty() && !agents.isEmpty()
         }
     }
 
-    /* Получение агентов с типом AgentType.Code.SERVER */
+    /* Получение агентов с типом testAgentCode2 */
     @Test
     fun testGetAgentsByTypeServer() {
-        /* Cоздание агентов AgentType.Code.SERVER */
-        val agentTypeServer = AgentType.Code.SERVER
-        val serverType = typeService.get(agentTypeServer)
+        /* Cоздание агентов testAgentCode2 */
+        val agentTypeCode2 = TypesObjects.testAgentCode2
+        val serverType = typeService.getByCode(agentTypeCode2)
         createTestAgent(serverType)
         createTestAgent(serverType)
 
         /* Получаем список агентов */
         val sc = AgentSC()
-        sc.type = agentTypeServer.code
+        sc.type = agentTypeCode2
         val agents = service.get(sc)
 
         /* Только агенты с типом AgentType.Code.SERVER */
         assertTrue {
             agents.filter {
-                it.type.code.code != sc.type
+                it.type.code != sc.type
             }.isEmpty() && !agents.isEmpty()
         }
     }
@@ -116,14 +117,14 @@ class AgentServiceTest: AbstractServiceTest() {
     @Test
     fun testGetIsDeletedAgents() {
         /* Удаляем агента */
-        val serverType = typeService.get(AgentType.Code.SERVER)
-        val agent = createTestAgent(serverType)
+        val testTypeCode1 = typeService.getByCode(TypesObjects.testAgentCode1)
+        val agent = createTestAgent(testTypeCode1)
         agent.isDeleted = true
         service.update(agent)
 
         /* Не удалённые агенты */
-        createTestAgent(serverType)
-        createTestAgent(serverType)
+        createTestAgent(testTypeCode1)
+        createTestAgent(testTypeCode1)
 
         val sc = AgentSC()
 
@@ -183,7 +184,7 @@ class AgentServiceTest: AbstractServiceTest() {
         /* новые значения */
         val newMasId = "newMasId"
         val newName = "newName"
-        val newType = typeService.get(AgentType.Code.SERVER)
+        val newType = typeService.getByCode(TypesObjects.testAgentCode2)
         val newCreateDate = Date(System.currentTimeMillis())
         val newIsDeleted = false
 
@@ -223,7 +224,7 @@ class AgentServiceTest: AbstractServiceTest() {
     /* Получение агента по имени без привязки к заглавным и маленьким буквам */
     @Test
     fun getAgentByMasId() {
-        val agentType = typeService.get(AgentType.Code.values()[0])
+        val agentType = typeService.getByCode(TypesObjects.testAgentCode1)
         val name = UUID.randomUUID().toString()
         val agents = arrayListOf(
                 createTestAgent(agentType, name.toLowerCase()),

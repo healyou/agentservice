@@ -9,5 +9,5 @@ interface AgentTypeDao {
 
     fun get(): List<AgentType>
 
-    fun get(code: AgentType.Code): AgentType
+    fun getByCode(code: String): AgentType
 }

@@ -3,11 +3,10 @@ package com.company.db.message
 import com.company.db.core.agent.Agent
 import com.company.db.core.agent.AgentType
 import com.company.db.core.message.*
-import com.sun.deploy.net.HttpResponse
+import com.company.objects.TypesObjects
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.springframework.http.HttpStatus
 import java.util.*
 
 /**
@@ -99,7 +98,7 @@ class MessageTest : Assert() {
                     "$nextId",
                     AgentType(
                             nextId,
-                            AgentType.Code.WORKER,
+                            TypesObjects.testAgentCode1,
                             "agentTypeName",
                             false
                     ),
@@ -112,7 +111,7 @@ class MessageTest : Assert() {
         private fun createMessageGoalType(): MessageGoalType {
             return MessageGoalType(
                     nextId,
-                    MessageGoalType.Code.TASK_DECISION,
+                    TypesObjects.testMessageGoalCode1,
                     "messageGoalTypeName",
                     false
             )
@@ -122,7 +121,7 @@ class MessageTest : Assert() {
         private fun createMessageType(): MessageType {
             return MessageType(
                     nextId,
-                    MessageType.Code.TASK_SOLUTION_ANSWER,
+                    TypesObjects.testMessageCode1,
                     "messageTypeName",
                     3L,
                     createMessageGoalType(),
@@ -134,7 +133,7 @@ class MessageTest : Assert() {
         private fun createJsonMessageBodyType(): MessageBodyType {
             return MessageBodyType(
                     nextId,
-                    MessageBodyType.Code.JSON,
+                    TypesObjects.testMessageBodyCode1,
                     "messageBodyTypeName",
                     false
             )

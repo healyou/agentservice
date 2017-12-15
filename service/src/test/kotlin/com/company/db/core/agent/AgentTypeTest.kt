@@ -1,5 +1,6 @@
 package com.company.db.core.agent
 
+import com.company.objects.TypesObjects
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -17,7 +18,7 @@ class AgentTypeTest: Assert() {
 
     /* параметры */
     private val id = 1L
-    private val code: AgentType.Code = AgentType.Code.SERVER
+    private val code: String = TypesObjects.testAgentCode1
     private val typeName = "typeName"
     private val isDeleted = false
 

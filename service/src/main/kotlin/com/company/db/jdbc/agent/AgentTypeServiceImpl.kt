@@ -18,7 +18,7 @@ open class AgentTypeServiceImpl: AgentTypeService {
         return dao.get()
     }
 
-    override fun get(code: AgentType.Code): AgentType {
-        return dao.get(code)
+    override fun getByCode(code: String): AgentType {
+        return dao.getByCode(code)
     }
 }

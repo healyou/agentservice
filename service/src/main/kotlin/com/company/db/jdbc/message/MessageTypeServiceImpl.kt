@@ -23,7 +23,7 @@ open class MessageTypeServiceImpl : MessageTypeService {
         return dao.get()
     }
 
-    override fun get(code: MessageType.Code): MessageType {
-        return dao.get(code)
+    override fun getByCode(code: String): MessageType {
+        return dao.getByCode(code)
     }
 }

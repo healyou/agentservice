@@ -1,5 +1,6 @@
 package com.company.db.core.agent
 
+import com.company.objects.TypesObjects
 import org.junit.Assert
 import org.junit.Before;
 import org.junit.Test
@@ -28,7 +29,7 @@ class AgentTest: Assert() {
     fun setup() {
         type = AgentType(
                 1L,
-                AgentType.Code.SERVER,
+                TypesObjects.testAgentCode1,
                 "typeName",
                 false
         )
@@ -60,7 +61,7 @@ class AgentTest: Assert() {
         val newName = "name"
         val newType: AgentType = AgentType(
                 1L,
-                AgentType.Code.SERVER,
+                TypesObjects.testAgentCode2,
                 "newTypeName",
                 false
         )

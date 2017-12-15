@@ -1,7 +1,6 @@
 package com.company.db.jdbc.message
 
 import com.company.db.core.message.MessageBodyType
-import com.company.db.core.message.MessageBodyType.Code
 import com.company.db.core.message.MessageBodyTypeService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -19,7 +18,7 @@ open class MessageBodyTypeServiceImpl: MessageBodyTypeService {
         return dao.get()
     }
 
-    override fun get(code: Code): MessageBodyType {
-        return dao.get(code)
+    override fun getByCode(code: String): MessageBodyType {
+        return dao.getByCode(code)
     }
 }

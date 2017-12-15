@@ -3,9 +3,9 @@ package com.company.db.base
 /**
  * @author Nikita Gorodilov
  */
-interface IDictionary<out T: Codable<out Any>>: Entity {
+interface IDictionary: Entity {
 
-    val code: T
+    val code: String
     val name: String
     val isDeleted: Boolean
 }

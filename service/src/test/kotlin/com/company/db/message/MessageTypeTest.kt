@@ -2,6 +2,7 @@ package com.company.db.message
 
 import com.company.db.core.message.MessageGoalType
 import com.company.db.core.message.MessageType
+import com.company.objects.TypesObjects
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -18,12 +19,12 @@ class MessageTypeTest : Assert() {
 
     /* Параметры */
     private val id = 1L
-    private val code = MessageType.Code.SOLUTION_ANSWER
+    private val code = TypesObjects.testMessageCode1
     private val name = "name"
     private val messageOrder = 3L
     private val messageGoalType = MessageGoalType(
             1L,
-            MessageGoalType.Code.TASK_DECISION,
+            TypesObjects.testMessageGoalCode1,
             "name",
             false
     )

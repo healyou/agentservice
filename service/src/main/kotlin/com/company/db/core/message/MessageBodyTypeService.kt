@@ -7,5 +7,5 @@ interface MessageBodyTypeService {
 
     fun get(): List<MessageBodyType>
 
-    fun get(code: MessageBodyType.Code): MessageBodyType
+    fun getByCode(code: String): MessageBodyType
 }

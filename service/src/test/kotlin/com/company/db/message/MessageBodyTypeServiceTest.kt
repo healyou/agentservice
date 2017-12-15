@@ -1,12 +1,12 @@
 package com.company.db.message
 
 import com.company.AbstractServiceTest
-import com.company.db.core.message.MessageBodyType
 import com.company.db.core.message.MessageBodyTypeService
-import com.company.db.core.message.MessageGoalType
+import com.company.objects.TypesObjects
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 /**
  * Тестирование функциональности сервиса работы с MessageBodyType
@@ -18,20 +18,15 @@ class MessageBodyTypeServiceTest: AbstractServiceTest() {
     @Autowired
     private lateinit var service: MessageBodyTypeService
 
-    /* количество значений в базе данных */
-    private val MESSAGE_BODY_TYPES_SIZE = MessageBodyType.Code.values().size
-
     @Test
-    fun testGetAllTypes() {
+    fun testNotEmptyTypes() {
         val types = service.get()
-
-        assertEquals(MESSAGE_BODY_TYPES_SIZE, types.size)
+        assertTrue(types.isNotEmpty())
     }
 
     @Test
     fun getType() {
-        val jsonType = service.get(MessageBodyType.Code.JSON)
-
-        assertEquals(MessageBodyType.Code.JSON, jsonType.code)
+        val testBodyType1 = service.getByCode(TypesObjects.testMessageBodyCode1)
+        assertEquals(TypesObjects.testMessageBodyCode1, testBodyType1.code)
     }
 }

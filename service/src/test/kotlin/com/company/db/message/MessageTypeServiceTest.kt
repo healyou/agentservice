@@ -1,13 +1,12 @@
 package com.company.db.message
 
 import com.company.AbstractServiceTest
-import com.company.db.core.message.MessageGoalType
-import com.company.db.core.message.MessageGoalTypeService
-import com.company.db.core.message.MessageType
 import com.company.db.core.message.MessageTypeService
+import com.company.objects.TypesObjects
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 /**
  * Тестирование функциональности сервиса работы с MessageType
@@ -18,31 +17,25 @@ class MessageTypeServiceTest : AbstractServiceTest() {
 
     @Autowired
     private lateinit var messageTypeService: MessageTypeService
-    @Autowired
-    private lateinit var messageGoalTypeService: MessageGoalTypeService
-
-    /* количество значений в базе данных для messageType связанных с MessageGoalType.Code.TASK_DECISION*/
-    private val MESSAGE_TYPES_ON_TASK_DECISION_SIZE = 4
 
     @Test
     fun testGetAllTypes() {
-        val messageGoalType = messageGoalTypeService.get(MessageGoalType.Code.TASK_DECISION)
-        val types = messageTypeService.get(messageGoalType)
+        val testMessageGoalType1 = messageTypeService.getByCode(TypesObjects.testMessageCode1).goalType
+        val types = messageTypeService.get(testMessageGoalType1)
 
-        assertEquals(MESSAGE_TYPES_ON_TASK_DECISION_SIZE, types.size)
+        assertTrue(types.isNotEmpty())
     }
 
     @Test
     fun getType() {
-        val type = messageTypeService.get(MessageType.Code.TASK_SOLUTION_ANSWER)
+        val type = messageTypeService.getByCode(TypesObjects.testMessageCode1)
 
-        assertEquals(MessageType.Code.TASK_SOLUTION_ANSWER, type.code)
+        assertEquals(TypesObjects.testMessageCode1, type.code)
     }
 
     @Test
     fun getTypes() {
         val types = messageTypeService.get()
-
-        assertEquals(MessageType.Code.values().size, types.size)
+        assertTrue(types.isNotEmpty())
     }
 }
