@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
  * @author Nikita Gorodilov
  */
 @Component
-class CreateTypesDao: AbstractDao() {
+class TestCreateTypesDao : AbstractDao() {
 
     companion object {
         /* Коды для типов агентов */

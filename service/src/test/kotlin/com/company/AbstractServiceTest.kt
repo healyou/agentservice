@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 abstract class AbstractServiceTest:  AbstractTransactionalJUnit4SpringContextTests() {
 
     @Autowired
-    private lateinit var createTypesDao: CreateTypesDao
+    private lateinit var createTypesDao: TestCreateTypesDao
 
     @Before
     fun init() {
