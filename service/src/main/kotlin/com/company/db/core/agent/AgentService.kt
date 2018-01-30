@@ -13,4 +13,5 @@ interface AgentService {
     fun get(agentSC: AgentSC): List<Agent>
     fun get(id: Long): Agent
     fun getByMasId(masId: String): Agent
+    fun isExistsAgent(masId: String): Boolean
 }

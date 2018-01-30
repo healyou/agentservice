@@ -15,7 +15,7 @@ class AuthorizingInterceptor : AbstractPhaseInterceptor<Message>(Phase.PRE_INVOK
 
     override fun handleMessage(message: Message) {
         val urlAsked = message["path_to_match_slash"] as String
-        val isNeedAuth = !isLoginOrRegistrationUrl(urlAsked) && !isTypeUrl(urlAsked)
+        val isNeedAuth = !isLoginOrRegistrationUrl(urlAsked) && !isTypeUrl(urlAsked) && !isAgentUrl(urlAsked)
 
         if (isNeedAuth) {
             val request = message[AbstractHTTPDestination.HTTP_REQUEST] as HttpServletRequest
@@ -34,5 +34,9 @@ class AuthorizingInterceptor : AbstractPhaseInterceptor<Message>(Phase.PRE_INVOK
                 "/getMessageBodyTypes".equals(urlAsked, ignoreCase = true) ||
                 "/getMessageGoalTypes".equals(urlAsked, ignoreCase = true) ||
                 "/getMessageTypes".equals(urlAsked, ignoreCase = true)
+    }
+
+    private fun isAgentUrl(urlAsked: String): Boolean {
+        return "/isExistsAgent".equals(urlAsked, ignoreCase = true)
     }
 }

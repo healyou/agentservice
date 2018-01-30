@@ -17,6 +17,28 @@ import javax.ws.rs.core.Response
 interface ServerAgentService {
 
     @POST
+    @Path("/isExistsAgent")
+    @Descriptions(
+            Description(title = "Описание метода",
+                    value = "Проверка занятости имени агента",
+                    target = DocTarget.METHOD),
+            Description(title = "Необходимость входа в систему для выполнения метода",
+                    value = Documentation.loginIsOptional,
+                    target = DocTarget.RESOURCE),
+            Description(title = "Описание возвращаемых кодов",
+                    value = Documentation.isExistsAgentResponseValue,
+                    target = DocTarget.RESPONSE),
+            Description(title = "Пример возвращаемых данных",
+                    value = Documentation.isExistsAgentJsonReturnValue,
+                    target = DocTarget.RETURN)
+    )
+    @Throws(Exception::class)
+    fun isExistsAgent(@FormParam("masId")
+                      @Description(title = "Описание параметра",
+                              value = Documentation.masIdParamValue,
+                              target = DocTarget.PARAM) masId: String?): Response
+
+    @POST
     @Path("/getCurrentAgent")
     @Descriptions(
             Description(title = "Описание метода",

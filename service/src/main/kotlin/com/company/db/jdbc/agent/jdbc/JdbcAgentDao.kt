@@ -61,6 +61,14 @@ open class JdbcAgentDao: AbstractDao(), AgentDao {
         return jdbcTemplate.queryForObject("select * from agent_v where mas_id = ?", AgentRowMapper(), masId)
     }
 
+    override fun isExistsAgent(masId: String): Boolean {
+        return jdbcTemplate.queryForObject(
+                "SELECT EXISTS (SELECT 1 FROM agent WHERE mas_id = ?)",
+                Boolean::class.java,
+                masId
+        )
+    }
+
     /* Делаем поисковых запрос */
     private fun applyCondition(sql: StringBuilder, sc: AgentSC) {
         val addSqlList = arrayListOf<String>()

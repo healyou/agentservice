@@ -57,6 +57,9 @@ object Documentation {
     const val getPostMessageTypesReturnValue =
             "403 - Ошибка поиска данных\n" +
                     "200 - Типы сообщений найдены"
+    const val isExistsAgentResponseValue =
+            "403 - Ошибка опредления индивидуальности имени агента\n" +
+            "200 - Результат определён"
 
     const val messageTypesReturnValue =
             "[\n" +
@@ -140,6 +143,7 @@ object Documentation {
             "    \"createDate\": 1513103012332,\n" +
             "    \"deleted\": false\n" +
             "}"
+    const val isExistsAgentJsonReturnValue = "{ true }"
     const val agentsJsonReturnValue =
             "[\n" +
             "    {\n" +

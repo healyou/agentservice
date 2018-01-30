@@ -38,4 +38,8 @@ open class AgentServiceImpl: AgentService {
     override fun getByMasId(masId: String): Agent {
         return dao.getByMasId(masId)
     }
+
+    override fun isExistsAgent(masId: String): Boolean {
+        return dao.isExistsAgent(masId)
+    }
 }

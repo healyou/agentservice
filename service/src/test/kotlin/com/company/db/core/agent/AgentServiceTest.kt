@@ -10,6 +10,7 @@ import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.UncategorizedSQLException
 import java.util.*
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -246,14 +247,35 @@ class AgentServiceTest: AbstractServiceTest() {
         }
     }
 
+    /**
+     * Проверка существования агента в бд
+     */
+    @Test
+    fun testIsExistsAgent() {
+        val agentType = typeService.getByCode(TypesObjects.testAgentCode1)
+        val masId = UUID.randomUUID().toString()
+
+        assertFalse(service.isExistsAgent(masId))
+        createTestAgentByMasId(agentType, masId)
+        assertTrue(service.isExistsAgent(masId))
+    }
+
     private fun createTestAgent(type: AgentType): Agent {
         return createTestAgent(type, "name")
     }
 
     private fun createTestAgent(type: AgentType, name: String): Agent {
+        return createTestAgent(type, name, UUID.randomUUID().toString())
+    }
+
+    private fun createTestAgentByMasId(type: AgentType, masId: String): Agent {
+        return createTestAgent(type, "name", masId)
+    }
+
+    private fun createTestAgent(type: AgentType, name: String, masId: String): Agent {
         val id = service.create(Agent(
                 null,
-                UUID.randomUUID().toString(),
+                masId,
                 name,
                 type,
                 Date(System.currentTimeMillis()),

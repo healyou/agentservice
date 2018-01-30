@@ -22,6 +22,21 @@ class ServerAgentServiceImpl: BaseServer(), ServerAgentService {
     @Autowired
     private lateinit var agentService: AgentService
 
+    override fun isExistsAgent(masId: String?): Response {
+        log("Проверка существования агента по заданному логину")
+
+        /* Проверка параметров*/
+        if (Utils.isNull(masId)) {
+            return errorMessageResponse("Параметр имеет значение null")
+        }
+
+        return try {
+            ResponseCreator.success(headerVersion, agentService.isExistsAgent(masId!!))
+        } catch (e: Exception) {
+            errorMessageResponse("Ошибка проверка существования агента по заданному логину")
+        }
+    }
+
     /**
      * Получение списка агентов с параметрами, кроме текущего агента
      *
