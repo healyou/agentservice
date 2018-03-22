@@ -1,6 +1,5 @@
 package com.company.db.core.message
 
-import com.company.db.base.Codable
 import com.company.db.base.IDictionary
 
 /**

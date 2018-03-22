@@ -130,6 +130,7 @@ class AgentServiceTest: AbstractServiceTest() {
         val sc = AgentSC()
 
         /* Получаем удалённых агентов */
+        sc.type = testTypeCode1.code
         sc.isDeleted = true
         var agents = service.get(sc)
         /* Только удалённые агенты */

@@ -79,6 +79,18 @@ class MessageServiceTest : AbstractServiceTest() {
         id = message.id
     }
 
+    /* Сохранение получателей в сообщении */
+    @Test
+    fun testSaveMessageWithRecipients() {
+        val expectedMessageRecipients = createMessageRecipients(2)
+        val message = createMessage(expectedMessageRecipients)
+        val actualMessageRecipients = message.recipients
+
+        expectedMessageRecipients.forEachIndexed { index, recipient ->
+            assertEquals(recipient.recipient.id, actualMessageRecipients[index].recipient.id)
+        }
+    }
+
     /* Тест получения созданного сообщения в бд */
     @Test
     fun testGetCreateMessage() {
@@ -582,10 +594,30 @@ class MessageServiceTest : AbstractServiceTest() {
         }
     }
 
+    // todo переделать ассерты на этот метод
+    private fun assertMessage(expected: Message, actual: Message) {
+        /* проверка всех значений создания сообщения */
+        assertEquals(expected.id, actual.id!!)
+        assertEquals(expected.sender.id!!, actual.sender.id!!)
+        assertEquals(expected.recipients.size, actual.recipients.size)
+        expected.recipients.forEachIndexed { index, recipient ->
+            assertEquals(recipient.recipient.id, actual.recipients[index].recipient.id)
+        }
+        assertEquals(expected.type.code, actual.type.code)
+        assertEquals(expected.type.goalType.code, actual.type.goalType.code)
+        assertEquals(expected.bodyType.code, actual.bodyType.code)
+        assertEquals(expected.body, actual.body)
+        assertNotNull(actual.createDate)
+    }
+
     /* СОЗДАНИЕ ОБЪЕКТОВ */
 
     /* Создание сообщения */
     private fun createMessage(): Message {
+        return createMessage(arrayListOf())
+    }
+
+    private fun createMessage(messageRecipients: List<MessageRecipient>): Message {
         val messageType = messageTypeService.getByCode(TypesObjects.testMessageCode1)
         val bodyType = messageBodyTypeService.getByCode(TypesObjects.testMessageBodyCode1)
         sender = createSender()
@@ -593,7 +625,7 @@ class MessageServiceTest : AbstractServiceTest() {
         val id = messageService.create(Message(
                 null,
                 sender,
-                arrayListOf(),
+                messageRecipients,
                 messageType,
                 createDate,
                 bodyType,
@@ -653,6 +685,11 @@ class MessageServiceTest : AbstractServiceTest() {
         return messageRecipientService.getById(id)
     }
 
+    private fun createAgent(): Agent {
+        val agentType = agentTypeService.getByCode(TypesObjects.testAgentCode1)
+        return createAgent(agentType)
+    }
+
     /* создание агента */
     private fun createAgent(agentType: AgentType): Agent {
         val id = agentService.create(Agent(
@@ -664,6 +701,14 @@ class MessageServiceTest : AbstractServiceTest() {
                 false
         ))
         return agentService.get(id)
+    }
+
+    private fun createMessageRecipients(number: Int): List<MessageRecipient> {
+        val messageRecipients = arrayListOf<MessageRecipient>()
+        for (i in 0..number) {
+            messageRecipients.add(MessageRecipient(null, createAgent(), null))
+        }
+        return messageRecipients
     }
 
     // TODO создание агента без типа агента - любой
