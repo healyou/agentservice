@@ -14,9 +14,6 @@ import com.company.rest.exceptions.Error.SERVER_ERROR
  */
 class CustomExceptionMapper : ExceptionMapper<Exception> {
 
-    @Context
-    private val requestHeaders: HttpHeaders? = null
-
     private val headerVersion: String
         get() = "0.1"
 
