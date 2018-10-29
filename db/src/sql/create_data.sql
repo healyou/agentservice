@@ -8,9 +8,9 @@ INSERT INTO agent_type (code, name) VALUES
 -------------- integration test data - agent --------------
 INSERT INTO agent (mas_id, name, type_id) VALUES
     ('integration_test_agent_1_masId', 'Тестовый агент 1(Интеграционные тесты)', 1),
-    ('integration_test_agent_2_masId', 'Тестовый агент 2(Интеграционные тесты)', 2),
-    ('manual_test_agent_1_masId', 'Тестовый агент 1(Ручное тестировние)', 3),
-    ('manual_test_agent_2_masId', 'Тестовый агент 2(Ручное тестировние)', 4);
+    ('integration_test_agent_2_masId', 'Тестовый агент 2(Интеграционные тесты)', 2);
+    --('manual_test_agent_1_masId', 'Тестовый агент 1(Ручное тестировние)', 3),
+    --('manual_test_agent_2_masId', 'Тестовый агент 2(Ручное тестировние)', 4)
 
 ------------------ communicationGoal data ------------------
 INSERT INTO message_goal_type (code, name) VALUES
